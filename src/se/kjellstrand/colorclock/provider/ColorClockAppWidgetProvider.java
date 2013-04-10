@@ -41,13 +41,19 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
     private int mHHColor = 0xffcc0000;
     private int mHColor = 0xff990000;
 
+    private int mDefaultDigitBackgrundColor = -1;
+
     public ColorClockAppWidgetProvider() {
         Log.d(TAG, "ColorClockAppWidgetProvider");
-
     }
 
     public void update(Context context) {
         views = new RemoteViews(context.getPackageName(), R.layout.color_clock);
+
+        if (mDefaultDigitBackgrundColor == -1) {
+            mDefaultDigitBackgrundColor = context.getResources().getColor(
+                    R.color.default_digit_background_color);
+        }
 
         Calendar c = Calendar.getInstance();
 
@@ -71,17 +77,23 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
         mDigitsColor[h] = additiveBlendTwoColors(mDigitsColor[h], mHColor);
         mDigitsColor[hh] = additiveBlendTwoColors(mDigitsColor[hh], mHHColor);
 
-        views.setTextViewText(R.id.digit_0, mm + "" + m + ":" + ss + "" + s);
+        for (int i = 0; i <= 9; i++) {
+            if (mDigitsColor[i] == 0) {
+                mDigitsColor[i] = mDefaultDigitBackgrundColor;
+            }
+        }
+
+        // views.setTextViewText(R.id.digit_0, mm + "" + m + ":" + ss + "" + s);
 
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
             views.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor",
                     mDigitsColor[i]);
-            //Log.d(TAG, "mDigitsColor["+i+"]"+mDigitsColor[i]);
+            // Log.d(TAG, "mDigitsColor["+i+"]"+mDigitsColor[i]);
         }
 
-        Log.d(TAG, "Time: " + (System.currentTimeMillis() / 10000) % 6 + ":"
-                + (System.currentTimeMillis() / 1000) % 10);
+        // Log.d(TAG, "Time: " + (System.currentTimeMillis() / 10000) % 6 + ":"
+        // + (System.currentTimeMillis() / 1000) % 10);
 
         widgetManager.updateAppWidget(mAppWidgetIds, views);
 

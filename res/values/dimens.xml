@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="digit_margin">4dp</dimen>
+    <dimen name="digit_size">40sp</dimen>
+    
 </resources>
