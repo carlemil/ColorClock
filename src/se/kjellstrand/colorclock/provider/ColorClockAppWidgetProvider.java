@@ -211,7 +211,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
             }
         }
 
-        Log.d(TAG, "mDigitsColor[sec] "+Integer.toHexString(mDigitsColor[secondarySeconds]);
+        Log.d(TAG, "mDigitsColor[sec] "+Integer.toHexString(mDigitsColor[secondarySeconds]));
         
 //        04-11 23:40:43.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] c4b237a7
 //        04-11 23:40:44.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] 3a81ffff
