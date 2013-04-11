@@ -68,45 +68,46 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * the clock is 12:34:56 then the 1 would get this color as background
      * color.
      */
-    private int mHHColor = 0xffd03020;
-    
+    private int mPrimaryHourColor = 0xffd03020;
+
     /**
      * Minor color for hours, displayed on the second digit of the hours. So if
      * the clock is 12:34:56 then the 2 would get this color as background
      * color.
      */
-    private int mHColor = mHHColor;
-    
+    private int mSecondaryHourColor = mPrimaryHourColor;
+
     /**
      * Major color for minutes, displayed on the first digit of the minutes. So
      * if the clock is 12:34:56 then the 3 would get this color as background
      * color.
      */
-    private int mMMColor = 0xff30d020;
-    
+    private int mPrimaryMinuteColor = 0xff30d020;
+
     /**
      * Minor color for minutes, displayed on the second digit of the minutes. So
      * if the clock is 12:34:56 then the 4 would get this color as background
      * color.
      */
-    private int mMColor = mMMColor;
-    
+    private int mSecondaryMinuteColor = mPrimaryMinuteColor;
+
     /**
      * Major color for seconds, displayed on the first digit of the seconds. So
      * if the clock is 12:34:56 then the 5 would get this color as background
      * color.
      */
-    private int mSSColor = 0xff3020d0;
-    
+    private int mPrimarySecondColor = 0x8f3020d0;
+
     /**
      * Minor color for seconds, displayed on the second digit of the seconds. So
      * if the clock is 12:34:56 then the 6 would get this color as background
      * color.
      */
-    private int mSColor = mSSColor;
+    private int mSecondarySecondColor = mPrimarySecondColor;
 
     /**
-     * What color will digits without a specific background set get, starts uninitialised. 
+     * What color will digits without a specific background set get, starts
+     * uninitialised.
      */
     private int mDefaultDigitBackgrundColor = -1;
 
@@ -118,31 +119,38 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
     }
 
     /**
-     * 
+     * Updates the secondary colors to be fractions of the primary colors.
      */
     private void upateSecondaryColors() {
-        mSColor = (mAlphaChannelMaxed
-                + ((int) ((mSSColor & 0xff0000) * mSecondaryColorStrength) & 0xff0000)
-                + ((int) ((mSSColor & 0xff00) * mSecondaryColorStrength) & 0xff00) + ((int) ((mSSColor & 0xff) * mSecondaryColorStrength) & 0xff0));
+        mSecondaryHourColor = getSecondaryColorFromPrimaryColor(mPrimaryHourColor);
+        mSecondaryMinuteColor = getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor);
+        mSecondarySecondColor = getSecondaryColorFromPrimaryColor(mPrimarySecondColor);
 
-        mMColor = (int) (mAlphaChannelMaxed
-                + ((int) ((mMMColor & 0xff0000) * mSecondaryColorStrength) & 0xff0000)
-                + ((int) ((mMMColor & 0xff00) * mSecondaryColorStrength) & 0xff00) + ((int) ((mMMColor & 0xff) * mSecondaryColorStrength) & 0xff0));
-
-        mHColor = (int) (mAlphaChannelMaxed
-                + ((int) ((mHHColor & 0xff0000) * mSecondaryColorStrength) & 0xff0000)
-                + ((int) ((mHHColor & 0xff00) * mSecondaryColorStrength) & 0xff00) + ((int) ((mHHColor & 0xff) * mSecondaryColorStrength) & 0xff0));
-
-        Log.d(TAG, "mSColor " + Integer.toHexString(mSColor));
-        Log.d(TAG, "mMColor " + Integer.toHexString(mMColor));
-        Log.d(TAG, "mHColor " + Integer.toHexString(mHColor));
-
+        Log.d(TAG, "mSColor " + Integer.toHexString(mSecondarySecondColor));
+        Log.d(TAG, "mMColor " + Integer.toHexString(mSecondaryMinuteColor));
+        Log.d(TAG, "mHColor " + Integer.toHexString(mSecondaryHourColor));
     }
 
     /**
+     * Take a color as input, multiply each of the rgb components by
+     * mSecondaryColorStrength and return the new color that results from this.
      * 
+     * @param color the primary color to pick rgb values from.
+     * @return the secondary color.
+     */
+    private int getSecondaryColorFromPrimaryColor(int color) {
+        // Retain the alpha channel
+        return ((color & 0xff000000) 
+                + ((int) ((color & 0xff0000) * mSecondaryColorStrength) & 0xff0000)
+                + ((int) ((color & 0xff00) * mSecondaryColorStrength) & 0xff00) 
+                + ((int) ((color & 0xff) * mSecondaryColorStrength) & 0xff0));
+    }
+
+    /**
+     * Updates the colors of the clock to a state representing "now".
      * 
-     * @param context
+     * @param context used to grab hold of some xml resource values such as
+     *        default background color.
      */
     public void update(Context context) {
         mRemoteViews = new RemoteViews(context.getPackageName(),
@@ -166,14 +174,20 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
             mDigitsColor[i] = 0;
         }
 
-        mDigitsColor[s] = additiveBlendTwoColors(mDigitsColor[s], mSColor);
-        mDigitsColor[ss] = additiveBlendTwoColors(mDigitsColor[ss], mSSColor);
+        mDigitsColor[s] = additiveBlendTwoColors(mDigitsColor[s],
+                mSecondarySecondColor);
+        mDigitsColor[ss] = additiveBlendTwoColors(mDigitsColor[ss],
+                mPrimarySecondColor);
 
-        mDigitsColor[m] = additiveBlendTwoColors(mDigitsColor[m], mMColor);
-        mDigitsColor[mm] = additiveBlendTwoColors(mDigitsColor[mm], mMMColor);
+        mDigitsColor[m] = additiveBlendTwoColors(mDigitsColor[m],
+                mSecondaryMinuteColor);
+        mDigitsColor[mm] = additiveBlendTwoColors(mDigitsColor[mm],
+                mPrimaryMinuteColor);
 
-        mDigitsColor[h] = additiveBlendTwoColors(mDigitsColor[h], mHColor);
-        mDigitsColor[hh] = additiveBlendTwoColors(mDigitsColor[hh], mHHColor);
+        mDigitsColor[h] = additiveBlendTwoColors(mDigitsColor[h],
+                mSecondaryHourColor);
+        mDigitsColor[hh] = additiveBlendTwoColors(mDigitsColor[hh],
+                mPrimaryHourColor);
 
         for (int i = 0; i <= 9; i++) {
             if (mDigitsColor[i] == 0) {
@@ -183,6 +197,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
 
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
+            //
             mRemoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor",
                     mDigitsColor[i]);
         }
@@ -190,11 +205,19 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
         mWidgetManager.updateAppWidget(mAppWidgetIds, mRemoteViews);
     }
 
+    /**
+     * Additive blends of color c1 and c2.
+     * 
+     * @param c1 first color to blend.
+     * @param c2 second color to blend.
+     * @return the result of blending color c1 and c2.
+     */
     private int additiveBlendTwoColors(int c1, int c2) {
+        int a = Math.min(((c1 & 0xff000000) + (c2 & 0xff000000)), 0xff000000);
         int r = Math.min(((c1 & 0xff0000) + (c2 & 0xff0000)), 0xff0000);
         int g = Math.min(((c1 & 0xff00) + (c2 & 0xff00)), 0xff00);
         int b = Math.min(((c1 & 0xff) + (c2 & 0xff)), 0xff);
-        int c = mAlphaChannelMaxed + r + g + b;
+        int c = a + r + g + b;
         return c;
     }
 
@@ -235,9 +258,13 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
 
     }
 
+    /**
+     * Timer that sends updates once a second to the clock digits.
+     * 
+     */
     private class MyTime extends TimerTask {
-        ColorClockAppWidgetProvider parent;
-        Context context;
+        private ColorClockAppWidgetProvider parent;
+        private Context context;
 
         public MyTime(Context context, ColorClockAppWidgetProvider parent) {
             this.parent = parent;
