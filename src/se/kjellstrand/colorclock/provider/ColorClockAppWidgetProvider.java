@@ -61,14 +61,32 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * Max value for the alpha channel in 32 bit argb. Used for bit
      * manipulations of the colors.
      */
-    int mAlphaChannelMaxed = 0xff000000;
+    private static final int ALPHA_MAX = 0xff000000;
+
+    /**
+     * Max value for the red channel in 32 bit argb. Used for bit manipulations
+     * of the colors.
+     */
+    private static final int RED_MAX = 0xff0000;
+
+    /**
+     * Max value for the green channel in 32 bit argb. Used for bit
+     * manipulations of the colors.
+     */
+    private static final int GREEN_MAX = 0xff00;
+
+    /**
+     * Max value for the blue channel in 32 bit argb. Used for bit manipulations
+     * of the colors.
+     */
+    private static final int BLUE_MAX = 0xff;
 
     /**
      * Major color for hours, displayed on the first digit of the hours. So if
      * the clock is 12:34:56 then the 1 would get this color as background
      * color.
      */
-    private int mPrimaryHourColor = 0xffd03020;
+    private int mPrimaryHourColor = 0xb0d03020;
 
     /**
      * Minor color for hours, displayed on the second digit of the hours. So if
@@ -82,7 +100,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * if the clock is 12:34:56 then the 3 would get this color as background
      * color.
      */
-    private int mPrimaryMinuteColor = 0xff30d020;
+    private int mPrimaryMinuteColor = 0xb030d020;
 
     /**
      * Minor color for minutes, displayed on the second digit of the minutes. So
@@ -96,7 +114,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * if the clock is 12:34:56 then the 5 would get this color as background
      * color.
      */
-    private int mPrimarySecondColor = 0x8f3020d0;
+    private int mPrimarySecondColor = 0xb03020d0;
 
     /**
      * Minor color for seconds, displayed on the second digit of the seconds. So
@@ -140,10 +158,10 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      */
     private int getSecondaryColorFromPrimaryColor(int color) {
         // Retain the alpha channel
-        return ((color & 0xff000000) 
-                + ((int) ((color & 0xff0000) * mSecondaryColorStrength) & 0xff0000)
-                + ((int) ((color & 0xff00) * mSecondaryColorStrength) & 0xff00) 
-                + ((int) ((color & 0xff) * mSecondaryColorStrength) & 0xff0));
+        return ((color & ALPHA_MAX)
+                + ((int) ((color & RED_MAX) * mSecondaryColorStrength) & RED_MAX)
+                + ((int) ((color & GREEN_MAX) * mSecondaryColorStrength) & GREEN_MAX) 
+                + ((int) ((color & BLUE_MAX) * mSecondaryColorStrength) & BLUE_MAX));
     }
 
     /**
@@ -163,38 +181,43 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
 
         Calendar c = Calendar.getInstance();
 
-        int s = c.get(Calendar.SECOND) % 10;
-        int ss = c.get(Calendar.SECOND) / 10;
-        int m = c.get(Calendar.MINUTE) % 10;
-        int mm = c.get(Calendar.MINUTE) / 10;
-        int h = c.get(Calendar.HOUR_OF_DAY) % 10;
-        int hh = c.get(Calendar.HOUR_OF_DAY) / 10;
+        int secondaryHours = c.get(Calendar.HOUR_OF_DAY) % 10;
+        int primaryHours = c.get(Calendar.HOUR_OF_DAY) / 10;
+        int secondaryMinutes = c.get(Calendar.MINUTE) % 10;
+        int primaryMinutes = c.get(Calendar.MINUTE) / 10;
+        int secondarySeconds = c.get(Calendar.SECOND) % 10;
+        int primarySeconds = c.get(Calendar.SECOND) / 10;
 
         for (int i = 0; i <= 9; i++) {
             mDigitsColor[i] = 0;
         }
-
-        mDigitsColor[s] = additiveBlendTwoColors(mDigitsColor[s],
-                mSecondarySecondColor);
-        mDigitsColor[ss] = additiveBlendTwoColors(mDigitsColor[ss],
-                mPrimarySecondColor);
-
-        mDigitsColor[m] = additiveBlendTwoColors(mDigitsColor[m],
-                mSecondaryMinuteColor);
-        mDigitsColor[mm] = additiveBlendTwoColors(mDigitsColor[mm],
-                mPrimaryMinuteColor);
-
-        mDigitsColor[h] = additiveBlendTwoColors(mDigitsColor[h],
-                mSecondaryHourColor);
-        mDigitsColor[hh] = additiveBlendTwoColors(mDigitsColor[hh],
+        
+        mDigitsColor[primaryHours] = additiveBlendTwoColors(mDigitsColor[primaryHours],
                 mPrimaryHourColor);
-
+        mDigitsColor[secondaryHours] = additiveBlendTwoColors(mDigitsColor[secondaryHours],
+                mSecondaryHourColor);
+        mDigitsColor[primaryMinutes] = additiveBlendTwoColors(mDigitsColor[primaryMinutes],
+                mPrimaryMinuteColor);
+        mDigitsColor[secondaryMinutes] = additiveBlendTwoColors(mDigitsColor[secondaryMinutes],
+                mSecondaryMinuteColor);
+        mDigitsColor[primarySeconds] = additiveBlendTwoColors(mDigitsColor[primarySeconds],
+                mPrimarySecondColor);
+        mDigitsColor[secondarySeconds] = additiveBlendTwoColors(mDigitsColor[secondarySeconds],
+                mSecondarySecondColor);
+        
         for (int i = 0; i <= 9; i++) {
             if (mDigitsColor[i] == 0) {
                 mDigitsColor[i] = mDefaultDigitBackgrundColor;
             }
         }
 
+        Log.d(TAG, "mDigitsColor[sec] "+Integer.toHexString(mDigitsColor[secondarySeconds]);
+        
+//        04-11 23:40:43.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] c4b237a7
+//        04-11 23:40:44.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] 3a81ffff
+//        04-11 23:40:45.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] d8211691
+
+        
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
             //
@@ -206,17 +229,19 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
     }
 
     /**
-     * Additive blends of color c1 and c2.
+     * Additive blends of color c1 and c2. The alpha channel is not blended
+     * additively, but rather a mean is calculated by adding the two values and
+     * shifting once to the right.
      * 
      * @param c1 first color to blend.
      * @param c2 second color to blend.
      * @return the result of blending color c1 and c2.
      */
     private int additiveBlendTwoColors(int c1, int c2) {
-        int a = Math.min(((c1 & 0xff000000) + (c2 & 0xff000000)), 0xff000000);
-        int r = Math.min(((c1 & 0xff0000) + (c2 & 0xff0000)), 0xff0000);
-        int g = Math.min(((c1 & 0xff00) + (c2 & 0xff00)), 0xff00);
-        int b = Math.min(((c1 & 0xff) + (c2 & 0xff)), 0xff);
+        int a = (((c1 & ALPHA_MAX) + (c2 & ALPHA_MAX)) >> 1) & ALPHA_MAX;
+        int r = Math.min(((c1 & RED_MAX) + (c2 & RED_MAX)), RED_MAX);
+        int g = Math.min(((c1 & GREEN_MAX) + (c2 & GREEN_MAX)), GREEN_MAX);
+        int b = Math.min(((c1 & BLUE_MAX) + (c2 & BLUE_MAX)), BLUE_MAX);
         int c = a + r + g + b;
         return c;
     }
