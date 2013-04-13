@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import se.kjellstrand.colorclock.R;
+import se.kjellstrand.colorclock.util.ColorUtil;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -55,31 +56,10 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      */
     private RemoteViews mRemoteViews;
 
+    /**
+     * 
+     */
     private double mSecondaryColorStrength = 0.7d;
-
-    /**
-     * Max value for the alpha channel in 32 bit argb. Used for bit
-     * manipulations of the colors.
-     */
-    private static final int ALPHA_MAX = 0xff000000;
-
-    /**
-     * Max value for the red channel in 32 bit argb. Used for bit manipulations
-     * of the colors.
-     */
-    private static final int RED_MAX = 0xff0000;
-
-    /**
-     * Max value for the green channel in 32 bit argb. Used for bit
-     * manipulations of the colors.
-     */
-    private static final int GREEN_MAX = 0xff00;
-
-    /**
-     * Max value for the blue channel in 32 bit argb. Used for bit manipulations
-     * of the colors.
-     */
-    private static final int BLUE_MAX = 0xff;
 
     /**
      * Major color for hours, displayed on the first digit of the hours. So if
@@ -140,29 +120,16 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * Updates the secondary colors to be fractions of the primary colors.
      */
     private void upateSecondaryColors() {
-        mSecondaryHourColor = getSecondaryColorFromPrimaryColor(mPrimaryHourColor);
-        mSecondaryMinuteColor = getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor);
-        mSecondarySecondColor = getSecondaryColorFromPrimaryColor(mPrimarySecondColor);
+        mSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryHourColor, mSecondaryColorStrength);
+        mSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor, mSecondaryColorStrength);
+        mSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimarySecondColor, mSecondaryColorStrength);
 
         Log.d(TAG, "mSColor " + Integer.toHexString(mSecondarySecondColor));
         Log.d(TAG, "mMColor " + Integer.toHexString(mSecondaryMinuteColor));
         Log.d(TAG, "mHColor " + Integer.toHexString(mSecondaryHourColor));
     }
+// TODO REFACTOR to UTIL class
 
-    /**
-     * Take a color as input, multiply each of the rgb components by
-     * mSecondaryColorStrength and return the new color that results from this.
-     * 
-     * @param color the primary color to pick rgb values from.
-     * @return the secondary color.
-     */
-    private int getSecondaryColorFromPrimaryColor(int color) {
-        // Retain the alpha channel
-        return ((color & ALPHA_MAX)
-                + ((int) ((color & RED_MAX) * mSecondaryColorStrength) & RED_MAX)
-                + ((int) ((color & GREEN_MAX) * mSecondaryColorStrength) & GREEN_MAX) 
-                + ((int) ((color & BLUE_MAX) * mSecondaryColorStrength) & BLUE_MAX));
-    }
 
     /**
      * Updates the colors of the clock to a state representing "now".
@@ -192,17 +159,17 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
             mDigitsColor[i] = 0;
         }
         
-        mDigitsColor[primaryHours] = additiveBlendTwoColors(mDigitsColor[primaryHours],
+        mDigitsColor[primaryHours] = ColorUtil.additiveBlendTwoColors(mDigitsColor[primaryHours],
                 mPrimaryHourColor);
-        mDigitsColor[secondaryHours] = additiveBlendTwoColors(mDigitsColor[secondaryHours],
+        mDigitsColor[secondaryHours] = ColorUtil.additiveBlendTwoColors(mDigitsColor[secondaryHours],
                 mSecondaryHourColor);
-        mDigitsColor[primaryMinutes] = additiveBlendTwoColors(mDigitsColor[primaryMinutes],
+        mDigitsColor[primaryMinutes] = ColorUtil.additiveBlendTwoColors(mDigitsColor[primaryMinutes],
                 mPrimaryMinuteColor);
-        mDigitsColor[secondaryMinutes] = additiveBlendTwoColors(mDigitsColor[secondaryMinutes],
+        mDigitsColor[secondaryMinutes] = ColorUtil.additiveBlendTwoColors(mDigitsColor[secondaryMinutes],
                 mSecondaryMinuteColor);
-        mDigitsColor[primarySeconds] = additiveBlendTwoColors(mDigitsColor[primarySeconds],
+        mDigitsColor[primarySeconds] = ColorUtil.additiveBlendTwoColors(mDigitsColor[primarySeconds],
                 mPrimarySecondColor);
-        mDigitsColor[secondarySeconds] = additiveBlendTwoColors(mDigitsColor[secondarySeconds],
+        mDigitsColor[secondarySeconds] = ColorUtil.additiveBlendTwoColors(mDigitsColor[secondarySeconds],
                 mSecondarySecondColor);
         
         for (int i = 0; i <= 9; i++) {
@@ -228,23 +195,6 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
         mWidgetManager.updateAppWidget(mAppWidgetIds, mRemoteViews);
     }
 
-    /**
-     * Additive blends of color c1 and c2. The alpha channel is not blended
-     * additively, but rather a mean is calculated by adding the two values and
-     * shifting once to the right.
-     * 
-     * @param c1 first color to blend.
-     * @param c2 second color to blend.
-     * @return the result of blending color c1 and c2.
-     */
-    private int additiveBlendTwoColors(int c1, int c2) {
-        int a = (((c1 & ALPHA_MAX) + (c2 & ALPHA_MAX)) >> 1) & ALPHA_MAX;
-        int r = Math.min(((c1 & RED_MAX) + (c2 & RED_MAX)), RED_MAX);
-        int g = Math.min(((c1 & GREEN_MAX) + (c2 & GREEN_MAX)), GREEN_MAX);
-        int b = Math.min(((c1 & BLUE_MAX) + (c2 & BLUE_MAX)), BLUE_MAX);
-        int c = a + r + g + b;
-        return c;
-    }
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
