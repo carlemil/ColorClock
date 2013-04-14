@@ -175,9 +175,9 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
             }
         }
 
-        Log.d(TAG,
-                "mDigitsColor[sec] "
-                        + Integer.toHexString(mDigitsColor[seconds0X]));
+//        Log.d(TAG,
+//                "mDigitsColor[sec] "
+//                        + Integer.toHexString(mDigitsColor[seconds0X]));
 
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
@@ -189,6 +189,14 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
         mWidgetManager.updateAppWidget(mAppWidgetIds, mRemoteViews);
     }
 
+    /**
+     * Blends the two colors unless the first color is pitch black with 0 aplha,
+     * for that corner-case it will return the second color
+     * 
+     * @param c1 first color.
+     * @param c2 second color.
+     * @return a blen of the two color, unless above stated condition aplys.
+     */
     private int setOrBlendDigitColorWithColor(int c1, int c2) {
         if (c1 != 0) {
             return ColorUtil.blendTwoColors(c1, c2);
@@ -199,9 +207,9 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        CharSequence text = "SHUTDOWN ";
         int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(context, "Shuting down Clock widget.",
+                duration);
         toast.show();
         timer.cancel();
     }
@@ -218,9 +226,9 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
         update(context);
 
         if (timer == null) {
-            CharSequence text = "INSTALLING";
             int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
+            Toast toast = Toast.makeText(context, "Instaling Clock widget.",
+                    duration);
             toast.show();
 
             timer = new Timer();

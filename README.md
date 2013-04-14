@@ -3,6 +3,13 @@ ColorClock
 
 A clock widget for Android
 
+next step:
+
+implement settings:
+* mode: easy, normal, hard
+* toggle seconds
+* set transparancy
+
 ideeas:
 
 * use gradients as backgrounds allowing for 3 diffrent colors to blen in one digit, h:m:s style.
