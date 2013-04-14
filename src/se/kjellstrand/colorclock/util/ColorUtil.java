@@ -1,7 +1,6 @@
 package se.kjellstrand.colorclock.util;
 
 import android.graphics.Color;
-import android.util.Log;
 
 /**
  * Class providing operations on argb colors represented by the int primitive.
@@ -46,26 +45,6 @@ public class ColorUtil {
     public static final int CHANNEL_MAX = 0xff;
 
     /**
-     * Number of bits to shift a byte to fully overlap the alpha channel
-     */
-    public static final int ALPHA_SHIFT = 24;
-
-    /**
-     * Number of bits to shift a byte to fully overlap the red channel
-     */
-    public static final int RED_SHIFT = 16;
-
-    /**
-     * Number of bits to shift a byte to fully overlap the green channel
-     */
-    public static final int GREEN_SHIFT = 8;
-
-    /**
-     * Number of bits to shift a byte to fully overlap the blue channel
-     */
-    public static final int BLUE_SHIFT = 0;
-
-    /**
      * Take a color as input, multiply each of the rgb components by
      * mSecondaryColorStrength and return the new color that results from this.
      * 
@@ -79,20 +58,18 @@ public class ColorUtil {
         // Retain the alpha channel
         return ((color & ALPHA_MASK)
                 + ((int) ((color & RED_MASK) * secondaryColorStrength) & RED_MASK)
-                + ((int) ((color & GREEN_MASK) * secondaryColorStrength) & GREEN_MASK) + ((int) ((color & BLUE_MASK) * secondaryColorStrength) & BLUE_MASK));
+                + ((int) ((color & GREEN_MASK) * secondaryColorStrength) & GREEN_MASK) 
+                + ((int) ((color & BLUE_MASK) * secondaryColorStrength) & BLUE_MASK));
     }
 
     /**
-     * Additive blends of color c1 and c2. The alpha channel is not blended
-     * additively, but rather a mean is calculated by adding the two values and
-     * shifting once to the right.
+     * Blends of color c1 and c2. 
      * 
      * @param c1 first color to blend.
      * @param c2 second color to blend.
      * @return the result of blending color c1 and c2.
      */
-    public static int additiveBlendTwoColors(int c1, int c2) {
-
+    public static int blendTwoColors(int c1, int c2) {
         int a1 = Color.alpha(c1);
         int r1 = Color.red(c1);
         int g1 = Color.green(c1);

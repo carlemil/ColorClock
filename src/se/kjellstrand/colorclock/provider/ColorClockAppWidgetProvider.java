@@ -66,7 +66,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * the clock is 12:34:56 then the 1 would get this color as background
      * color.
      */
-    private int mPrimaryHourColor = 0xb0d03020;
+    private int mPrimaryHourColor = 0xd0f03020;
 
     /**
      * Minor color for hours, displayed on the second digit of the hours. So if
@@ -80,7 +80,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * if the clock is 12:34:56 then the 3 would get this color as background
      * color.
      */
-    private int mPrimaryMinuteColor = 0xb030d020;
+    private int mPrimaryMinuteColor = 0xd030f020;
 
     /**
      * Minor color for minutes, displayed on the second digit of the minutes. So
@@ -94,7 +94,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * if the clock is 12:34:56 then the 5 would get this color as background
      * color.
      */
-    private int mPrimarySecondColor = 0xb03020d0;
+    private int mPrimarySecondColor = 0xd03020f0;
 
     /**
      * Minor color for seconds, displayed on the second digit of the seconds. So
@@ -120,16 +120,13 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      * Updates the secondary colors to be fractions of the primary colors.
      */
     private void upateSecondaryColors() {
-        mSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryHourColor, mSecondaryColorStrength);
-        mSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor, mSecondaryColorStrength);
-        mSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimarySecondColor, mSecondaryColorStrength);
-
-        Log.d(TAG, "mSColor " + Integer.toHexString(mSecondarySecondColor));
-        Log.d(TAG, "mMColor " + Integer.toHexString(mSecondaryMinuteColor));
-        Log.d(TAG, "mHColor " + Integer.toHexString(mSecondaryHourColor));
+        mSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(
+                mPrimaryHourColor, mSecondaryColorStrength);
+        mSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(
+                mPrimaryMinuteColor, mSecondaryColorStrength);
+        mSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(
+                mPrimarySecondColor, mSecondaryColorStrength);
     }
-// TODO REFACTOR to UTIL class
-
 
     /**
      * Updates the colors of the clock to a state representing "now".
@@ -148,43 +145,40 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
 
         Calendar c = Calendar.getInstance();
 
-        int secondaryHours = c.get(Calendar.HOUR_OF_DAY) % 10;
-        int primaryHours = c.get(Calendar.HOUR_OF_DAY) / 10;
-        int secondaryMinutes = c.get(Calendar.MINUTE) % 10;
-        int primaryMinutes = c.get(Calendar.MINUTE) / 10;
-        int secondarySeconds = c.get(Calendar.SECOND) % 10;
-        int primarySeconds = c.get(Calendar.SECOND) / 10;
+        int hoursX0 = c.get(Calendar.HOUR_OF_DAY) / 10;
+        int hours0X = c.get(Calendar.HOUR_OF_DAY) % 10;
+        int minutesX0 = c.get(Calendar.MINUTE) / 10;
+        int minutes0X = c.get(Calendar.MINUTE) % 10;
+        int secondsX0 = c.get(Calendar.SECOND) / 10;
+        int seconds0X = c.get(Calendar.SECOND) % 10;
 
         for (int i = 0; i <= 9; i++) {
             mDigitsColor[i] = 0;
         }
-        
-        mDigitsColor[primaryHours] = ColorUtil.additiveBlendTwoColors(mDigitsColor[primaryHours],
-                mPrimaryHourColor);
-        mDigitsColor[secondaryHours] = ColorUtil.additiveBlendTwoColors(mDigitsColor[secondaryHours],
-                mSecondaryHourColor);
-        mDigitsColor[primaryMinutes] = ColorUtil.additiveBlendTwoColors(mDigitsColor[primaryMinutes],
-                mPrimaryMinuteColor);
-        mDigitsColor[secondaryMinutes] = ColorUtil.additiveBlendTwoColors(mDigitsColor[secondaryMinutes],
-                mSecondaryMinuteColor);
-        mDigitsColor[primarySeconds] = ColorUtil.additiveBlendTwoColors(mDigitsColor[primarySeconds],
-                mPrimarySecondColor);
-        mDigitsColor[secondarySeconds] = ColorUtil.additiveBlendTwoColors(mDigitsColor[secondarySeconds],
-                mSecondarySecondColor);
-        
+
+        mDigitsColor[hoursX0] = setOrBlendDigitColorWithColor(
+                mDigitsColor[hoursX0], mPrimaryHourColor);
+        mDigitsColor[hours0X] = setOrBlendDigitColorWithColor(
+                mDigitsColor[hours0X], mSecondaryHourColor);
+        mDigitsColor[minutesX0] = setOrBlendDigitColorWithColor(
+                mDigitsColor[minutesX0], mPrimaryMinuteColor);
+        mDigitsColor[minutes0X] = setOrBlendDigitColorWithColor(
+                mDigitsColor[minutes0X], mSecondaryMinuteColor);
+        mDigitsColor[secondsX0] = setOrBlendDigitColorWithColor(
+                mDigitsColor[secondsX0], mPrimarySecondColor);
+        mDigitsColor[seconds0X] = setOrBlendDigitColorWithColor(
+                mDigitsColor[seconds0X], mSecondarySecondColor);
+
         for (int i = 0; i <= 9; i++) {
             if (mDigitsColor[i] == 0) {
                 mDigitsColor[i] = mDefaultDigitBackgrundColor;
             }
         }
 
-        Log.d(TAG, "mDigitsColor[sec] "+Integer.toHexString(mDigitsColor[secondarySeconds]));
-        
-//        04-11 23:40:43.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] c4b237a7
-//        04-11 23:40:44.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] 3a81ffff
-//        04-11 23:40:45.504: D/se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider(26127): mDigitsColor[sec] d8211691
+        Log.d(TAG,
+                "mDigitsColor[sec] "
+                        + Integer.toHexString(mDigitsColor[seconds0X]));
 
-        
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
             //
@@ -195,6 +189,13 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
         mWidgetManager.updateAppWidget(mAppWidgetIds, mRemoteViews);
     }
 
+    private int setOrBlendDigitColorWithColor(int c1, int c2) {
+        if (c1 != 0) {
+            return ColorUtil.blendTwoColors(c1, c2);
+        } else {
+            return c2;
+        }
+    }
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {

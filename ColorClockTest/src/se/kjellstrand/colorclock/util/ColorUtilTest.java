@@ -65,63 +65,63 @@ public class ColorUtilTest extends TestCase {
 
     /**
      * Test method for
-     * {@link se.kjellstrand.colorclock.util.ColorUtil#additiveBlendTwoColors(int, int)}
+     * {@link se.kjellstrand.colorclock.util.ColorUtil#blendTwoColors(int, int)}
      * .
      */
     public void testAdditiveBlendTwoColors() {
         // Test the alpha channel
         assertEquals(0x00000000,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x00000000) & ColorUtil.ALPHA_MASK);
+                ColorUtil.blendTwoColors(0x00000000, 0x00000000) & ColorUtil.ALPHA_MASK);
         assertEquals(0x11000000,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x22000000) & ColorUtil.ALPHA_MASK);
+                ColorUtil.blendTwoColors(0x00000000, 0x22000000) & ColorUtil.ALPHA_MASK);
         assertEquals(0x77000000,
-                ColorUtil.additiveBlendTwoColors(0x77000000, 0x77000000) & ColorUtil.ALPHA_MASK);
+                ColorUtil.blendTwoColors(0x77000000, 0x77000000) & ColorUtil.ALPHA_MASK);
         assertEquals(0x11000000,
-                ColorUtil.additiveBlendTwoColors(0x00ffffff, 0x22654321) & ColorUtil.ALPHA_MASK);
+                ColorUtil.blendTwoColors(0x00ffffff, 0x22654321) & ColorUtil.ALPHA_MASK);
         assertEquals(0x11000000,
-                ColorUtil.additiveBlendTwoColors(0x00123456, 0x22ffffff) & ColorUtil.ALPHA_MASK);
+                ColorUtil.blendTwoColors(0x00123456, 0x22ffffff) & ColorUtil.ALPHA_MASK);
         assertEquals(0x11000000,
-                ColorUtil.additiveBlendTwoColors(0x00ffffff, 0x22ffffff) & ColorUtil.ALPHA_MASK);
+                ColorUtil.blendTwoColors(0x00ffffff, 0x22ffffff) & ColorUtil.ALPHA_MASK);
         assertEquals(0x99000000,
-                ColorUtil.additiveBlendTwoColors(0x88456789, 0xaa234789) & ColorUtil.ALPHA_MASK);
+                ColorUtil.blendTwoColors(0x88456789, 0xaa234789) & ColorUtil.ALPHA_MASK);
         assertEquals(0x04000000,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x08000000));
+                ColorUtil.blendTwoColors(0x00000000, 0x08000000));
         assertEquals(0xd0000000,
-                ColorUtil.additiveBlendTwoColors(0xc0000000, 0xe0000000));
+                ColorUtil.blendTwoColors(0xc0000000, 0xe0000000));
         assertEquals(0x04000000,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x08000000));
+                ColorUtil.blendTwoColors(0x00000000, 0x08000000));
 
         // Test the red channel
         assertEquals(0x00ff0000,
-                ColorUtil.additiveBlendTwoColors(0x00ff0000, 0x00ff0000) & ColorUtil.RED_MASK);
+                ColorUtil.blendTwoColors(0x00ff0000, 0x00ff0000) & ColorUtil.RED_MASK);
         assertEquals(0x007F0000,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x00ff0000) & ColorUtil.RED_MASK);
+                ColorUtil.blendTwoColors(0x00000000, 0x00ff0000) & ColorUtil.RED_MASK);
         assertEquals(0x00550000,
-                ColorUtil.additiveBlendTwoColors(0x00440000, 0x00660000) & ColorUtil.RED_MASK);
+                ColorUtil.blendTwoColors(0x00440000, 0x00660000) & ColorUtil.RED_MASK);
         
         // Test the green channel
         assertEquals(0x0000ff00,
-                ColorUtil.additiveBlendTwoColors(0x0000ff00, 0x0000ff00) & ColorUtil.GREEN_MASK);
+                ColorUtil.blendTwoColors(0x0000ff00, 0x0000ff00) & ColorUtil.GREEN_MASK);
         assertEquals(0x00007f00,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x0000ff00) & ColorUtil.GREEN_MASK);
+                ColorUtil.blendTwoColors(0x00000000, 0x0000ff00) & ColorUtil.GREEN_MASK);
         assertEquals(0x00005500,
-                ColorUtil.additiveBlendTwoColors(0x00004400, 0x00006600) & ColorUtil.GREEN_MASK);
+                ColorUtil.blendTwoColors(0x00004400, 0x00006600) & ColorUtil.GREEN_MASK);
 
         // Test the blue channel
         assertEquals(0x000000ff,
-                ColorUtil.additiveBlendTwoColors(0x000000ff, 0x000000ff) & ColorUtil.BLUE_MASK);
+                ColorUtil.blendTwoColors(0x000000ff, 0x000000ff) & ColorUtil.BLUE_MASK);
         assertEquals(0x0000007f,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x000000ff) & ColorUtil.BLUE_MASK);
+                ColorUtil.blendTwoColors(0x00000000, 0x000000ff) & ColorUtil.BLUE_MASK);
         assertEquals(0x00000055,
-                ColorUtil.additiveBlendTwoColors(0x00000044, 0x00000066) & ColorUtil.BLUE_MASK);
+                ColorUtil.blendTwoColors(0x00000044, 0x00000066) & ColorUtil.BLUE_MASK);
         
         // Test the all channels
         assertEquals(0x88888888,
-                ColorUtil.additiveBlendTwoColors(0x88888888, 0x88888888));
+                ColorUtil.blendTwoColors(0x88888888, 0x88888888));
         assertEquals(0x44444444,
-                ColorUtil.additiveBlendTwoColors(0x00000000, 0x88888888));
+                ColorUtil.blendTwoColors(0x00000000, 0x88888888));
         assertEquals(0x44444444,
-                ColorUtil.additiveBlendTwoColors(0x88888888, 0x00000000));
+                ColorUtil.blendTwoColors(0x88888888, 0x00000000));
     }
 
 }
