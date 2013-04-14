@@ -1,5 +1,7 @@
 package se.kjellstrand.colorclock.util;
 
+import android.graphics.Color;
+import android.util.Log;
 
 /**
  * Class providing operations on argb colors represented by the int primitive.
@@ -91,20 +93,21 @@ public class ColorUtil {
      */
     public static int additiveBlendTwoColors(int c1, int c2) {
 
-        int a1 = (c1 & ALPHA_MASK) >> ALPHA_SHIFT;
-        int r1 = (c1 & RED_MASK) >> RED_SHIFT;
-        int g1 = (c1 & GREEN_MASK) >> GREEN_SHIFT;
-        int b1 = (c1 & BLUE_MASK) >> BLUE_SHIFT;
+        int a1 = Color.alpha(c1);
+        int r1 = Color.red(c1);
+        int g1 = Color.green(c1);
+        int b1 = Color.blue(c1);
 
-        int a2 = (c2 & ALPHA_MASK) >> ALPHA_SHIFT;
-        int r2 = (c2 & RED_MASK) >> RED_SHIFT;
-        int g2 = (c2 & GREEN_MASK) >> GREEN_SHIFT;
-        int b2 = (c2 & BLUE_MASK) >> BLUE_SHIFT;
+        int a2 = Color.alpha(c2);
+        int r2 = Color.red(c2);
+        int g2 = Color.green(c2);
+        int b2 = Color.blue(c2);
 
-        int c = (int) ((((a1 + a2) >> 1) & BYTE_MASK) << ALPHA_SHIFT)
-                + (Math.min((r1 + r2) >> 1, CHANNEL_MAX) << RED_SHIFT)
-                + (Math.min((g1 + g2) >> 1, CHANNEL_MAX) << GREEN_SHIFT)
-                + (Math.min((b1 + b2) >> 1, CHANNEL_MAX) << BLUE_SHIFT);
+        int a = Math.min((a1 + a2) >> 1, CHANNEL_MAX);
+        int r = Math.min((r1 + r2) >> 1, CHANNEL_MAX);
+        int g = Math.min((g1 + g2) >> 1, CHANNEL_MAX);
+        int b = Math.min((b1 + b2) >> 1, CHANNEL_MAX);
+        int c = Color.argb(a, r, g, b);
 
         return c;
     }

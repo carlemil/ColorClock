@@ -84,6 +84,12 @@ public class ColorUtilTest extends TestCase {
                 ColorUtil.additiveBlendTwoColors(0x00ffffff, 0x22ffffff) & ColorUtil.ALPHA_MASK);
         assertEquals(0x99000000,
                 ColorUtil.additiveBlendTwoColors(0x88456789, 0xaa234789) & ColorUtil.ALPHA_MASK);
+        assertEquals(0x04000000,
+                ColorUtil.additiveBlendTwoColors(0x00000000, 0x08000000));
+        assertEquals(0xd0000000,
+                ColorUtil.additiveBlendTwoColors(0xc0000000, 0xe0000000));
+        assertEquals(0x04000000,
+                ColorUtil.additiveBlendTwoColors(0x00000000, 0x08000000));
 
         // Test the red channel
         assertEquals(0x00ff0000,
@@ -109,7 +115,13 @@ public class ColorUtilTest extends TestCase {
         assertEquals(0x00000055,
                 ColorUtil.additiveBlendTwoColors(0x00000044, 0x00000066) & ColorUtil.BLUE_MASK);
         
-        
+        // Test the all channels
+        assertEquals(0x88888888,
+                ColorUtil.additiveBlendTwoColors(0x88888888, 0x88888888));
+        assertEquals(0x44444444,
+                ColorUtil.additiveBlendTwoColors(0x00000000, 0x88888888));
+        assertEquals(0x44444444,
+                ColorUtil.additiveBlendTwoColors(0x88888888, 0x00000000));
     }
 
 }
