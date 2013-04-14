@@ -190,12 +190,12 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
     }
 
     /**
-     * Blends the two colors unless the first color is pitch black with 0 aplha,
+     * Blends the two colors unless the first color is pitch black with 0 alpha,
      * for that corner-case it will return the second color
      * 
      * @param c1 first color.
      * @param c2 second color.
-     * @return a blen of the two color, unless above stated condition aplys.
+     * @return a blend of the two color, unless above stated condition applies.
      */
     private int setOrBlendDigitColorWithColor(int c1, int c2) {
         if (c1 != 0) {
