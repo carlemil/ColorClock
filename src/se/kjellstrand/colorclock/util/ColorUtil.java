@@ -1,7 +1,6 @@
 package se.kjellstrand.colorclock.util;
 
 import android.graphics.Color;
-import android.util.Log;
 
 /**
  * Class providing operations on argb colors represented by the int primitive.
@@ -45,8 +44,6 @@ public class ColorUtil {
      */
     public static final int CHANNEL_MAX = 0xff;
 
-    private static String TAG;
-
     /**
      * Take a color as input, multiply each of the rgb components by
      * mSecondaryColorStrength and return the new color that results from this.
@@ -89,9 +86,6 @@ public class ColorUtil {
         int b = Math.min((b1 + b2) >> 1, CHANNEL_MAX);
         int c = Color.argb(a, r, g, b);
 
-        Log.d(TAG, "avarage blend of " + Integer.toHexString(c1) + " : "
-                + Integer.toHexString(c2) + " = " + Integer.toHexString(c));
-
         return c;
     }
 
@@ -120,10 +114,6 @@ public class ColorUtil {
         int b = (int) ((1 - (1 - b1) * (1 - b2)) * CHANNEL_MAX);
         int c = Color.argb(a, r, g, b);
 
-        System.out.println("screen blend of " + Integer.toHexString(c1) + " : "
-                + Integer.toHexString(c2) + " = " + Integer.toHexString(c)
-                + " a " + a + " r " + r + " g " + g + " b " + b);
-        
         return c;
     }
 }
