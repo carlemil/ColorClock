@@ -30,6 +30,12 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
             R.id.digit_4, R.id.digit_5, R.id.digit_6, R.id.digit_7,
             R.id.digit_8, R.id.digit_9
     };
+    
+    /**
+     * Holds the current colors of each digit, used while calculating the color
+     * state of the clock in each update.
+     */
+    private final int[] mDigitsColor = new int[10];
 
     /**
      * Updates AppWidget state; gets information about installed AppWidget
@@ -46,13 +52,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
     /**
      * Timer that fires once per second, and updates the colors of the clock.
      */
-    private static Timer timer = null;
-
-    /**
-     * Holds the current colors of each digit, used while calculating the color
-     * state of the clock in each update.
-     */
-    private final int[] mDigitsColor = new int[10];
+    private static Timer mTimer = null;
 
     /**
      * Holds the views of the current widget layout.
@@ -211,7 +211,9 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
         Toast toast = Toast.makeText(context, "Shuting down Clock widget.",
                 duration);
         toast.show();
-        timer.cancel();
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
     }
 
     @Override
@@ -225,18 +227,18 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
 
         update(context);
 
-        if (timer == null) {
+        if (mTimer == null) {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, "Instaling Clock widget.",
                     duration);
             toast.show();
 
-            timer = new Timer();
+            mTimer = new Timer();
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.SECOND, 1);
             cal.set(Calendar.MILLISECOND, 500);
 
-            timer.scheduleAtFixedRate(new MyTime(context, this), cal.getTime(),
+            mTimer.scheduleAtFixedRate(new MyTime(context, this), cal.getTime(),
                     1000);
         }
 
