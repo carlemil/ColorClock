@@ -12,7 +12,7 @@ implement settings:
 
 ideeas:
 
-* use gradients as backgrounds allowing for 3 diffrent colors to blen in one digit, h:m:s style.
+* use gradients as backgrounds allowing for 3 diffrent colors to blend in one digit, h:m:s style.
 
 * add "mode" to settings, normal(with digital clock on top.), hard(remove digital clock), expert(remove text digits, only color) ?
 
