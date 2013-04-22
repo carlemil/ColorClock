@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 public class ColorClockAppWidgetProvider extends AppWidgetProvider {
 
+    /**
+     * TAG for LogCat logging
+     */
     private static final String TAG = ColorClockAppWidgetProvider.class
             .getName();
 
@@ -57,7 +60,8 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
     private RemoteViews mRemoteViews;
 
     /**
-     * 
+     * Determines how strong the secondary color is, the color showing (shown in
+     * caps) hH:mM:sS.
      */
     private double mSecondaryColorStrength = 0.7d;
 
@@ -175,10 +179,6 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
             }
         }
 
-//        Log.d(TAG,
-//                "mDigitsColor[sec] "
-//                        + Integer.toHexString(mDigitsColor[seconds0X]));
-
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
             //
@@ -199,7 +199,7 @@ public class ColorClockAppWidgetProvider extends AppWidgetProvider {
      */
     private int setOrBlendDigitColorWithColor(int c1, int c2) {
         if (c1 != 0) {
-            return ColorUtil.blendTwoColors(c1, c2);
+            return ColorUtil.screenBlendTwoColors(c1, c2);
         } else {
             return c2;
         }

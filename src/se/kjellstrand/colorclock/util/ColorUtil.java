@@ -1,6 +1,7 @@
 package se.kjellstrand.colorclock.util;
 
 import android.graphics.Color;
+import android.util.Log;
 
 /**
  * Class providing operations on argb colors represented by the int primitive.
@@ -44,6 +45,8 @@ public class ColorUtil {
      */
     public static final int CHANNEL_MAX = 0xff;
 
+    private static String TAG;
+
     /**
      * Take a color as input, multiply each of the rgb components by
      * mSecondaryColorStrength and return the new color that results from this.
@@ -58,18 +61,18 @@ public class ColorUtil {
         // Retain the alpha channel
         return ((color & ALPHA_MASK)
                 + ((int) ((color & RED_MASK) * secondaryColorStrength) & RED_MASK)
-                + ((int) ((color & GREEN_MASK) * secondaryColorStrength) & GREEN_MASK) 
-                + ((int) ((color & BLUE_MASK) * secondaryColorStrength) & BLUE_MASK));
+                + ((int) ((color & GREEN_MASK) * secondaryColorStrength) & GREEN_MASK) + ((int) ((color & BLUE_MASK) * secondaryColorStrength) & BLUE_MASK));
     }
 
     /**
-     * Blends of color c1 and c2. 
+     * Blend of color c1 and c2 by adding the components and dividing the
+     * results with 2.
      * 
      * @param c1 first color to blend.
      * @param c2 second color to blend.
      * @return the result of blending color c1 and c2.
      */
-    public static int blendTwoColors(int c1, int c2) {
+    public static int averageBlendTwoColors(int c1, int c2) {
         int a1 = Color.alpha(c1);
         int r1 = Color.red(c1);
         int g1 = Color.green(c1);
@@ -86,6 +89,41 @@ public class ColorUtil {
         int b = Math.min((b1 + b2) >> 1, CHANNEL_MAX);
         int c = Color.argb(a, r, g, b);
 
+        Log.d(TAG, "avarage blend of " + Integer.toHexString(c1) + " : "
+                + Integer.toHexString(c2) + " = " + Integer.toHexString(c));
+
+        return c;
+    }
+
+    /**
+     * Blend of color c1 and c2 by applying f(c1, c2) = 1 - (1 - c1) * (1 - c2)
+     * per channel.
+     * 
+     * @param c1 first color to blend.
+     * @param c2 second color to blend.
+     * @return the result of blending color c1 and c2.
+     */
+    public static int screenBlendTwoColors(int c1, int c2) {
+        double a1 = Color.alpha(c1) / ((double) CHANNEL_MAX);
+        double r1 = Color.red(c1) / ((double) CHANNEL_MAX);
+        double g1 = Color.green(c1) / ((double) CHANNEL_MAX);
+        double b1 = Color.blue(c1) / ((double) CHANNEL_MAX);
+
+        double a2 = Color.alpha(c2) / ((double) CHANNEL_MAX);
+        double r2 = Color.red(c2) / ((double) CHANNEL_MAX);
+        double g2 = Color.green(c2) / ((double) CHANNEL_MAX);
+        double b2 = Color.blue(c2) / ((double) CHANNEL_MAX);
+
+        int a = (int) ((1 - (1 - a1) * (1 - a2)) * CHANNEL_MAX);
+        int r = (int) ((1 - (1 - r1) * (1 - r2)) * CHANNEL_MAX);
+        int g = (int) ((1 - (1 - g1) * (1 - g2)) * CHANNEL_MAX);
+        int b = (int) ((1 - (1 - b1) * (1 - b2)) * CHANNEL_MAX);
+        int c = Color.argb(a, r, g, b);
+
+        System.out.println("screen blend of " + Integer.toHexString(c1) + " : "
+                + Integer.toHexString(c2) + " = " + Integer.toHexString(c)
+                + " a " + a + " r " + r + " g " + g + " b " + b);
+        
         return c;
     }
 }
