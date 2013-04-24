@@ -2,6 +2,8 @@ package se.kjellstrand.colorclock.provider;
 
 import java.util.Calendar;
 
+import se.kjellstrand.colorclock.R;
+import se.kjellstrand.colorclock.activity.SettingsActivity;
 import se.kjellstrand.colorclock.service.ClockService;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -11,6 +13,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 /**
  * Implements the clocks widget functionality.
@@ -59,6 +62,7 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
                 .getInstance(context);
         int[] remainingIds = appWidgetManager
                 .getAppWidgetIds(new ComponentName(context, this.getClass()));
+                
         if (remainingIds == null || remainingIds.length <= 0) {
             PendingIntent pendingIntent = PendingIntent.getService(context,
                     REQUEST_CODE, mUpdateIntent, PendingIntent.FLAG_NO_CREATE);

@@ -3,10 +3,12 @@ package se.kjellstrand.colorclock.service;
 import java.util.Calendar;
 
 import se.kjellstrand.colorclock.R;
+import se.kjellstrand.colorclock.activity.SettingsActivity;
 import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
 import se.kjellstrand.colorclock.util.ColorUtil;
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -14,8 +16,9 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 /**
- * A service that updates the clock widget whenever the updateAllViews method is called. 
- *
+ * A service that updates the clock widget whenever the updateAllViews method is
+ * called.
+ * 
  */
 public class ClockService extends IntentService {
 
@@ -102,7 +105,7 @@ public class ClockService extends IntentService {
      * What color will digits without a specific background set get, starts
      * uninitialised.
      */
-    private int mDefaultDigitBackgrundColor = 0xff999999;
+    private int mDefaultDigitBackgrundColor = 0;
 
     /**
      * Manager of this widget.
@@ -115,6 +118,11 @@ public class ClockService extends IntentService {
      */
     private ComponentName mComponentName;
 
+    /**
+     * Code used to identify a request.
+     */
+    private static final int REQUEST_CODE = 760315;
+    
     /**
      * Constructor
      */
@@ -137,7 +145,7 @@ public class ClockService extends IntentService {
 
     /**
      * Walk the list of clock widgets and update them, one by one.
-     *
+     * 
      * @param calendar the time used for the update.
      */
     private void updateAllViews(Calendar calendar) {
@@ -154,6 +162,13 @@ public class ClockService extends IntentService {
             RemoteViews remoteViews = new RemoteViews(getPackageName(),
                     R.layout.color_clock);
             updateView(remoteViews, calendar);
+
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE,
+                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews
+                    .setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+
             mManager.updateAppWidget(id, remoteViews);
         }
     }
