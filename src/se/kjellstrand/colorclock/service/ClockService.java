@@ -13,6 +13,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+/**
+ * A service that updates the clock widget whenever the updateAllViews method is called. 
+ *
+ */
 public class ClockService extends IntentService {
 
     /**
@@ -20,6 +24,9 @@ public class ClockService extends IntentService {
      */
     private static final String TAG = ClockService.class.getCanonicalName();
 
+    /**
+     * String used to identify updates sent from the alarm.
+     */
     public static final String ACTION_UPDATE = "se.kjellstrand.colorclock.ACTION_UPDATE";
 
     /**
@@ -95,12 +102,22 @@ public class ClockService extends IntentService {
      * What color will digits without a specific background set get, starts
      * uninitialised.
      */
-    private int mDefaultDigitBackgrundColor;
+    private int mDefaultDigitBackgrundColor = 0xff999999;
 
+    /**
+     * Manager of this widget.
+     */
     private AppWidgetManager mManager;
 
+    /**
+     * Name of the class + package, used to get the list of id's for the
+     * instances of this widget.
+     */
     private ComponentName mComponentName;
 
+    /**
+     * Constructor
+     */
     public ClockService() {
         super(TAG);
     }
@@ -118,6 +135,11 @@ public class ClockService extends IntentService {
         }
     }
 
+    /**
+     * Walk the list of clock widgets and update them, one by one.
+     *
+     * @param calendar the time used for the update.
+     */
     private void updateAllViews(Calendar calendar) {
         Log.d(TAG, "Update: " + calendar.getTime());
         if (mManager == null) {

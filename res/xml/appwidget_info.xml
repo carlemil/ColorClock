@@ -1,14 +1,12 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/color_clock"
     android:initialLayout="@layout/color_clock"
     android:minHeight="40dp"
     android:minWidth="110dp"
     android:previewImage="@drawable/ic_launcher"
-    android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="1000"
+    android:resizeMode="none"
     android:widgetCategory="home_screen|keyguard" >
 
-</appwidget-provider><!--
-android:configure="com.example.android.ExampleAppWidgetConfigure"
-nedan e for lockscreen
-    android:initialKeyguardLayout="@layout/example_keyguard"
--->
+</appwidget-provider>
+
+<!-- android:configure="com.example.android.ExampleAppWidgetConfigure" -->

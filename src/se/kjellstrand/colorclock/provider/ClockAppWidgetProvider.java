@@ -12,21 +12,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+/**
+ * Implements the clocks widget functionality.
+ * 
+ */
 public class ClockAppWidgetProvider extends AppWidgetProvider {
 
     /**
      * Tag for logging
      */
-    private static final String TAG = ClockAppWidgetProvider.class
-            .getName();
+    private static final String TAG = ClockAppWidgetProvider.class.getName();
 
+    /**
+     * Intent sent to the service to trigger a update of the clock ui.
+     */
     private static final Intent mUpdateIntent = new Intent(
             ClockService.ACTION_UPDATE);
-    
+
+    /**
+     * Constant for 1 second, in milliseconds.
+     */
     private static final int ONE_SECOND = 1000;
 
+    /**
+     * Code used to identify a request.
+     */
     private static final int REQUEST_CODE = 810528;
 
+    /**
+     * The Context in which this receiver is running.
+     */
     private Context mContext = null;
 
     @Override
@@ -40,12 +55,13 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         Log.d(TAG, "onDeleted");
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        int[] remainingIds = appWidgetManager.getAppWidgetIds(new ComponentName(context,
-                this.getClass()));
+        AppWidgetManager appWidgetManager = AppWidgetManager
+                .getInstance(context);
+        int[] remainingIds = appWidgetManager
+                .getAppWidgetIds(new ComponentName(context, this.getClass()));
         if (remainingIds == null || remainingIds.length <= 0) {
-            PendingIntent pendingIntent = PendingIntent.getService(context, REQUEST_CODE,
-                    mUpdateIntent, PendingIntent.FLAG_NO_CREATE);
+            PendingIntent pendingIntent = PendingIntent.getService(context,
+                    REQUEST_CODE, mUpdateIntent, PendingIntent.FLAG_NO_CREATE);
             if (pendingIntent != null) {
                 AlarmManager alarmManager = (AlarmManager) context
                         .getSystemService(Context.ALARM_SERVICE);
@@ -56,18 +72,23 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
         }
     }
 
+    /**
+     * Create a new alarm if none exists, or reuse the old.
+     */
     private void createAlarm() {
+        Log.d(TAG, "createAlarm.");
         Calendar date = Calendar.getInstance();
         date.set(Calendar.SECOND, 1);
         date.set(Calendar.MILLISECOND, 500);
         AlarmManager alarmManager = (AlarmManager) mContext
                 .getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(mContext, REQUEST_CODE,
-                mUpdateIntent, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent pendingIntent = PendingIntent.getService(mContext,
+                REQUEST_CODE, mUpdateIntent, PendingIntent.FLAG_NO_CREATE);
         if (pendingIntent == null) {
             pendingIntent = PendingIntent.getService(mContext, REQUEST_CODE,
                     mUpdateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            alarmManager.setRepeating(AlarmManager.RTC, date.getTimeInMillis(), ONE_SECOND, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC, date.getTimeInMillis(),
+                    ONE_SECOND, pendingIntent);
             Log.d(TAG, "Alarm created.");
         }
     }
