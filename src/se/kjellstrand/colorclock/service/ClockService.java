@@ -1,9 +1,11 @@
 package se.kjellstrand.colorclock.service;
 
 import java.util.Calendar;
+
 import se.kjellstrand.colorclock.R;
-import se.kjellstrand.colorclock.provider.ColorClockAppWidgetProvider;
+import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
 import se.kjellstrand.colorclock.util.ColorUtil;
+
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -13,6 +15,9 @@ import android.widget.RemoteViews;
 
 public class ClockService extends IntentService {
 
+    /**
+     * Tag for logging
+     */
     private static final String TAG = ClockService.class.getCanonicalName();
 
     public static final String ACTION_UPDATE = "se.kjellstrand.colorclock.ACTION_UPDATE";
@@ -92,6 +97,10 @@ public class ClockService extends IntentService {
      */
     private int mDefaultDigitBackgrundColor;
 
+    private AppWidgetManager mManager;
+
+    private ComponentName mComponentName;
+
     public ClockService() {
         super(TAG);
     }
@@ -102,7 +111,7 @@ public class ClockService extends IntentService {
             mDefaultDigitBackgrundColor = getResources().getColor(
                     R.color.default_digit_background_color);
         }
-        
+
         if (intent.getAction().equals(ACTION_UPDATE)) {
             Calendar now = Calendar.getInstance();
             updateAllViews(now);
@@ -111,21 +120,26 @@ public class ClockService extends IntentService {
 
     private void updateAllViews(Calendar calendar) {
         Log.d(TAG, "Update: " + calendar.getTime());
-        AppWidgetManager manager = AppWidgetManager.getInstance(this);
-        ComponentName name = new ComponentName(this,
-                ColorClockAppWidgetProvider.class);
-        int[] appIds = manager.getAppWidgetIds(name);
+        if (mManager == null) {
+            mManager = AppWidgetManager.getInstance(this);
+        }
+        if (mComponentName == null) {
+            mComponentName = new ComponentName(this,
+                    ClockAppWidgetProvider.class);
+        }
+        int[] appIds = mManager.getAppWidgetIds(mComponentName);
         for (int id : appIds) {
             RemoteViews remoteViews = new RemoteViews(getPackageName(),
                     R.layout.color_clock);
             updateView(remoteViews, calendar);
-            manager.updateAppWidget(id, remoteViews);
+            mManager.updateAppWidget(id, remoteViews);
         }
     }
 
     /**
      * Updates the colors of the clock to a state representing "now".
-     * @param calendar 
+     * 
+     * @param calendar
      * 
      * @param context used to grab hold of some xml resource values such as
      *        default background color.
