@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -30,7 +29,8 @@ public class SettingsFragment extends PreferenceFragment {
     OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            Log.d("TAG", "onSharedPreferenceChanged " + key);
+
+            // Handle updates of the Charset setting.
             String prefCharsetForDigitsKey = getActivity().getResources().getString(R.string.pref_charsets_for_digits);
             if (key.equals(prefCharsetForDigitsKey)) {
                 Preference charsetPref = findPreference(key);
@@ -46,12 +46,4 @@ public class SettingsFragment extends PreferenceFragment {
             ClockService.settingsChanged();
         }
     };
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        Log.d("TAG", "resume");
-    }
-
 }

@@ -142,7 +142,7 @@ public class ClockService extends IntentService {
 
         if (sDidSettingsChange) {
             sDidSettingsChange = false;
-
+            Log.d(TAG, "Settings changed.");
         }
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
@@ -157,7 +157,6 @@ public class ClockService extends IntentService {
      * @param calendar the time used for the update.
      */
     private void updateAllViews(Calendar calendar) {
-        Log.d(TAG, "Update: " + calendar.getTime());
         if (mManager == null) {
             mManager = AppWidgetManager.getInstance(this);
         }
