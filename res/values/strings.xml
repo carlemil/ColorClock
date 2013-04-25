@@ -1,5 +1,20 @@
 <resources>
 
     <string name="app_name">ColorClock</string>
-    
+
+    <!-- String related to the charsets used for the digits -->
+    <string name="charsets_for_digits_title">Charset</string>
+    <string name="charsets_for_digits_summary">Digits displayed in %s</string>
+    <string name="charsets_for_digits_dialog_title">Select character set for the digits</string>
+    <string name="pref_charsets_for_digits">pref_charsets_for_digits</string>
+    <string name="charset_for_digits_latin">Latin</string>
+    <string name="charset_for_digits_arabic">Arabic</string>
+    <string name="charset_for_digits_chinese">Chinese</string>
+
+    <string-array name="charsets_for_digits">
+        <item>@string/charset_for_digits_latin</item>
+        <item>@string/charset_for_digits_arabic</item>
+        <item>@string/charset_for_digits_chinese</item>
+    </string-array>
+
 </resources>

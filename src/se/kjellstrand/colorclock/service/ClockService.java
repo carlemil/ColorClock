@@ -6,7 +6,6 @@ import se.kjellstrand.colorclock.R;
 import se.kjellstrand.colorclock.activity.SettingsActivity;
 import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
 import se.kjellstrand.colorclock.util.ColorUtil;
-
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -32,13 +31,14 @@ public class ClockService extends IntentService {
      */
     public static final String ACTION_UPDATE = "se.kjellstrand.colorclock.ACTION_UPDATE";
 
+    private static boolean sDidSettingsChange = false;
+
     /**
      * List of the ids on the digit views.
      */
     private final static int[] DIGIT_VIEWS_INDEX = new int[] {
-            R.id.digit_0, R.id.digit_1, R.id.digit_2, R.id.digit_3,
-            R.id.digit_4, R.id.digit_5, R.id.digit_6, R.id.digit_7,
-            R.id.digit_8, R.id.digit_9
+            R.id.digit_0, R.id.digit_1, R.id.digit_2, R.id.digit_3, R.id.digit_4, R.id.digit_5, R.id.digit_6,
+            R.id.digit_7, R.id.digit_8, R.id.digit_9
     };
 
     /**
@@ -65,9 +65,8 @@ public class ClockService extends IntentService {
      * the clock is 12:34:56 then the 2 would get this color as background
      * color.
      */
-    private int mSecondaryHourColor = ColorUtil
-            .getSecondaryColorFromPrimaryColor(mPrimaryHourColor,
-                    mSecondaryColorStrength);
+    private int mSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryHourColor,
+            mSecondaryColorStrength);
 
     /**
      * Major color for minutes, displayed on the first digit of the minutes. So
@@ -81,9 +80,8 @@ public class ClockService extends IntentService {
      * if the clock is 12:34:56 then the 4 would get this color as background
      * color.
      */
-    private int mSecondaryMinuteColor = ColorUtil
-            .getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor,
-                    mSecondaryColorStrength);
+    private int mSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor,
+            mSecondaryColorStrength);
 
     /**
      * Major color for seconds, displayed on the first digit of the seconds. So
@@ -97,9 +95,8 @@ public class ClockService extends IntentService {
      * if the clock is 12:34:56 then the 6 would get this color as background
      * color.
      */
-    private int mSecondarySecondColor = ColorUtil
-            .getSecondaryColorFromPrimaryColor(mPrimarySecondColor,
-                    mSecondaryColorStrength);
+    private int mSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimarySecondColor,
+            mSecondaryColorStrength);
 
     /**
      * What color will digits without a specific background set get, starts
@@ -122,7 +119,7 @@ public class ClockService extends IntentService {
      * Code used to identify a request.
      */
     private static final int REQUEST_CODE = 760315;
-    
+
     /**
      * Constructor
      */
@@ -130,11 +127,22 @@ public class ClockService extends IntentService {
         super(TAG);
     }
 
+    /**
+     * 
+     */
+    public static void settingsChanged() {
+        sDidSettingsChange = true;
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         if (mDefaultDigitBackgrundColor == 0) {
-            mDefaultDigitBackgrundColor = getResources().getColor(
-                    R.color.default_digit_background_color);
+            mDefaultDigitBackgrundColor = getResources().getColor(R.color.default_digit_background_color);
+        }
+
+        if (sDidSettingsChange) {
+            sDidSettingsChange = false;
+
         }
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
@@ -154,20 +162,17 @@ public class ClockService extends IntentService {
             mManager = AppWidgetManager.getInstance(this);
         }
         if (mComponentName == null) {
-            mComponentName = new ComponentName(this,
-                    ClockAppWidgetProvider.class);
+            mComponentName = new ComponentName(this, ClockAppWidgetProvider.class);
         }
         int[] appIds = mManager.getAppWidgetIds(mComponentName);
         for (int id : appIds) {
-            RemoteViews remoteViews = new RemoteViews(getPackageName(),
-                    R.layout.color_clock);
+            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.color_clock);
             updateView(remoteViews, calendar);
 
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE,
-                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews
-                    .setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
             mManager.updateAppWidget(id, remoteViews);
         }
@@ -184,8 +189,7 @@ public class ClockService extends IntentService {
     public void updateView(RemoteViews remoteViews, Calendar calendar) {
 
         if (mDefaultDigitBackgrundColor == -1) {
-            mDefaultDigitBackgrundColor = getResources().getColor(
-                    R.color.default_digit_background_color);
+            mDefaultDigitBackgrundColor = getResources().getColor(R.color.default_digit_background_color);
         }
 
         int hoursX0 = calendar.get(Calendar.HOUR_OF_DAY) / 10;
@@ -199,18 +203,12 @@ public class ClockService extends IntentService {
             mDigitsColor[i] = 0;
         }
 
-        mDigitsColor[hoursX0] = setOrBlendDigitColorWithColor(
-                mDigitsColor[hoursX0], mPrimaryHourColor);
-        mDigitsColor[hours0X] = setOrBlendDigitColorWithColor(
-                mDigitsColor[hours0X], mSecondaryHourColor);
-        mDigitsColor[minutesX0] = setOrBlendDigitColorWithColor(
-                mDigitsColor[minutesX0], mPrimaryMinuteColor);
-        mDigitsColor[minutes0X] = setOrBlendDigitColorWithColor(
-                mDigitsColor[minutes0X], mSecondaryMinuteColor);
-        mDigitsColor[secondsX0] = setOrBlendDigitColorWithColor(
-                mDigitsColor[secondsX0], mPrimarySecondColor);
-        mDigitsColor[seconds0X] = setOrBlendDigitColorWithColor(
-                mDigitsColor[seconds0X], mSecondarySecondColor);
+        mDigitsColor[hoursX0] = setOrBlendDigitColorWithColor(mDigitsColor[hoursX0], mPrimaryHourColor);
+        mDigitsColor[hours0X] = setOrBlendDigitColorWithColor(mDigitsColor[hours0X], mSecondaryHourColor);
+        mDigitsColor[minutesX0] = setOrBlendDigitColorWithColor(mDigitsColor[minutesX0], mPrimaryMinuteColor);
+        mDigitsColor[minutes0X] = setOrBlendDigitColorWithColor(mDigitsColor[minutes0X], mSecondaryMinuteColor);
+        mDigitsColor[secondsX0] = setOrBlendDigitColorWithColor(mDigitsColor[secondsX0], mPrimarySecondColor);
+        mDigitsColor[seconds0X] = setOrBlendDigitColorWithColor(mDigitsColor[seconds0X], mSecondarySecondColor);
 
         for (int i = 0; i <= 9; i++) {
             if (mDigitsColor[i] == 0) {
@@ -221,8 +219,7 @@ public class ClockService extends IntentService {
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
             //
-            remoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor",
-                    mDigitsColor[i]);
+            remoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor", mDigitsColor[i]);
         }
     }
 
