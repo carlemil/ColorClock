@@ -128,7 +128,8 @@ public class ClockService extends IntentService {
     }
 
     /**
-     * 
+     * Call when the settings have changed to trigger a re-read of the shared
+     * prefs / settings.
      */
     public static void settingsChanged() {
         sDidSettingsChange = true;
