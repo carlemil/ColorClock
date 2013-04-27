@@ -41,16 +41,16 @@
         <item>\u0669</item>
     </string-array>
     <string-array name="chinese_digits">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
+        <item>\u96f6</item>
+        <item>\u4e00</item>
+        <item>\u4e8c</item>
+        <item>\u4e09</item>
+        <item>\u56db</item>
+        <item>\u4e94</item>
+        <item>\u516d</item>
+        <item>\u4e03</item>
+        <item>\u516b</item>
+        <item>\u4e5d</item>
     </string-array>
 
 </resources>
