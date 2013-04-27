@@ -141,7 +141,9 @@ public class ClockService extends IntentService {
         charsetReversLookupMap.put(getResources().getString(R.string.latin_charset), R.array.latin_digits);
         charsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
         charsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
-        Log.d(TAG, "charsetReversLookupMap");
+        charsetReversLookupMap.put(getResources().getString(R.string.hardmode_charset), R.array.hardmode_digits);
+        // charsetReversLookupMap.put(getResources().getString(R.string.khmer_charset),
+        // R.array.khmer_digits);
 
         // Force a read of the settings on first run.
         settingsChanged();

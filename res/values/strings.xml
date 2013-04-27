@@ -3,19 +3,24 @@
     <string name="app_name">ColorClock</string>
 
     <!-- String related to the charsets used for the digits -->
-    <string name="pref_charsets_title">Charset</string>
+    <string name="pref_charsets_title">Characters used to display digits</string>
     <string name="pref_charsets_summary">Digits displayed in %s</string>
     <string name="pref_charsets_dialog_title">Select character set for the digits</string>
     <string name="pref_charsets_key">pref_charsets_for_digits</string>
     <string name="latin_charset">Latin</string>
     <string name="arabic_charset">Arabic</string>
     <string name="chinese_charset">Chinese</string>
-
+    <string name="hardmode_charset">Hard mode</string>
+    <string name="khmer_charset">Khmer</string>
+    
     <string-array name="list_of_charsets">
         <item>@string/latin_charset</item>
         <item>@string/arabic_charset</item>
         <item>@string/chinese_charset</item>
+        <item>@string/hardmode_charset</item>
+        <!-- item>@string/khmer_charset</item-->
     </string-array>
+    
     <string-array name="latin_digits">
         <item>0</item>
         <item>1</item>
@@ -52,5 +57,29 @@
         <item>\u516b</item>
         <item>\u4e5d</item>
     </string-array>
-
+    <string-array name="hardmode_digits">
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+    </string-array>
+    <string-array name="khmer_digits">
+        <item>\u17E0</item>
+        <item>\u17E1</item>
+        <item>\u17E2</item>
+        <item>\u17E3</item>
+        <item>\u17E4</item>
+        <item>\u17E5</item>
+        <item>\u17E6</item>
+        <item>\u17E7</item>
+        <item>\u17E8</item>
+        <item>\u17E9</item>
+    </string-array>
+    
 </resources>

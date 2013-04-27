@@ -6,7 +6,10 @@ A clock widget for Android
 next step:
 
 implement settings:
+
 * settings for the 3 "base" colors  (h:m:s).
+
+* add khemer
 
 ideeas:
 
