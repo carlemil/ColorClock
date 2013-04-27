@@ -2,12 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <ListPreference
-        android:dialogTitle="@string/charsets_for_digits_dialog_title"
-        android:entries="@array/charsets_for_digits"
-        android:entryValues="@array/charsets_for_digits"
-        android:key="@string/pref_charsets_for_digits"
-        android:defaultValue="@string/charset_for_digits_latin"
-        android:summary="@string/charsets_for_digits_summary"
-        android:title="@string/charsets_for_digits_title" />
+        android:dialogTitle="@string/pref_charsets_dialog_title"
+        android:entries="@array/list_of_charsets"
+        android:entryValues="@array/list_of_charsets"
+        android:key="@string/pref_charsets_key"
+        android:defaultValue="@string/latin_charset"
+        android:summary="@string/pref_charsets_summary"
+        android:title="@string/pref_charsets_title" />
 
 </PreferenceScreen>

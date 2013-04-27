@@ -1,6 +1,8 @@
 package se.kjellstrand.colorclock.service;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import se.kjellstrand.colorclock.R;
 import se.kjellstrand.colorclock.activity.SettingsActivity;
@@ -11,6 +13,8 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -31,7 +35,7 @@ public class ClockService extends IntentService {
      */
     public static final String ACTION_UPDATE = "se.kjellstrand.colorclock.ACTION_UPDATE";
 
-    private static boolean sDidSettingsChange = false;
+    private static boolean sSettingsChanged = false;
 
     /**
      * List of the ids on the digit views.
@@ -40,6 +44,8 @@ public class ClockService extends IntentService {
             R.id.digit_0, R.id.digit_1, R.id.digit_2, R.id.digit_3, R.id.digit_4, R.id.digit_5, R.id.digit_6,
             R.id.digit_7, R.id.digit_8, R.id.digit_9
     };
+
+    private final static Map<String, Integer> charsetReversLookupMap = new HashMap<String, Integer>();
 
     /**
      * Holds the current colors of each digit, used while calculating the color
@@ -127,12 +133,24 @@ public class ClockService extends IntentService {
         super(TAG);
     }
 
+    /* @Override public void onCreate() { Log.d(TAG, "onCreate()"); //
+     * charsetReversLookupMap.clear(); //
+     * charsetReversLookupMap.put(getResources
+     * ().getString(R.string.latin_charset), // R.array.latin_digits); //
+     * charsetReversLookupMap
+     * .put(getResources().getString(R.string.arabic_charset), //
+     * R.array.arabic_digits); //
+     * charsetReversLookupMap.put(getResources().getString
+     * (R.string.chinese_charset), // R.array.chinese_digits); Log.d(TAG,
+     * "charsetReversLookupMap"); // Force a read of the settings on first run.
+     * settingsChanged(); } */
+
     /**
      * Call when the settings have changed to trigger a re-read of the shared
      * prefs / settings.
      */
     public static void settingsChanged() {
-        sDidSettingsChange = true;
+        sSettingsChanged = false;
     }
 
     @Override
@@ -141,11 +159,14 @@ public class ClockService extends IntentService {
             mDefaultDigitBackgrundColor = getResources().getColor(R.color.default_digit_background_color);
         }
 
-        if (sDidSettingsChange) {
-            sDidSettingsChange = false;
-            Log.d(TAG, "Settings changed.");
+        if (mManager == null) {
+            mManager = AppWidgetManager.getInstance(this);
         }
 
+        if (mComponentName == null) {
+            mComponentName = new ComponentName(this, ClockAppWidgetProvider.class);
+        }
+        Log.d(TAG, "onHandleIntent()");
         if (intent.getAction().equals(ACTION_UPDATE)) {
             Calendar now = Calendar.getInstance();
             updateAllViews(now);
@@ -158,12 +179,6 @@ public class ClockService extends IntentService {
      * @param calendar the time used for the update.
      */
     private void updateAllViews(Calendar calendar) {
-        if (mManager == null) {
-            mManager = AppWidgetManager.getInstance(this);
-        }
-        if (mComponentName == null) {
-            mComponentName = new ComponentName(this, ClockAppWidgetProvider.class);
-        }
         int[] appIds = mManager.getAppWidgetIds(mComponentName);
         for (int id : appIds) {
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.color_clock);
@@ -174,7 +189,32 @@ public class ClockService extends IntentService {
                     PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
+            if (sSettingsChanged) {
+                // updateSettingsFromSharedPrefs(remoteViews);
+            }
+
             mManager.updateAppWidget(id, remoteViews);
+        }
+        sSettingsChanged = false;
+    }
+
+    /**
+     * Reads and applies all settings from shared prefs.
+     * 
+     * @param remoteViews
+     */
+    private void updateSettingsFromSharedPrefs(RemoteViews remoteViews) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String newCharSet = sharedPreferences.getString(getResources().getString(R.string.pref_charsets_key),
+                getResources().getString(R.string.latin_charset));
+        Log.d(TAG, "newCharSet: " + newCharSet);
+
+        int newCharSetId = charsetReversLookupMap.get(newCharSet);
+        String[] chars = getResources().getStringArray(newCharSetId);
+
+        for (int i = 0; i < chars.length; i++) {
+            Log.d(TAG, "digit: " + chars[i]);
+            remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
         }
     }
 

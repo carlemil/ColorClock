@@ -3,18 +3,54 @@
     <string name="app_name">ColorClock</string>
 
     <!-- String related to the charsets used for the digits -->
-    <string name="charsets_for_digits_title">Charset</string>
-    <string name="charsets_for_digits_summary">Digits displayed in %s</string>
-    <string name="charsets_for_digits_dialog_title">Select character set for the digits</string>
-    <string name="pref_charsets_for_digits">pref_charsets_for_digits</string>
-    <string name="charset_for_digits_latin">Latin</string>
-    <string name="charset_for_digits_arabic">Arabic</string>
-    <string name="charset_for_digits_chinese">Chinese</string>
+    <string name="pref_charsets_title">Charset</string>
+    <string name="pref_charsets_summary">Digits displayed in %s</string>
+    <string name="pref_charsets_dialog_title">Select character set for the digits</string>
+    <string name="pref_charsets_key">pref_charsets_for_digits</string>
+    <string name="latin_charset">Latin</string>
+    <string name="arabic_charset">Arabic</string>
+    <string name="chinese_charset">Chinese</string>
 
-    <string-array name="charsets_for_digits">
-        <item>@string/charset_for_digits_latin</item>
-        <item>@string/charset_for_digits_arabic</item>
-        <item>@string/charset_for_digits_chinese</item>
+    <string-array name="list_of_charsets">
+        <item>@string/latin_charset</item>
+        <item>@string/arabic_charset</item>
+        <item>@string/chinese_charset</item>
+    </string-array>
+    <string-array name="latin_digits">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+    <string-array name="arabic_digits">
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+        <item>d</item>
+        <item>e</item>
+        <item>f</item>
+        <item>g</item>
+        <item>h</item>
+        <item>i</item>
+        <item>j</item>
+    </string-array>
+    <string-array name="chinese_digits">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
     </string-array>
 
 </resources>

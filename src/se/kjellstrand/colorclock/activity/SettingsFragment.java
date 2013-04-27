@@ -31,12 +31,12 @@ public class SettingsFragment extends PreferenceFragment {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
             // Handle updates of the Charset setting.
-            String prefCharsetForDigitsKey = getActivity().getResources().getString(R.string.pref_charsets_for_digits);
+            String prefCharsetForDigitsKey = getActivity().getResources().getString(R.string.pref_charsets_key);
             if (key.equals(prefCharsetForDigitsKey)) {
                 Preference charsetPref = findPreference(key);
                 String charset = sharedPreferences.getString(key,
-                        getResources().getString(R.string.charset_for_digits_latin));
-                String format = getResources().getString(R.string.charsets_for_digits_summary);
+                        getResources().getString(R.string.latin_charset));
+                String format = getResources().getString(R.string.pref_charsets_summary);
                 // Set summary to be the user-description for the selected value
                 charsetPref.setSummary(String.format(format, charset));
             }
