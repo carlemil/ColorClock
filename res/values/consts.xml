@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <integer name="default_digit_shadow_dx">0</integer>
+    <integer name="default_digit_shadow_dy">0</integer>
+    <integer name="default_digit_shadow_radius">3</integer>
+            
+</resources>

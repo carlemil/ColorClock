@@ -3,8 +3,8 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:clickable="true"
+    android:gravity="center"
     android:padding="@dimen/widget_margin" >
 
     <TextView
@@ -15,6 +15,10 @@
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/digit_margin"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="0"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -28,6 +32,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_0"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="1"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -41,6 +49,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_1"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="2"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -54,6 +66,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_2"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="3"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -67,6 +83,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_3"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="4"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -80,6 +100,10 @@
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/digit_margin"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="5"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -94,6 +118,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_5"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="6"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -108,6 +136,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_6"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="7"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -122,6 +154,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_7"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="8"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />
@@ -136,6 +172,10 @@
         android:layout_margin="@dimen/digit_margin"
         android:layout_toRightOf="@+id/digit_8"
         android:gravity="center_horizontal|center_vertical"
+        android:shadowColor="@color/default_digit_shadow_color"
+        android:shadowDx="@integer/default_digit_shadow_dx"
+        android:shadowDy="@integer/default_digit_shadow_dy"
+        android:shadowRadius="@integer/default_digit_shadow_radius"
         android:text="9"
         android:textColor="@color/default_digit_color"
         android:textSize="@dimen/digit_font_size" />

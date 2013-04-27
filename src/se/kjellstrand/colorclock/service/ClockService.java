@@ -217,7 +217,9 @@ public class ClockService extends IntentService {
         for (int i = 0; i < chars.length; i++) {
             Log.d(TAG, "digit: " + chars[i]);
             remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
+
         }
+
     }
 
     /**

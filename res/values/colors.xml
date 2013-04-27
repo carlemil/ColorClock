@@ -2,5 +2,6 @@
 <resources>
     <color name="default_digit_background_color">#999999</color>
     <color name="default_digit_color">#f0f0f0 </color>
+    <color name="default_digit_shadow_color">#ff000000 </color>
     
 </resources>

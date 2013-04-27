@@ -4,5 +4,5 @@
     <dimen name="digit_margin">2dip</dimen>
     <dimen name="digit_box_size">24dip</dimen>
     <dimen name="digit_font_size">14sp</dimen>
-    
+
 </resources>
