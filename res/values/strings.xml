@@ -29,16 +29,16 @@
         <item>9</item>
     </string-array>
     <string-array name="arabic_digits">
-        <item>a</item>
-        <item>b</item>
-        <item>c</item>
-        <item>d</item>
-        <item>e</item>
-        <item>f</item>
-        <item>g</item>
-        <item>h</item>
-        <item>i</item>
-        <item>j</item>
+        <item>\u0660</item>
+        <item>\u0661</item>
+        <item>\u0662</item>
+        <item>\u0663</item>
+        <item>\u0664</item>
+        <item>\u0665</item>
+        <item>\u0666</item>
+        <item>\u0667</item>
+        <item>\u0668</item>
+        <item>\u0669</item>
     </string-array>
     <string-array name="chinese_digits">
         <item>0</item>
