@@ -133,24 +133,26 @@ public class ClockService extends IntentService {
         super(TAG);
     }
 
-    /* @Override public void onCreate() { Log.d(TAG, "onCreate()"); //
-     * charsetReversLookupMap.clear(); //
-     * charsetReversLookupMap.put(getResources
-     * ().getString(R.string.latin_charset), // R.array.latin_digits); //
-     * charsetReversLookupMap
-     * .put(getResources().getString(R.string.arabic_charset), //
-     * R.array.arabic_digits); //
-     * charsetReversLookupMap.put(getResources().getString
-     * (R.string.chinese_charset), // R.array.chinese_digits); Log.d(TAG,
-     * "charsetReversLookupMap"); // Force a read of the settings on first run.
-     * settingsChanged(); } */
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate()");
+        charsetReversLookupMap.clear();
+        charsetReversLookupMap.put(getResources().getString(R.string.latin_charset), R.array.latin_digits);
+        charsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
+        charsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
+        Log.d(TAG, "charsetReversLookupMap");
+
+        // Force a read of the settings on first run.
+        settingsChanged();
+    }
 
     /**
      * Call when the settings have changed to trigger a re-read of the shared
      * prefs / settings.
      */
     public static void settingsChanged() {
-        sSettingsChanged = false;
+        sSettingsChanged = true;
     }
 
     @Override
@@ -166,7 +168,7 @@ public class ClockService extends IntentService {
         if (mComponentName == null) {
             mComponentName = new ComponentName(this, ClockAppWidgetProvider.class);
         }
-        Log.d(TAG, "onHandleIntent()");
+
         if (intent.getAction().equals(ACTION_UPDATE)) {
             Calendar now = Calendar.getInstance();
             updateAllViews(now);
@@ -190,7 +192,7 @@ public class ClockService extends IntentService {
             remoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
             if (sSettingsChanged) {
-                // updateSettingsFromSharedPrefs(remoteViews);
+                updateSettingsFromSharedPrefs(remoteViews);
             }
 
             mManager.updateAppWidget(id, remoteViews);
