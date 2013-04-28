@@ -1,3 +1,5 @@
+Add support for api 9: fragment and support lib have been sorted out.
+
 implement settings:
 
 * settings themes for the 3 "base" colors (h:m:s). (possibly a color picker if there is one ready to use.)
