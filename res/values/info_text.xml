@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="info_text_title">"Whats this?"</string>
+    <string name="info_text_part_1">"This widget takes a different approach to displaying time. Hours, Minutes and Seconds are displayed using one color each. By default, Red for Hours, Green for Minutes and Blue for Seconds. Denoting the 10's with a brighter tone.\nHave a look at the screenshot above to get an better idea for how to read this clock. The screenshot shows the widget at 14:02:36 o'clock."</string>
+    <string name="info_text_part_2">"If you like to see the digits displayed using Arabic, Chiese/Japanes numerals, or just have the boxes empty, just click the widget to popup the settings page."</string>
+    <string name="info_text_part_3">"Reorganizing the boxes from the screenshot we can see the time a bit easier.\n\nStill finding it difficult to read this clock? That's ok, this clock is not supposed to be easy to read. Actually, I set out to achieve the opposite.\n//Carl"</string>
+</resources>
