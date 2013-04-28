@@ -1,0 +1,15 @@
+implement settings:
+
+* settings themes for the 3 "base" colors (h:m:s). (possibly a color picker if there is one ready to use.)
+
+* add Khemer font if possible
+
+* toggle for showing seconds ?
+
+ideeas:
+
+* use gradients as backgrounds allowing for 3 different colors to blend in one digit, h:m:s style, will not work on remote views :(
+
+* multiple layouts to select from.
+
+
