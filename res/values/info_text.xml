@@ -3,7 +3,7 @@
 
     <string name="info_text_title">"What's this?"</string>
     <string name="info_text_part_1">"This is not an app but a widget. So add it to your home screen to see it. Once added, you will see something like this:"</string>
-    <string name="info_text_part_2">"The time on the screenshot above is 14:02:36 o'clock. Red for Hours, Green for Minutes and Blue for Seconds. The tens digits are slightly brighter than the ones digits. Moving the boxes around, the above example reads like this:"</string>
+    <string name="info_text_part_2">"The time on the screenshot above is 14:02:36 o'clock. Red for Hours, Green for Minutes and Blue for Seconds. The tens digits are slightly brighter than the ones. Moving the boxes around, the above example reads like this:"</string>
     <string name="info_text_part_3">"Change to Arabic, Chinese numerals, or Blank by tapping the widget to pop-up the settings page."</string>
 
 </resources>
