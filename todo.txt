@@ -1,6 +1,8 @@
 Add support for api 9: fragment and support lib have been sorted out.
 
-implement settings:
+next in line:
+
+* CLEANUP !
 
 * settings themes for the 3 "base" colors (h:m:s). (possibly a color picker if there is one ready to use.)
 
@@ -8,10 +10,11 @@ implement settings:
 
 * toggle for showing seconds ?
 
-ideeas:
+* multiple layouts to select from.
+
+
+scrapped ideas:
 
 * use gradients as backgrounds allowing for 3 different colors to blend in one digit, h:m:s style, will not work on remote views :(
-
-* multiple layouts to select from.
 
 
