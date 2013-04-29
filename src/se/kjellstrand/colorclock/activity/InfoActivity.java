@@ -3,6 +3,9 @@ package se.kjellstrand.colorclock.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * Opens up the info fragment.
+ */
 public class InfoActivity extends Activity {
 
     @Override

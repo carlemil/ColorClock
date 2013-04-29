@@ -53,12 +53,12 @@ public class ColorUtil {
      *        left in the Secondary color.
      * @return the secondary color.
      */
-    public static int getSecondaryColorFromPrimaryColor(int color,
-            double secondaryColorStrength) {
+    public static int getSecondaryColorFromPrimaryColor(int color, double secondaryColorStrength) {
         // Retain the alpha channel
         return ((color & ALPHA_MASK)
                 + ((int) ((color & RED_MASK) * secondaryColorStrength) & RED_MASK)
-                + ((int) ((color & GREEN_MASK) * secondaryColorStrength) & GREEN_MASK) + ((int) ((color & BLUE_MASK) * secondaryColorStrength) & BLUE_MASK));
+                + ((int) ((color & GREEN_MASK) * secondaryColorStrength) & GREEN_MASK)
+                + ((int) ((color & BLUE_MASK) * secondaryColorStrength) & BLUE_MASK));
     }
 
     /**

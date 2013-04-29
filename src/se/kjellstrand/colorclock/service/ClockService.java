@@ -35,6 +35,10 @@ public class ClockService extends IntentService {
      */
     public static final String ACTION_UPDATE = "se.kjellstrand.colorclock.ACTION_UPDATE";
 
+    /**
+     * If sSettingsChanged is true, we should re-read the settings on next
+     * update of the clock. If sSettingsChanged is false, do nothing special.
+     */
     private static boolean sSettingsChanged = false;
 
     /**
@@ -45,6 +49,10 @@ public class ClockService extends IntentService {
             R.id.digit_7, R.id.digit_8, R.id.digit_9
     };
 
+    /**
+     * A map from name of charsets to the R.array id containing the actual
+     * digits of the charset.
+     */
     private final static Map<String, Integer> charsetReversLookupMap = new HashMap<String, Integer>();
 
     /**
@@ -142,8 +150,8 @@ public class ClockService extends IntentService {
         charsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
         charsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
         charsetReversLookupMap.put(getResources().getString(R.string.hardmode_charset), R.array.hardmode_digits);
-        // charsetReversLookupMap.put(getResources().getString(R.string.khmer_charset),
-        // R.array.khmer_digits);
+        // Not supported by the default Android font
+        charsetReversLookupMap.put(getResources().getString(R.string.khmer_charset), R.array.khmer_digits);
 
         // Force a read of the settings on first run.
         settingsChanged();
@@ -211,15 +219,12 @@ public class ClockService extends IntentService {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String newCharSet = sharedPreferences.getString(getResources().getString(R.string.pref_charsets_key),
                 getResources().getString(R.string.latin_charset));
-        Log.d(TAG, "newCharSet: " + newCharSet);
 
         int newCharSetId = charsetReversLookupMap.get(newCharSet);
         String[] chars = getResources().getStringArray(newCharSetId);
 
         for (int i = 0; i < chars.length; i++) {
-            Log.d(TAG, "digit: " + chars[i]);
             remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
-
         }
 
     }
@@ -238,6 +243,7 @@ public class ClockService extends IntentService {
             mDefaultDigitBackgrundColor = getResources().getColor(R.color.default_digit_background_color);
         }
 
+        // Find out what boxes are 'active'
         int hoursX0 = calendar.get(Calendar.HOUR_OF_DAY) / 10;
         int hours0X = calendar.get(Calendar.HOUR_OF_DAY) % 10;
         int minutesX0 = calendar.get(Calendar.MINUTE) / 10;
@@ -245,10 +251,12 @@ public class ClockService extends IntentService {
         int secondsX0 = calendar.get(Calendar.SECOND) / 10;
         int seconds0X = calendar.get(Calendar.SECOND) % 10;
 
+        // Reset all boxes to zero/black.
         for (int i = 0; i <= 9; i++) {
             mDigitsColor[i] = 0;
         }
 
+        // Update the color of the boxes with 'active' digits in them..
         mDigitsColor[hoursX0] = setOrBlendDigitColorWithColor(mDigitsColor[hoursX0], mPrimaryHourColor);
         mDigitsColor[hours0X] = setOrBlendDigitColorWithColor(mDigitsColor[hours0X], mSecondaryHourColor);
         mDigitsColor[minutesX0] = setOrBlendDigitColorWithColor(mDigitsColor[minutesX0], mPrimaryMinuteColor);
@@ -256,6 +264,7 @@ public class ClockService extends IntentService {
         mDigitsColor[secondsX0] = setOrBlendDigitColorWithColor(mDigitsColor[secondsX0], mPrimarySecondColor);
         mDigitsColor[seconds0X] = setOrBlendDigitColorWithColor(mDigitsColor[seconds0X], mSecondarySecondColor);
 
+        // For boxes without a color, set the default background color.
         for (int i = 0; i <= 9; i++) {
             if (mDigitsColor[i] == 0) {
                 mDigitsColor[i] = mDefaultDigitBackgrundColor;
@@ -264,7 +273,6 @@ public class ClockService extends IntentService {
 
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
-            //
             remoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor", mDigitsColor[i]);
         }
     }

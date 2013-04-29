@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Inflates and shows the info layout.
+ */
 public class InfoFragment extends Fragment {
 
     @Override

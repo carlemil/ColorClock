@@ -10,6 +10,11 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
+/**
+ * Inflates and shows the settings layout. Also handles updating of the settings
+ * view and callback to the ClockService to notify it about changes in the
+ * settings.
+ */
 public class SettingsFragment extends PreferenceFragment {
 
     @Override
@@ -25,7 +30,8 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     /**
-     * 
+     * Listens for changes in SharedPreference, handles updates of the ui and
+     * callback to the ClockService.
      */
     OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
         @Override

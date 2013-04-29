@@ -3,6 +3,9 @@ package se.kjellstrand.colorclock.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * Opens up the settings fragment.
+ */
 public class SettingsActivity extends Activity {
 
     @Override
