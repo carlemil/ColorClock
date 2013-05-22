@@ -3,9 +3,9 @@
     <string name="app_name">Color Coded Clock</string>
 
     <!-- String related to the charsets used for the digits -->
-    <string name="pref_charsets_title">Characters used to display digits</string>
-    <string name="pref_charsets_summary">Digits displayed in %s</string>
-    <string name="pref_charsets_dialog_title">Select character set for the digits</string>
+    <string name="pref_charsets_title">Character set</string>
+    <string name="pref_charsets_summary">Current character set: %s</string>
+    <string name="pref_charsets_dialog_title">Select character</string>
     <string name="pref_charsets_key">pref_charsets_for_digits</string>
     <string name="latin_charset">Latin</string>
     <string name="arabic_charset">Arabic</string>
@@ -81,5 +81,8 @@
         <item>\u17E8</item>
         <item>\u17E9</item>
     </string-array>
+    
+    <!-- Info prefs -->
+    <string name="pref_info_title">Info</string>
     
 </resources>

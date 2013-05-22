@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <Preference android:title="@string/pref_info_title" >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="se.kjellstrand.colorclock.activity.InfoActivity"
+            android:targetPackage="se.kjellstrand.colorclock" />
+    </Preference>
+
     <ListPreference
+        android:defaultValue="@string/latin_charset"
         android:dialogTitle="@string/pref_charsets_dialog_title"
         android:entries="@array/list_of_charsets"
         android:entryValues="@array/list_of_charsets"
         android:key="@string/pref_charsets_key"
-        android:defaultValue="@string/latin_charset"
         android:summary="@string/pref_charsets_summary"
         android:title="@string/pref_charsets_title" />
 

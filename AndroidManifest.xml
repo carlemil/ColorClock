@@ -5,7 +5,7 @@
 
     <!-- Keep 11 until fragment and support lib have been sorted out. -->
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="7"
         android:targetSdkVersion="17" />
 
     <application
@@ -30,7 +30,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.INFO" />
             </intent-filter>
         </activity>
