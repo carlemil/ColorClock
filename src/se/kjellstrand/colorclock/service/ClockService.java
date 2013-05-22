@@ -15,7 +15,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 /**
@@ -144,7 +143,6 @@ public class ClockService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate()");
         charsetReversLookupMap.clear();
         charsetReversLookupMap.put(getResources().getString(R.string.latin_charset), R.array.latin_digits);
         charsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
