@@ -17,4 +17,11 @@
         android:summary="@string/pref_charsets_summary"
         android:title="@string/pref_charsets_title" />
 
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        alphaSlider="true"
+        android:defaultValue="@color/default_digit_background_color"
+        android:key="color1"
+        android:summary="color sumary"
+        android:title="color1_title" />
+
 </PreferenceScreen>
