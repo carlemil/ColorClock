@@ -71,51 +71,53 @@ public class ClockService extends IntentService {
      * the clock is 12:34:56 then the 1 would get this color as background
      * color.
      */
-    private int mPrimaryHourColor = 0xffff0000;
+    private static int mPrimaryHourColor = 0;
 
     /**
      * Minor color for hours, displayed on the second digit of the hours. So if
      * the clock is 12:34:56 then the 2 would get this color as background
      * color.
      */
-    private int mSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryHourColor,
-            mSecondaryColorStrength);
+    private static int mSecondaryHourColor = 0;
 
     /**
      * Major color for minutes, displayed on the first digit of the minutes. So
      * if the clock is 12:34:56 then the 3 would get this color as background
      * color.
      */
-    private int mPrimaryMinuteColor = 0xff00ff00;
+    private static int mPrimaryMinuteColor = 0;
 
     /**
      * Minor color for minutes, displayed on the second digit of the minutes. So
      * if the clock is 12:34:56 then the 4 would get this color as background
      * color.
      */
-    private int mSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor,
-            mSecondaryColorStrength);
+    private static int mSecondaryMinuteColor = 0;
 
     /**
      * Major color for seconds, displayed on the first digit of the seconds. So
      * if the clock is 12:34:56 then the 5 would get this color as background
      * color.
      */
-    private int mPrimarySecondColor = 0xff0000ff;
+    private static int mPrimarySecondColor = 0;
 
     /**
      * Minor color for seconds, displayed on the second digit of the seconds. So
      * if the clock is 12:34:56 then the 6 would get this color as background
      * color.
      */
-    private int mSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimarySecondColor,
-            mSecondaryColorStrength);
+    private static int mSecondarySecondColor = 0;
+
+    /**
+     * What color will digits have.
+     */
+    private static int mDefaultDigitColor = 0;
 
     /**
      * What color will digits without a specific background set get, starts
      * uninitialised.
      */
-    private int mDefaultDigitBackgrundColor = 0;
+    private static int mDefaultBackgrundColor = 0;
 
     /**
      * Manager of this widget.
@@ -165,9 +167,10 @@ public class ClockService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (mDefaultDigitBackgrundColor == 0) {
-            mDefaultDigitBackgrundColor = getResources().getColor(R.color.default_digit_background_color);
-        }
+        // if (mDefaultDigitBackgrundColor == 0) {
+        // mDefaultDigitBackgrundColor =
+        // getResources().getColor(R.color.default_background_color);
+        // }
 
         if (mManager == null) {
             mManager = AppWidgetManager.getInstance(this);
@@ -189,6 +192,7 @@ public class ClockService extends IntentService {
      * @param calendar the time used for the update.
      */
     private void updateAllViews(Calendar calendar) {
+
         int[] appIds = mManager.getAppWidgetIds(mComponentName);
         for (int id : appIds) {
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.color_clock);
@@ -200,20 +204,45 @@ public class ClockService extends IntentService {
             remoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
             if (sSettingsChanged) {
-                updateSettingsFromSharedPrefs(remoteViews);
+                updateCharSetFromSharedPrefs(remoteViews);
             }
 
             mManager.updateAppWidget(id, remoteViews);
+        }
+        if (sSettingsChanged) {
+            updateColorsFromSharedPrefs();
         }
         sSettingsChanged = false;
     }
 
     /**
-     * Reads and applies all settings from shared prefs.
+     * Sets the colors found in the shared prefs.
+     */
+    private void updateColorsFromSharedPrefs() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mPrimaryHourColor = sharedPreferences.getInt(getResources().getString(R.string.pref_hour_color_key), 0);
+        mPrimaryMinuteColor = sharedPreferences.getInt(getResources().getString(R.string.pref_minute_color_key), 0);
+        mPrimarySecondColor = sharedPreferences.getInt(getResources().getString(R.string.pref_second_color_key), 0);
+
+        mSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryHourColor,
+                mSecondaryColorStrength);
+        mSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor,
+                mSecondaryColorStrength);
+        mSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimarySecondColor,
+                mSecondaryColorStrength);
+
+        mDefaultBackgrundColor = sharedPreferences.getInt(getResources().getString(R.string.pref_background_color_key),
+                0);
+        mDefaultDigitColor = sharedPreferences.getInt(getResources().getString(R.string.pref_digit_color_key), 0);
+    }
+
+    /**
+     * Sets the charset found in the shared prefs to all remote views.
      * 
      * @param remoteViews
      */
-    private void updateSettingsFromSharedPrefs(RemoteViews remoteViews) {
+    private void updateCharSetFromSharedPrefs(RemoteViews remoteViews) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String newCharSet = sharedPreferences.getString(getResources().getString(R.string.pref_charsets_key),
                 getResources().getString(R.string.latin_charset));
@@ -223,6 +252,7 @@ public class ClockService extends IntentService {
 
         for (int i = 0; i < chars.length; i++) {
             remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
+            remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], mDefaultDigitColor);
         }
 
     }
@@ -236,10 +266,6 @@ public class ClockService extends IntentService {
      *        default background color.
      */
     public void updateView(RemoteViews remoteViews, Calendar calendar) {
-
-        if (mDefaultDigitBackgrundColor == -1) {
-            mDefaultDigitBackgrundColor = getResources().getColor(R.color.default_digit_background_color);
-        }
 
         // Find out what boxes are 'active'
         int hoursX0 = calendar.get(Calendar.HOUR_OF_DAY) / 10;
@@ -265,7 +291,7 @@ public class ClockService extends IntentService {
         // For boxes without a color, set the default background color.
         for (int i = 0; i <= 9; i++) {
             if (mDigitsColor[i] == 0) {
-                mDigitsColor[i] = mDefaultDigitBackgrundColor;
+                mDigitsColor[i] = mDefaultBackgrundColor;
             }
         }
 
@@ -290,5 +316,4 @@ public class ClockService extends IntentService {
             return c2;
         }
     }
-
 }

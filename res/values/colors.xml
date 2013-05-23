@@ -2,8 +2,12 @@
 <resources>
     
     <color name="default_digit_border_color">#333333</color>
-    <color name="default_digit_background_color">#dddddd</color>
+    <color name="default_background_color">#dddddd</color>
     <color name="default_digit_color">#f0f0f0 </color>
     <color name="default_digit_shadow_color">#ff000000 </color>
+    
+    <color name="default_hour_color">#ff0000 </color>
+    <color name="default_minute_color">#00ff00 </color>
+    <color name="default_second_color">#0000ff </color>
     
 </resources>

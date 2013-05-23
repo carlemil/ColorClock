@@ -18,10 +18,34 @@
         android:title="@string/pref_charsets_title" />
 
     <net.margaritov.preference.colorpicker.ColorPickerPreference
-        alphaSlider="true"
-        android:defaultValue="@color/default_digit_background_color"
-        android:key="color1"
-        android:summary="color sumary"
-        android:title="color1_title" />
+        alphaSlider="false"
+        android:defaultValue="@color/default_digit_color"
+        android:key="@string/pref_digit_color_key"
+        android:summary="@string/pref_digit_color_summary"
+        android:title="@string/pref_digit_color_title" />
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        alphaSlider="false"
+        android:defaultValue="@color/default_background_color"
+        android:key="@string/pref_background_color_key"
+        android:summary="@string/pref_background_color_summary"
+        android:title="@string/pref_background_color_title" />
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        alphaSlider="false"
+        android:defaultValue="@color/default_hour_color"
+        android:key="@string/pref_hour_color_key"
+        android:summary="@string/pref_hour_color_summary"
+        android:title="@string/pref_hour_color_title" />
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        alphaSlider="false"
+        android:defaultValue="@color/default_minute_color"
+        android:key="@string/pref_minute_color_key"
+        android:summary="@string/pref_minute_color_summary"
+        android:title="@string/pref_minute_color_title" />
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        alphaSlider="false"
+        android:defaultValue="@color/default_second_color"
+        android:key="@string/pref_second_color_key"
+        android:summary="@string/pref_second_color_summary"
+        android:title="@string/pref_second_color_title" />
 
 </PreferenceScreen>

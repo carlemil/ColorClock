@@ -2,6 +2,23 @@
 
     <string name="app_name">Color Coded Clock</string>
 
+    <!-- String related to the colors used for the digits -->
+    <string name="pref_background_color_title">Background color</string>
+    <string name="pref_background_color_summary">Color of the background.</string>
+    <string name="pref_background_color_key">pref_background_color_key</string>
+    <string name="pref_digit_color_title">Digits color</string>
+    <string name="pref_digit_color_summary">Color of the digits.</string>
+    <string name="pref_digit_color_key">pref_digit_color_key</string>
+    <string name="pref_hour_color_title">Hour color</string>
+    <string name="pref_hour_color_summary">Color that indicates hour.</string>
+    <string name="pref_hour_color_key">pref_hour_color_key</string>
+    <string name="pref_minute_color_title">Minute color</string>
+    <string name="pref_minute_color_summary">Color that indicates minute.</string>
+    <string name="pref_minute_color_key">pref_minute_color_key</string>
+    <string name="pref_second_color_title">Second color</string>
+    <string name="pref_second_color_summary">Color that indicates second.</string>
+    <string name="pref_second_color_key">pref_second_color_key</string>
+
     <!-- String related to the charsets used for the digits -->
     <string name="pref_charsets_title">Character set</string>
     <string name="pref_charsets_summary">Current character set: %s</string>
@@ -12,15 +29,14 @@
     <string name="chinese_charset">Chinese</string>
     <string name="hardmode_charset">Hard mode</string>
     <string name="khmer_charset">Khmer</string>
-    
+
     <string-array name="list_of_charsets">
         <item>@string/latin_charset</item>
         <item>@string/arabic_charset</item>
         <item>@string/chinese_charset</item>
         <item>@string/hardmode_charset</item>
-        <!-- item>@string/khmer_charset</item-->
+        <!-- item>@string/khmer_charset</item -->
     </string-array>
-    
     <string-array name="latin_digits">
         <item>0</item>
         <item>1</item>
@@ -81,8 +97,8 @@
         <item>\u17E8</item>
         <item>\u17E9</item>
     </string-array>
-    
+
     <!-- Info prefs -->
     <string name="pref_info_title">Info</string>
-    
+
 </resources>

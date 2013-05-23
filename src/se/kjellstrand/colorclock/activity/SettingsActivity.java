@@ -1,29 +1,54 @@
 package se.kjellstrand.colorclock.activity;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
+import se.kjellstrand.colorclock.R;
+import se.kjellstrand.colorclock.service.ClockService;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 
 /**
  * Opens up the settings fragment.
  */
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends PreferenceActivity {
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @SuppressWarnings("deprecation")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Display the fragment as the main content.
-            getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
-        } else {
-            Intent intent = new Intent(this, InfoActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        // Load the preferences from an XML resource
+        addPreferencesFromResource(R.xml.preferences);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        prefs.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
     }
 
+    /**
+     * Listens for changes in SharedPreference, handles updates of the ui and
+     * callback to the ClockService.
+     */
+    OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            // Handle updates of the Charset setting.
+            String prefCharsetForDigitsKey = getResources().getString(R.string.pref_charsets_key);
+            if (key.equals(prefCharsetForDigitsKey)) {
+                @SuppressWarnings("deprecation")
+                Preference charsetPref = findPreference(key);
+                String charset = sharedPreferences.getString(key, getResources().getString(R.string.latin_charset));
+                String format = getResources().getString(R.string.pref_charsets_summary);
+                // Set summary to be the user-description for the selected
+                // value
+                charsetPref.setSummary(String.format(format, charset));
+            }
+
+            // Notify the service that at next update, it should re-read all its
+            // settings.
+            ClockService.settingsChanged();
+        }
+    };
 }
