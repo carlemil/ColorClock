@@ -1,6 +1,10 @@
 <resources>
 
     <string name="app_name">Color Coded Clock</string>
+    
+        <!-- Color Picker -->
+    <string name="dialog_color_picker">Color Picker</string>
+    <string name="press_color_to_apply">Press on Color to apply</string> 
 
     <!-- String related to the colors used for the digits -->
     <string name="pref_background_color_title">Background color</string>

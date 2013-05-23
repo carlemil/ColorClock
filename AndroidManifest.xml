@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="se.kjellstrand.colorclock"
-    android:versionCode="7"
-    android:versionName="1.06" >
+    android:versionCode="8"
+    android:versionName="1.07" >
 
     <!-- Keep 11 until fragment and support lib have been sorted out. -->
     <uses-sdk
