@@ -8,6 +8,13 @@
             android:targetPackage="se.kjellstrand.colorclock" />
     </Preference>
 
+    <Preference android:title="@string/pref_alarm_title" >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="se.kjellstrand.colorclock.activity.ShowAlarmActivity"
+            android:targetPackage="se.kjellstrand.colorclock" />
+    </Preference>
+    
     <ListPreference
         android:defaultValue="@string/latin_charset"
         android:dialogTitle="@string/pref_charsets_dialog_title"

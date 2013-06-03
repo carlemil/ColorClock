@@ -2,6 +2,7 @@ package se.kjellstrand.colorclock.activity;
 
 import se.kjellstrand.colorclock.R;
 import se.kjellstrand.colorclock.service.ClockService;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -32,11 +33,11 @@ public class SettingsActivity extends PreferenceActivity {
      * callback to the ClockService.
      */
     OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
+        @SuppressLint("InlinedApi")
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             // Handle updates of the Charset setting.
-            String prefCharsetForDigitsKey = getResources().getString(R.string.pref_charsets_key);
-            if (key.equals(prefCharsetForDigitsKey)) {
+            if (key.equals(getResources().getString(R.string.pref_charsets_key))) {
                 @SuppressWarnings("deprecation")
                 Preference charsetPref = findPreference(key);
                 String charset = sharedPreferences.getString(key, getResources().getString(R.string.latin_charset));

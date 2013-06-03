@@ -3,10 +3,11 @@
     android:versionCode="8"
     android:versionName="1.07" >
 
-    <!-- Keep 11 until fragment and support lib have been sorted out. -->
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="17" />
+
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -30,8 +31,13 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.INFO" />
             </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".activity.ShowAlarmActivity" >
         </activity>
         
         <activity
@@ -43,6 +49,7 @@
         <service android:name=".service.ClockService" >
             <intent-filter>
                 <action android:name="se.kjellstrand.colorclock.ACTION_UPDATE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
