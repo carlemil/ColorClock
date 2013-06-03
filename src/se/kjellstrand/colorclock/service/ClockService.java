@@ -151,7 +151,8 @@ public class ClockService extends IntentService {
         charsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
         charsetReversLookupMap.put(getResources().getString(R.string.hardmode_charset), R.array.hardmode_digits);
         // Not supported by the default Android font
-        charsetReversLookupMap.put(getResources().getString(R.string.khmer_charset), R.array.khmer_digits);
+        // charsetReversLookupMap.put(getResources().getString(R.string.khmer_charset),
+        // R.array.khmer_digits);
 
         // Force a read of the settings on first run.
         settingsChanged();
@@ -247,7 +248,15 @@ public class ClockService extends IntentService {
         String newCharSet = sharedPreferences.getString(getResources().getString(R.string.pref_charsets_key),
                 getResources().getString(R.string.latin_charset));
 
-        int newCharSetId = charsetReversLookupMap.get(newCharSet);
+        int newCharSetId = R.array.latin_digits;
+        // Fail safe for cases when the R.string.latin_charset strings have
+        // changed and wont be found in the hashmap.
+        if (newCharSet != null) {
+            Integer integer = charsetReversLookupMap.get(newCharSet);
+            if (integer != null) {
+                newCharSetId = integer;
+            }
+        }
         String[] chars = getResources().getStringArray(newCharSetId);
 
         for (int i = 0; i < chars.length; i++) {

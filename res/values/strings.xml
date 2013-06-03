@@ -30,16 +30,32 @@
     <!-- Info prefs -->
     <string name="pref_info_title">Info</string>
     
+    <!-- Blends -->
+    <string name="pref_blends_title">Blend</string>
+    <string name="pref_blends_summary">Current mode: %s</string>
+    <string name="pref_blends_dialog_title">Select color blend mode</string>
+    <string name="pref_blends_key">pref_blends</string>
+    <string name="normal_blend">Normal</string>
+    <string name="screen_blend">Screen</string>
+    <string name="multiply_blend">Multiply</string>
+    <!-- hard light, soft light, http://en.wikipedia.org/wiki/Blend_modes -->
+    
+    <string-array name="list_of_blends">
+        <item>@string/normal_blend</item>
+        <item>@string/screen_blend</item>
+        <item>@string/multiply_blend</item>
+    </string-array>
+    
     <!-- Charsets used for the digits -->
     <string name="pref_charsets_title">Character set</string>
-    <string name="pref_charsets_summary">Current character set: %s</string>
-    <string name="pref_charsets_dialog_title">Select character</string>
+    <string name="pref_charsets_summary">Current set: %s</string>
+    <string name="pref_charsets_dialog_title">Select character set</string>
     <string name="pref_charsets_key">pref_charsets_for_digits</string>
-    <string name="latin_charset">Latin</string>
-    <string name="arabic_charset">Arabic</string>
-    <string name="chinese_charset">Chinese</string>
+    <string name="latin_charset">1 2 3 4 5</string>
+    <string name="arabic_charset">\u0661 \u0662 \u0663 \u0664 \u0665</string>
+    <string name="chinese_charset">\u4e00 \u4e8c \u4e09 \u56db \u4e94</string>
     <string name="hardmode_charset">Hard mode</string>
-    <string name="khmer_charset">Khmer</string>
+    <!-- string name="khmer_charset">Khmer</string -->
 
     <string-array name="list_of_charsets">
         <item>@string/latin_charset</item>

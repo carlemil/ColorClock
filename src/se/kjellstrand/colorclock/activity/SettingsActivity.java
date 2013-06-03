@@ -23,9 +23,13 @@ public class SettingsActivity extends PreferenceActivity {
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        prefs.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+        mOnSharedPreferenceChangeListener.onSharedPreferenceChanged(sharedPreferences,
+                getResources().getString(R.string.pref_charsets_key));
+        mOnSharedPreferenceChangeListener.onSharedPreferenceChanged(sharedPreferences,
+                getResources().getString(R.string.pref_blends_key));
     }
 
     /**
@@ -45,6 +49,14 @@ public class SettingsActivity extends PreferenceActivity {
                 // Set summary to be the user-description for the selected
                 // value
                 charsetPref.setSummary(String.format(format, charset));
+            } else if (key.equals(getResources().getString(R.string.pref_blends_key))) {
+                @SuppressWarnings("deprecation")
+                Preference charsetPref = findPreference(key);
+                String blend = sharedPreferences.getString(key, getResources().getString(R.string.screen_blend));
+                String format = getResources().getString(R.string.pref_blends_summary);
+                // Set summary to be the user-description for the selected
+                // value
+                charsetPref.setSummary(String.format(format, blend));
             }
 
             // Notify the service that at next update, it should re-read all its
