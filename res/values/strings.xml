@@ -35,13 +35,13 @@
     <string name="pref_blends_summary">Current mode: %s</string>
     <string name="pref_blends_dialog_title">Select color blend mode</string>
     <string name="pref_blends_key">pref_blends</string>
-    <string name="normal_blend">Normal</string>
+    <string name="average_blend">Average</string>
     <string name="screen_blend">Screen</string>
     <string name="multiply_blend">Multiply</string>
     <!-- hard light, soft light, http://en.wikipedia.org/wiki/Blend_modes -->
     
     <string-array name="list_of_blends">
-        <item>@string/normal_blend</item>
+        <item>@string/average_blend</item>
         <item>@string/screen_blend</item>
         <item>@string/multiply_blend</item>
     </string-array>

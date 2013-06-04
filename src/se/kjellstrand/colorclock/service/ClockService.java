@@ -52,7 +52,12 @@ public class ClockService extends IntentService {
      * A map from name of charsets to the R.array id containing the actual
      * digits of the charset.
      */
-    private final static Map<String, Integer> charsetReversLookupMap = new HashMap<String, Integer>();
+    private final static Map<String, Integer> sCharsetReversLookupMap = new HashMap<String, Integer>();
+
+    /**
+     * A map from name of blendMode to the R.array id containing the actual .
+     */
+    private final static Map<String, Integer> sBlendModeReversLookupMap = new HashMap<String, Integer>();
 
     /**
      * Holds the current colors of each digit, used while calculating the color
@@ -120,6 +125,11 @@ public class ClockService extends IntentService {
     private static int mDefaultBackgrundColor = 0;
 
     /**
+     * Defines how the colors will be blended.
+     */
+    private static int sBlendMode = R.string.screen_blend;
+
+    /**
      * Manager of this widget.
      */
     private AppWidgetManager mManager;
@@ -145,14 +155,18 @@ public class ClockService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        charsetReversLookupMap.clear();
-        charsetReversLookupMap.put(getResources().getString(R.string.latin_charset), R.array.latin_digits);
-        charsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
-        charsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
-        charsetReversLookupMap.put(getResources().getString(R.string.hardmode_charset), R.array.hardmode_digits);
+        sCharsetReversLookupMap.clear();
+        sCharsetReversLookupMap.put(getResources().getString(R.string.latin_charset), R.array.latin_digits);
+        sCharsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
+        sCharsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
+        sCharsetReversLookupMap.put(getResources().getString(R.string.hardmode_charset), R.array.hardmode_digits);
         // Not supported by the default Android font
         // charsetReversLookupMap.put(getResources().getString(R.string.khmer_charset),
         // R.array.khmer_digits);
+
+        sBlendModeReversLookupMap.put(getResources().getString(R.string.screen_blend), R.string.screen_blend);
+        sBlendModeReversLookupMap.put(getResources().getString(R.string.multiply_blend), R.string.multiply_blend);
+        sBlendModeReversLookupMap.put(getResources().getString(R.string.average_blend), R.string.average_blend);
 
         // Force a read of the settings on first run.
         settingsChanged();
@@ -168,10 +182,6 @@ public class ClockService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // if (mDefaultDigitBackgrundColor == 0) {
-        // mDefaultDigitBackgrundColor =
-        // getResources().getColor(R.color.default_background_color);
-        // }
 
         if (mManager == null) {
             mManager = AppWidgetManager.getInstance(this);
@@ -212,8 +222,24 @@ public class ClockService extends IntentService {
         }
         if (sSettingsChanged) {
             updateColorsFromSharedPrefs();
+            updateBlendModeFromSharedPrefs();
         }
         sSettingsChanged = false;
+    }
+
+    /**
+     * Sets the blend mode according to shared preferences.
+     */
+    private void updateBlendModeFromSharedPrefs() {
+        String prefBlendKey = getResources().getString(R.string.pref_blends_key);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String blendLookupKey = sharedPreferences.getString(prefBlendKey, null);
+        Integer integerBlend = sBlendModeReversLookupMap.get(blendLookupKey);
+        if (integerBlend != null) {
+            sBlendMode = integerBlend;
+        } else {
+            sBlendMode = R.string.screen_blend;
+        }
     }
 
     /**
@@ -252,7 +278,7 @@ public class ClockService extends IntentService {
         // Fail safe for cases when the R.string.latin_charset strings have
         // changed and wont be found in the hashmap.
         if (newCharSet != null) {
-            Integer integer = charsetReversLookupMap.get(newCharSet);
+            Integer integer = sCharsetReversLookupMap.get(newCharSet);
             if (integer != null) {
                 newCharSetId = integer;
             }
@@ -319,10 +345,28 @@ public class ClockService extends IntentService {
      * @return a blend of the two color, unless above stated condition applies.
      */
     private int setOrBlendDigitColorWithColor(int c1, int c2) {
-        if (c1 != 0) {
-            return ColorUtil.screenBlendTwoColors(c1, c2);
-        } else {
-            return c2;
+        switch (sBlendMode) {
+            case R.string.screen_blend:
+                if (c1 != 0) {
+                    return ColorUtil.screenBlendTwoColors(c1, c2);
+                } else {
+                    return c2;
+                }
+
+            case R.string.multiply_blend:
+                if (c1 != 0) {
+                    return ColorUtil.multiplyBlendTwoColors(c1, c2);
+                } else {
+                    return c2;
+                }
+
+            case R.string.average_blend:
+                if (c1 != 0) {
+                    return ColorUtil.averageBlendTwoColors(c1, c2);
+                } else {
+                    return c2;
+                }
         }
+        return c1;
     }
 }

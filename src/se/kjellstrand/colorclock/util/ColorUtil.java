@@ -116,4 +116,31 @@ public class ColorUtil {
 
         return c;
     }
+
+    /**
+     * Blend of color c1 and c2 by applying f(c1, c2) = c1 * c2 per channel.
+     * 
+     * @param c1 first color to blend.
+     * @param c2 second color to blend.
+     * @return the result of blending color c1 and c2.
+     */
+    public static int multiplyBlendTwoColors(int c1, int c2) {
+        double a1 = Color.alpha(c1) / ((double) CHANNEL_MAX);
+        double r1 = Color.red(c1) / ((double) CHANNEL_MAX);
+        double g1 = Color.green(c1) / ((double) CHANNEL_MAX);
+        double b1 = Color.blue(c1) / ((double) CHANNEL_MAX);
+
+        double a2 = Color.alpha(c2) / ((double) CHANNEL_MAX);
+        double r2 = Color.red(c2) / ((double) CHANNEL_MAX);
+        double g2 = Color.green(c2) / ((double) CHANNEL_MAX);
+        double b2 = Color.blue(c2) / ((double) CHANNEL_MAX);
+
+        int a = (int) ((a1 * a2) * CHANNEL_MAX);
+        int r = (int) ((r1 * r2) * CHANNEL_MAX);
+        int g = (int) ((g1 * g2) * CHANNEL_MAX);
+        int b = (int) ((b1 * b2) * CHANNEL_MAX);
+        int c = Color.argb(a, r, g, b);
+
+        return c;
+    }
 }
