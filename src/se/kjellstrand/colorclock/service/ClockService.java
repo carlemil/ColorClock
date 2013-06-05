@@ -14,7 +14,10 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 /**
@@ -141,6 +144,13 @@ public class ClockService extends IntentService {
     private ComponentName mComponentName;
 
     /**
+     * Default layout to use.
+     */
+    private int mLayoutId;
+
+    private RemoteViews mRemoteViews;
+
+    /**
      * Code used to identify a request.
      */
     private static final int REQUEST_CODE = 760315;
@@ -205,26 +215,51 @@ public class ClockService extends IntentService {
     private void updateAllViews(Calendar calendar) {
 
         int[] appIds = mManager.getAppWidgetIds(mComponentName);
-        for (int id : appIds) {
-            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.color_clock);
-            updateView(remoteViews, calendar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && appIds != null && appIds.length > 0) {
+            Bundle options = mManager.getAppWidgetOptions(appIds[0]);
+            int height = options.getInt("appWidgetMaxHeight");
+            int width = options.getInt("appWidgetMaxWidth");
 
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+            Log.d(TAG, "options " + width + " x " + height);
+            int oldLayout = mLayoutId;
+            // tablet
+            // box - 364 x 238
+            // 1xl - 218 x 72
+            // 1xp - 72 x 238
 
-            if (sSettingsChanged) {
-                updateCharSetFromSharedPrefs(remoteViews);
+            // phone
+            // 1xl - 196 x 84
+            // 1xp - 90 x 184
+            // box - 196 x 184
+
+            if (width < height) {
+                mLayoutId = R.layout.color_clock_port;
+            } else {
+                mLayoutId = R.layout.color_clock_land;
             }
-
-            mManager.updateAppWidget(id, remoteViews);
+            if (oldLayout != mLayoutId) {
+                mRemoteViews = null;
+            }
         }
+        if (mRemoteViews == null) {
+            mRemoteViews = new RemoteViews(getPackageName(), mLayoutId);
+        }
+        updateView(mRemoteViews, calendar);
+
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+
         if (sSettingsChanged) {
+            updateCharSetFromSharedPrefs(mRemoteViews);
             updateColorsFromSharedPrefs();
             updateBlendModeFromSharedPrefs();
         }
+
         sSettingsChanged = false;
+
+        mManager.updateAppWidget(mComponentName, mRemoteViews);
     }
 
     /**

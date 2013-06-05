@@ -1,10 +1,10 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialKeyguardLayout="@layout/color_clock"
-    android:initialLayout="@layout/color_clock"
+    android:initialKeyguardLayout="@layout/color_clock_land"
+    android:initialLayout="@layout/color_clock_land"
     android:minHeight="40dp"
-    android:minWidth="110dp"
+    android:minWidth="40dp"
     android:previewImage="@drawable/ic_launcher"
-    android:resizeMode="none"
+    android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard" >
 
 </appwidget-provider>
