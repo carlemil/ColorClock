@@ -2,7 +2,8 @@
     android:initialKeyguardLayout="@layout/color_clock_land"
     android:initialLayout="@layout/color_clock_land"
     android:minHeight="40dp"
-    android:minWidth="40dp"
+    android:minWidth="110dp"
+    android:minResizeWidth="40dp"
     android:previewImage="@drawable/ic_launcher"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard" >

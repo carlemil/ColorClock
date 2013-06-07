@@ -146,8 +146,11 @@ public class ClockService extends IntentService {
     /**
      * Default layout to use.
      */
-    private int mLayoutId;
+    private static int sLayoutId = R.layout.color_clock_land;
 
+    /**
+     * Object holding references to our widgets views.
+     */
     private RemoteViews mRemoteViews;
 
     /**
@@ -221,7 +224,7 @@ public class ClockService extends IntentService {
             int width = options.getInt("appWidgetMaxWidth");
 
             Log.d(TAG, "options " + width + " x " + height);
-            int oldLayout = mLayoutId;
+            int oldLayout = sLayoutId;
             // tablet
             // box - 364 x 238
             // 1xl - 218 x 72
@@ -233,16 +236,16 @@ public class ClockService extends IntentService {
             // box - 196 x 184
 
             if (width < height) {
-                mLayoutId = R.layout.color_clock_port;
+                sLayoutId = R.layout.color_clock_port;
             } else {
-                mLayoutId = R.layout.color_clock_land;
+                sLayoutId = R.layout.color_clock_land;
             }
-            if (oldLayout != mLayoutId) {
+            if (oldLayout != sLayoutId) {
                 mRemoteViews = null;
             }
         }
         if (mRemoteViews == null) {
-            mRemoteViews = new RemoteViews(getPackageName(), mLayoutId);
+            mRemoteViews = new RemoteViews(getPackageName(), sLayoutId);
         }
         updateView(mRemoteViews, calendar);
 
