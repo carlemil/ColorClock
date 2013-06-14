@@ -14,7 +14,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -218,35 +217,20 @@ public class ClockService extends IntentService {
     private void updateAllViews(Calendar calendar) {
 
         int[] appIds = mManager.getAppWidgetIds(mComponentName);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && appIds != null && appIds.length > 0) {
-            Bundle options = mManager.getAppWidgetOptions(appIds[0]);
-            int height = options.getInt("appWidgetMaxHeight");
-            int width = options.getInt("appWidgetMaxWidth");
 
-            Log.d(TAG, "options " + width + " x " + height);
-            int oldLayout = sLayoutId;
-            // tablet
-            // box - 364 x 238
-            // 1xl - 218 x 72
-            // 1xp - 72 x 238
-
-            // phone
-            // 1xl - 196 x 84
-            // 1xp - 90 x 184
-            // box - 196 x 184
-
-            if (width < height) {
-                sLayoutId = R.layout.color_clock_port;
-            } else {
-                sLayoutId = R.layout.color_clock_land;
-            }
-            if (oldLayout != sLayoutId) {
-                mRemoteViews = null;
-            }
-        }
         if (mRemoteViews == null) {
-            mRemoteViews = new RemoteViews(getPackageName(), sLayoutId);
+            // See the dimensions and
+            Bundle options = mManager.getAppWidgetOptions(appIds[0]);
+
+            // Get min width and height.
+            int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+            int minHeight = options
+                    .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+            Log.d(TAG, "Changed dimensions " + minWidth + "  " + minHeight);
+
+            mRemoteViews = getRemoteViews(minWidth, minHeight);
         }
+
         updateView(mRemoteViews, calendar);
 
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -263,6 +247,44 @@ public class ClockService extends IntentService {
         sSettingsChanged = false;
 
         mManager.updateAppWidget(mComponentName, mRemoteViews);
+    }
+
+    /**
+     * Determine appropriate view based on width provided.
+     * 
+     * @param minWidth
+     * @param minHeight
+     * @return
+     */
+    private RemoteViews getRemoteViews(int minWidth, int minHeight) {
+        // First find out rows and columns based on width provided.
+        int rows = getCellsForSize(minHeight);
+        int columns = getCellsForSize(minWidth);
+        Log.d(TAG, "rows: " + rows + " cols: " + columns);
+
+        if (columns == rows) {
+            return new RemoteViews(getPackageName(),
+                    R.layout.color_clock_square);
+        } else if (columns < rows) {
+            return new RemoteViews(getPackageName(),
+                    R.layout.color_clock_port);
+        } else {
+            return new RemoteViews(getPackageName(),
+                    R.layout.color_clock_land);
+        }
+    }
+
+    private int getCellsForSize(int size) {
+        // According to google specifications.
+        if (size >= 250) {
+            return 4;
+        } else if (size >= 180) {
+            return 3;
+        } else if (size >= 110) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 
     /**
