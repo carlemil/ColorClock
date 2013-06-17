@@ -9,9 +9,9 @@
 
     <LinearLayout
         android:id="@+id/digit_0ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_margin="@dimen/digit_margin"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_margin="@dimen/digit_margin_2x1"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -27,17 +27,17 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="0"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_1ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_0ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_0ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -53,17 +53,17 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="1"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_2ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_1ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_1ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -79,17 +79,17 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="2"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_3ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_2ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_2ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -105,17 +105,17 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="3"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_4ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_3ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_3ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -131,17 +131,17 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="4"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_5ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_below="@+id/digit_0ll"
-        android:layout_margin="@dimen/digit_margin"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_toRightOf="@+id/digit_0ll"
+        android:layout_margin="@dimen/digit_margin_2x1"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -157,18 +157,18 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="5"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_6ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_below="@+id/digit_1ll"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_5ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_toRightOf="@+id/digit_1ll"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_5ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -184,18 +184,18 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="6"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_7ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_below="@+id/digit_2ll"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_6ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_toRightOf="@+id/digit_2ll"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_6ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -211,18 +211,18 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="7"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_8ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_below="@+id/digit_3ll"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_7ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_toRightOf="@+id/digit_3ll"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_7ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -238,18 +238,18 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="8"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/digit_9ll"
-        android:layout_width="@dimen/digit_box_border_size"
-        android:layout_height="@dimen/digit_box_border_size"
-        android:layout_below="@+id/digit_4ll"
-        android:layout_margin="@dimen/digit_margin"
-        android:layout_toRightOf="@+id/digit_8ll"
+        android:layout_width="@dimen/digit_box_border_size_2x1"
+        android:layout_height="@dimen/digit_box_border_size_2x1"
+        android:layout_toRightOf="@+id/digit_4ll"
+        android:layout_margin="@dimen/digit_margin_2x1"
+        android:layout_below="@+id/digit_8ll"
         android:background="@color/default_digit_border_color"
         android:gravity="center" >
 
@@ -265,9 +265,9 @@
             android:shadowDx="@integer/default_digit_shadow_dx"
             android:shadowDy="@integer/default_digit_shadow_dy"
             android:shadowRadius="@integer/default_digit_shadow_radius"
-            android:text=""
+            android:text="9"
             android:textColor="@color/default_digit_color"
-            android:textSize="@dimen/digit_font_size" />
+            android:textSize="@dimen/digit_font_size_2x1" />
     </LinearLayout>
 
 </RelativeLayout>

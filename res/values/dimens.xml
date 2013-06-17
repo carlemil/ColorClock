@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="widget_margin">0dip</dimen>
-    <dimen name="digit_margin">2dip</dimen>
+    <dimen name="digit_margin_1x1">0.5dip</dimen>
+    <dimen name="digit_margin_2x1">2dip</dimen>
+    <dimen name="digit_margin_2x2">2dip</dimen>
+
     <!-- dimen name="digit_box_size">24dip</dimen-->
-    <dimen name="digit_box_border_size">24dip</dimen>
-    <dimen name="digit_font_size">14sp</dimen>
-	<dimen name="digit_layout_margin">0.5dip</dimen>
+    <dimen name="digit_box_border_size_1x1">20dip</dimen>
+    <dimen name="digit_box_border_size_2x1">24dip</dimen>
+    <dimen name="digit_box_border_size_2x2">42dip</dimen>
+    <dimen name="digit_font_size_1x1">12sp</dimen>
+    <dimen name="digit_font_size_2x1">14sp</dimen>
+    <dimen name="digit_font_size_2x2">24sp</dimen>
+    <dimen name="digit_layout_margin">0.5dip</dimen>
 </resources>

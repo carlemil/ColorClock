@@ -145,7 +145,7 @@ public class ClockService extends IntentService {
     /**
      * Default layout to use.
      */
-    private static int sLayoutId = R.layout.color_clock_land;
+    private static int sLayoutId = R.layout.color_clock_2x1;
 
     /**
      * Object holding references to our widgets views.
@@ -252,9 +252,9 @@ public class ClockService extends IntentService {
     /**
      * Determine appropriate view based on width provided.
      * 
-     * @param minWidth
-     * @param minHeight
-     * @return
+     * @param minWidth minimum width of the widget.
+     * @param minHeight minimum height of the widget.
+     * @return The RemoteViews, updated to display the new resided layout.
      */
     private RemoteViews getRemoteViews(int minWidth, int minHeight) {
         // First find out rows and columns based on width provided.
@@ -263,14 +263,19 @@ public class ClockService extends IntentService {
         Log.d(TAG, "rows: " + rows + " cols: " + columns);
 
         if (columns == rows) {
+            if(columns==1){
             return new RemoteViews(getPackageName(),
-                    R.layout.color_clock_square);
+                    R.layout.color_clock_1x1);
+            }else {//if(columns==2){
+                return new RemoteViews(getPackageName(),
+                        R.layout.color_clock_2x2);
+            }
         } else if (columns < rows) {
             return new RemoteViews(getPackageName(),
-                    R.layout.color_clock_port);
+                    R.layout.color_clock_1x2);
         } else {
             return new RemoteViews(getPackageName(),
-                    R.layout.color_clock_land);
+                    R.layout.color_clock_2x1);
         }
     }
 
@@ -354,11 +359,9 @@ public class ClockService extends IntentService {
 
     /**
      * Updates the colors of the clock to a state representing "now".
-     * 
-     * @param calendar
-     * 
-     * @param context used to grab hold of some xml resource values such as
-     *        default background color.
+     *
+     * @param remoteViews The views used by the widget to display time.
+     * @param calendar Calendar used to display time.
      */
     public void updateView(RemoteViews remoteViews, Calendar calendar) {
 
