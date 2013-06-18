@@ -19,7 +19,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 /**
@@ -55,7 +54,7 @@ public class ClockService extends IntentService {
      * Holds the current colors of each digit, used while calculating the color
      * state of the clock in each update.
      */
-    private static final int[] S_DIGITS_COLOR = new int[10];
+    private static final int[] DIGITS_COLOR = new int[10];
 
     /**
      * A map from name of charsets to the R.array id containing the actual
@@ -69,20 +68,10 @@ public class ClockService extends IntentService {
     private static Map<String, Integer> sBlendModeReversLookupMap;
 
     /**
-     * Manager of this widget.
-     */
-    private  AppWidgetManager sManager = null;
-
-    /**
      * Name of the class + package, used to get the list of id's for the
      * instances of this widget.
      */
-    private  ComponentName sComponentName = null;
-
-    /**
-     * Object holding references to our widgets views.
-     */
-    private  RemoteViews sRemoteViews = null;
+    private static ComponentName sComponentName = null;
 
     /**
      * If sSettingsChanged is true, we should re-read the settings on next
@@ -156,6 +145,16 @@ public class ClockService extends IntentService {
     private static int sBlendMode = R.string.screen_blend;
 
     /**
+     * Manager of this widget.
+     */
+    private AppWidgetManager mManager = null;
+
+    /**
+     * Object holding references to our widgets views.
+     */
+    private RemoteViews mRemoteViews = null;
+
+    /**
      * Constructor
      */
     public ClockService() {
@@ -182,9 +181,7 @@ public class ClockService extends IntentService {
         }
 
         if (sSettingsChanged == null) {
-            Log.d(TAG, "oncreate " +sSettingsChanged);
-            sSettingsChanged = new Boolean(true);
-            Log.d(TAG, "oncreate2 " +sSettingsChanged);
+            sSettingsChanged = true;
         }
     }
 
@@ -199,9 +196,7 @@ public class ClockService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        //if (sManager == null) {
-            sManager = AppWidgetManager.getInstance(this);
-        //}
+        mManager = AppWidgetManager.getInstance(this);
 
         if (sComponentName == null) {
             sComponentName = new ComponentName(this, ClockAppWidgetProvider.class);
@@ -220,40 +215,38 @@ public class ClockService extends IntentService {
      */
     private void updateAllViews(Calendar calendar) {
 
-        int[] appIds = sManager.getAppWidgetIds(sComponentName);
-        if (sRemoteViews == null) {
+        int[] appIds = mManager.getAppWidgetIds(sComponentName);
+        if (mRemoteViews == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 // See the dimensions and
-                Bundle options = sManager.getAppWidgetOptions(appIds[0]);
+                Bundle options = mManager.getAppWidgetOptions(appIds[0]);
 
                 // Get min width and height.
                 int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
                 int minHeight = options
                         .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-                //Log.d(TAG, "Changed dimensions " + minWidth + "  " + minHeight);
-
-                sRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight);
+                mRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight);
             } else {
-                sRemoteViews = new RemoteViews(this.getPackageName(),
+                mRemoteViews = new RemoteViews(this.getPackageName(),
                         R.layout.color_clock_2x1);
             }
         }
 
-        updateView(sRemoteViews, calendar);
+        updateView(mRemoteViews, calendar);
 
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        sRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+        mRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
         if (sSettingsChanged) {
-            updateCharSetFromSharedPrefs(sRemoteViews);
+            updateCharSetFromSharedPrefs(mRemoteViews);
             updateColorsFromSharedPrefs();
             updateBlendModeFromSharedPrefs();
             sSettingsChanged = false;
         }
 
-        sManager.updateAppWidget(sComponentName, sRemoteViews);
+        mManager.updateAppWidget(sComponentName, mRemoteViews);
     }
 
     /**
@@ -297,7 +290,7 @@ public class ClockService extends IntentService {
     /**
      * Sets the charset found in the shared prefs to all remote views.
      *
-     * @param remoteViews
+     * @param remoteViews The views used by the widget to display time.
      */
     private void updateCharSetFromSharedPrefs(RemoteViews remoteViews) {
 
@@ -315,11 +308,9 @@ public class ClockService extends IntentService {
             }
         }
         String[] chars = getResources().getStringArray(newCharSetId);
-        Log.d(TAG, "updateCharSetFromSharedPrefs "+newCharSet+"  "+newCharSetId+"  "+chars);
         for (int i = 0; i < chars.length; i++) {
             remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
             remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], sDefaultDigitColor);
-            Log.d(TAG, "char "+chars[i]);
         }
 
     }
@@ -342,27 +333,27 @@ public class ClockService extends IntentService {
 
         // Reset all boxes to zero/black.
         for (int i = 0; i <= 9; i++) {
-            S_DIGITS_COLOR[i] = 0;
+            DIGITS_COLOR[i] = 0;
         }
 
         // Update the color of the boxes with 'active' digits in them..
-        S_DIGITS_COLOR[hoursX0] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[hoursX0], sPrimaryHourColor);
-        S_DIGITS_COLOR[hours0X] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[hours0X], sSecondaryHourColor);
-        S_DIGITS_COLOR[minutesX0] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[minutesX0], sPrimaryMinuteColor);
-        S_DIGITS_COLOR[minutes0X] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[minutes0X], sSecondaryMinuteColor);
-        S_DIGITS_COLOR[secondsX0] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[secondsX0], sPrimarySecondColor);
-        S_DIGITS_COLOR[seconds0X] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[seconds0X], sSecondarySecondColor);
+        DIGITS_COLOR[hoursX0] = setOrBlendDigitColorWithColor(DIGITS_COLOR[hoursX0], sPrimaryHourColor);
+        DIGITS_COLOR[hours0X] = setOrBlendDigitColorWithColor(DIGITS_COLOR[hours0X], sSecondaryHourColor);
+        DIGITS_COLOR[minutesX0] = setOrBlendDigitColorWithColor(DIGITS_COLOR[minutesX0], sPrimaryMinuteColor);
+        DIGITS_COLOR[minutes0X] = setOrBlendDigitColorWithColor(DIGITS_COLOR[minutes0X], sSecondaryMinuteColor);
+        DIGITS_COLOR[secondsX0] = setOrBlendDigitColorWithColor(DIGITS_COLOR[secondsX0], sPrimarySecondColor);
+        DIGITS_COLOR[seconds0X] = setOrBlendDigitColorWithColor(DIGITS_COLOR[seconds0X], sSecondarySecondColor);
 
         // For boxes without a color, set the default background color.
         for (int i = 0; i <= 9; i++) {
-            if (S_DIGITS_COLOR[i] == 0) {
-                S_DIGITS_COLOR[i] = sDefaultBackgrundColor;
+            if (DIGITS_COLOR[i] == 0) {
+                DIGITS_COLOR[i] = sDefaultBackgrundColor;
             }
         }
 
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
-            remoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor", S_DIGITS_COLOR[i]);
+            remoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor", DIGITS_COLOR[i]);
         }
     }
 

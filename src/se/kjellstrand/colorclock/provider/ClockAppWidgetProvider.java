@@ -45,7 +45,7 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d("TAG,", "update");
+        Log.d("TAG,", "onUpdate");
         this.mContext = context;
         this.mContext.startService(UPDATE_INTENT);
         createAlarm();

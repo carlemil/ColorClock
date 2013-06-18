@@ -4,9 +4,8 @@ import android.graphics.Color;
 
 /**
  * Class providing operations on argb colors represented by the int primitive.
- * 
+ *
  * @author erbsman
- * 
  */
 public class ColorUtil {
 
@@ -47,10 +46,10 @@ public class ColorUtil {
     /**
      * Take a color as input, multiply each of the rgb components by
      * mSecondaryColorStrength and return the new color that results from this.
-     * 
-     * @param color the primary color to pick rgb values from.
+     *
+     * @param color                  the primary color to pick rgb values from.
      * @param secondaryColorStrength controls how much of the Primary color is
-     *        left in the Secondary color.
+     *                               left in the Secondary color.
      * @return the secondary color.
      */
     public static int getSecondaryColorFromPrimaryColor(int color, double secondaryColorStrength) {
@@ -64,7 +63,7 @@ public class ColorUtil {
     /**
      * Blend of color c1 and c2 by adding the components and dividing the
      * results with 2.
-     * 
+     *
      * @param c1 first color to blend.
      * @param c2 second color to blend.
      * @return the result of blending color c1 and c2.
@@ -92,7 +91,7 @@ public class ColorUtil {
     /**
      * Blend of color c1 and c2 by applying f(c1, c2) = 1 - (1 - c1) * (1 - c2)
      * per channel.
-     * 
+     *
      * @param c1 first color to blend.
      * @param c2 second color to blend.
      * @return the result of blending color c1 and c2.
@@ -119,7 +118,7 @@ public class ColorUtil {
 
     /**
      * Blend of color c1 and c2 by applying f(c1, c2) = c1 * c2 per channel.
-     * 
+     *
      * @param c1 first color to blend.
      * @param c2 second color to blend.
      * @return the result of blending color c1 and c2.
