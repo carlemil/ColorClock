@@ -32,7 +32,10 @@
 
     <!-- Share prefs -->
     <string name="pref_share_title">Share</string>
-    
+    <string name="sharing_text">Hey check out the EPIC Color Coded Clock at:
+        https://play.google.com/store/apps/details?id=se.kjellstrand.colorclock
+    </string>
+
     <!-- Blends -->
     <string name="pref_blends_title">Blend</string>
     <string name="pref_blends_summary">Current mode: %s</string>
@@ -58,7 +61,6 @@
     <string name="arabic_charset">\u0661 \u0662 \u0663 \u0664 \u0665</string>
     <string name="chinese_charset">\u4e00 \u4e8c \u4e09 \u56db \u4e94</string>
     <string name="hardmode_charset">Hard mode</string>
-    <!-- string name="khmer_charset">Khmer</string -->
 
     <string-array name="list_of_charsets">
         <item>@string/latin_charset</item>
@@ -114,18 +116,6 @@
         <item> </item>
         <item> </item>
         <item> </item>
-    </string-array>
-    <string-array name="khmer_digits">
-        <item>\u17E0</item>
-        <item>\u17E1</item>
-        <item>\u17E2</item>
-        <item>\u17E3</item>
-        <item>\u17E4</item>
-        <item>\u17E5</item>
-        <item>\u17E6</item>
-        <item>\u17E7</item>
-        <item>\u17E8</item>
-        <item>\u17E9</item>
     </string-array>
 
 </resources>
