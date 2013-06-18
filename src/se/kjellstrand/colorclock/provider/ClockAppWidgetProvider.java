@@ -19,16 +19,6 @@ import android.util.Log;
 public class ClockAppWidgetProvider extends AppWidgetProvider {
 
     /**
-     * Tag for logging
-     */
-    private static final String TAG = ClockAppWidgetProvider.class.getName();
-
-    /**
-     * Intent sent to the service to trigger a update of the clock ui.
-     */
-    private static final Intent mUpdateIntent = new Intent(ClockService.ACTION_UPDATE);
-
-    /**
      * Constant for 1 second, in milliseconds.
      */
     private static final int ONE_SECOND = 1000;
@@ -39,6 +29,16 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
     private static final int REQUEST_CODE = 810528;
 
     /**
+     * Intent sent to the service to trigger a update of the clock ui.
+     */
+    private static final Intent UPDATE_INTENT = new Intent(ClockService.ACTION_UPDATE);
+
+    /**
+     * Tag for logging
+     */
+    private static final String TAG = ClockAppWidgetProvider.class.getName();
+
+    /**
      * The Context in which this receiver is running.
      */
     private Context mContext = null;
@@ -47,7 +47,7 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d("TAG,", "update");
         this.mContext = context;
-        this.mContext.startService(mUpdateIntent);
+        this.mContext.startService(UPDATE_INTENT);
         createAlarm();
     }
 
@@ -58,7 +58,7 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
         int[] remainingIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
 
         if (remainingIds == null || remainingIds.length <= 0) {
-            PendingIntent pendingIntent = PendingIntent.getService(context, REQUEST_CODE, mUpdateIntent,
+            PendingIntent pendingIntent = PendingIntent.getService(context, REQUEST_CODE, UPDATE_INTENT,
                     PendingIntent.FLAG_NO_CREATE);
             if (pendingIntent != null) {
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -78,10 +78,10 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
         date.set(Calendar.SECOND, 1);
         date.set(Calendar.MILLISECOND, 500);
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(mContext, REQUEST_CODE, mUpdateIntent,
+        PendingIntent pendingIntent = PendingIntent.getService(mContext, REQUEST_CODE, UPDATE_INTENT,
                 PendingIntent.FLAG_NO_CREATE);
         if (pendingIntent == null) {
-            pendingIntent = PendingIntent.getService(mContext, REQUEST_CODE, mUpdateIntent,
+            pendingIntent = PendingIntent.getService(mContext, REQUEST_CODE, UPDATE_INTENT,
                     PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.setRepeating(AlarmManager.RTC, date.getTimeInMillis(), ONE_SECOND, pendingIntent);
             Log.d(TAG, "Alarm created.");

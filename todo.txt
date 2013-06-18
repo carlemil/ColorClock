@@ -1,22 +1,8 @@
-Add support for api 9: fragment and support lib have been sorted out.
 
-next in line:
+* SHARE !!!!
 
-
-* add Khemer font if possible
-
-* alarm
+* info screen, link to github
 
 * tablet settings ui
-
-* settings of layout
-
-* stretch scale layout
-
-* setting for color blend calc
-
-scrapped ideas:
-
-* use gradients as backgrounds allowing for 3 different colors to blend in one digit, h:m:s style, will not work on remote views :(
 
 

@@ -8,12 +8,15 @@ import se.kjellstrand.colorclock.R;
 import se.kjellstrand.colorclock.activity.SettingsActivity;
 import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
 import se.kjellstrand.colorclock.util.ColorUtil;
+import se.kjellstrand.colorclock.util.RemoteViewUtils;
+
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -22,7 +25,6 @@ import android.widget.RemoteViews;
 /**
  * A service that updates the clock widget whenever the updateAllViews method is
  * called.
- * 
  */
 public class ClockService extends IntentService {
 
@@ -37,125 +39,121 @@ public class ClockService extends IntentService {
     public static final String ACTION_UPDATE = "se.kjellstrand.colorclock.ACTION_UPDATE";
 
     /**
-     * If sSettingsChanged is true, we should re-read the settings on next
-     * update of the clock. If sSettingsChanged is false, do nothing special.
-     */
-    private static boolean sSettingsChanged = false;
-
-    /**
      * List of the ids on the digit views.
      */
-    private final static int[] DIGIT_VIEWS_INDEX = new int[] {
+    private final static int[] DIGIT_VIEWS_INDEX = new int[]{
             R.id.digit_0, R.id.digit_1, R.id.digit_2, R.id.digit_3, R.id.digit_4, R.id.digit_5, R.id.digit_6,
             R.id.digit_7, R.id.digit_8, R.id.digit_9
     };
 
     /**
-     * A map from name of charsets to the R.array id containing the actual
-     * digits of the charset.
+     * Code used to identify a request.
      */
-    private final static Map<String, Integer> sCharsetReversLookupMap = new HashMap<String, Integer>();
-
-    /**
-     * A map from name of blendMode to the R.array id containing the actual .
-     */
-    private final static Map<String, Integer> sBlendModeReversLookupMap = new HashMap<String, Integer>();
+    private static final int REQUEST_CODE = 760315;
 
     /**
      * Holds the current colors of each digit, used while calculating the color
      * state of the clock in each update.
      */
-    private final int[] mDigitsColor = new int[10];
+    private static final int[] S_DIGITS_COLOR = new int[10];
+
+    /**
+     * A map from name of charsets to the R.array id containing the actual
+     * digits of the charset.
+     */
+    private static Map<String, Integer> sCharsetReversLookupMap;
+
+    /**
+     * A map from name of blendMode to the R.array id containing the actual .
+     */
+    private static Map<String, Integer> sBlendModeReversLookupMap;
+
+    /**
+     * Manager of this widget.
+     */
+    private  AppWidgetManager sManager = null;
+
+    /**
+     * Name of the class + package, used to get the list of id's for the
+     * instances of this widget.
+     */
+    private  ComponentName sComponentName = null;
+
+    /**
+     * Object holding references to our widgets views.
+     */
+    private  RemoteViews sRemoteViews = null;
+
+    /**
+     * If sSettingsChanged is true, we should re-read the settings on next
+     * update of the clock. If sSettingsChanged is false, do nothing special.
+     * Init to true to force a read on first run.
+     */
+    private static Boolean sSettingsChanged = null;
 
     /**
      * Determines how strong the secondary color is, the color showing (shown in
      * caps) hH:mM:sS.
      */
-    private double mSecondaryColorStrength = 0.7d;
+    private static double sSecondaryColorStrength = 0.7d;
 
     /**
      * Major color for hours, displayed on the first digit of the hours. So if
      * the clock is 12:34:56 then the 1 would get this color as background
      * color.
      */
-    private static int mPrimaryHourColor = 0;
+    private static int sPrimaryHourColor = 0;
 
     /**
      * Minor color for hours, displayed on the second digit of the hours. So if
      * the clock is 12:34:56 then the 2 would get this color as background
      * color.
      */
-    private static int mSecondaryHourColor = 0;
+    private static int sSecondaryHourColor = 0;
 
     /**
      * Major color for minutes, displayed on the first digit of the minutes. So
      * if the clock is 12:34:56 then the 3 would get this color as background
      * color.
      */
-    private static int mPrimaryMinuteColor = 0;
+    private static int sPrimaryMinuteColor = 0;
 
     /**
      * Minor color for minutes, displayed on the second digit of the minutes. So
      * if the clock is 12:34:56 then the 4 would get this color as background
      * color.
      */
-    private static int mSecondaryMinuteColor = 0;
+    private static int sSecondaryMinuteColor = 0;
 
     /**
      * Major color for seconds, displayed on the first digit of the seconds. So
      * if the clock is 12:34:56 then the 5 would get this color as background
      * color.
      */
-    private static int mPrimarySecondColor = 0;
+    private static int sPrimarySecondColor = 0;
 
     /**
      * Minor color for seconds, displayed on the second digit of the seconds. So
      * if the clock is 12:34:56 then the 6 would get this color as background
      * color.
      */
-    private static int mSecondarySecondColor = 0;
+    private static int sSecondarySecondColor = 0;
 
     /**
      * What color will digits have.
      */
-    private static int mDefaultDigitColor = 0;
+    private static int sDefaultDigitColor = 0;
 
     /**
      * What color will digits without a specific background set get, starts
      * uninitialised.
      */
-    private static int mDefaultBackgrundColor = 0;
+    private static int sDefaultBackgrundColor = 0;
 
     /**
      * Defines how the colors will be blended.
      */
     private static int sBlendMode = R.string.screen_blend;
-
-    /**
-     * Manager of this widget.
-     */
-    private AppWidgetManager mManager;
-
-    /**
-     * Name of the class + package, used to get the list of id's for the
-     * instances of this widget.
-     */
-    private ComponentName mComponentName;
-
-    /**
-     * Default layout to use.
-     */
-    private static int sLayoutId = R.layout.color_clock_2x1;
-
-    /**
-     * Object holding references to our widgets views.
-     */
-    private RemoteViews mRemoteViews;
-
-    /**
-     * Code used to identify a request.
-     */
-    private static final int REQUEST_CODE = 760315;
 
     /**
      * Constructor
@@ -167,21 +165,27 @@ public class ClockService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        sCharsetReversLookupMap.clear();
-        sCharsetReversLookupMap.put(getResources().getString(R.string.latin_charset), R.array.latin_digits);
-        sCharsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
-        sCharsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
-        sCharsetReversLookupMap.put(getResources().getString(R.string.hardmode_charset), R.array.hardmode_digits);
-        // Not supported by the default Android font
-        // charsetReversLookupMap.put(getResources().getString(R.string.khmer_charset),
-        // R.array.khmer_digits);
 
-        sBlendModeReversLookupMap.put(getResources().getString(R.string.screen_blend), R.string.screen_blend);
-        sBlendModeReversLookupMap.put(getResources().getString(R.string.multiply_blend), R.string.multiply_blend);
-        sBlendModeReversLookupMap.put(getResources().getString(R.string.average_blend), R.string.average_blend);
+        if (sCharsetReversLookupMap == null) {
+            sCharsetReversLookupMap = new HashMap<String, Integer>();
+            sCharsetReversLookupMap.put(getResources().getString(R.string.latin_charset), R.array.latin_digits);
+            sCharsetReversLookupMap.put(getResources().getString(R.string.arabic_charset), R.array.arabic_digits);
+            sCharsetReversLookupMap.put(getResources().getString(R.string.chinese_charset), R.array.chinese_digits);
+            sCharsetReversLookupMap.put(getResources().getString(R.string.hardmode_charset), R.array.hardmode_digits);
+        }
 
-        // Force a read of the settings on first run.
-        settingsChanged();
+        if (sBlendModeReversLookupMap == null) {
+            sBlendModeReversLookupMap = new HashMap<String, Integer>();
+            sBlendModeReversLookupMap.put(getResources().getString(R.string.screen_blend), R.string.screen_blend);
+            sBlendModeReversLookupMap.put(getResources().getString(R.string.multiply_blend), R.string.multiply_blend);
+            sBlendModeReversLookupMap.put(getResources().getString(R.string.average_blend), R.string.average_blend);
+        }
+
+        if (sSettingsChanged == null) {
+            Log.d(TAG, "oncreate " +sSettingsChanged);
+            sSettingsChanged = new Boolean(true);
+            Log.d(TAG, "oncreate2 " +sSettingsChanged);
+        }
     }
 
     /**
@@ -195,12 +199,12 @@ public class ClockService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        if (mManager == null) {
-            mManager = AppWidgetManager.getInstance(this);
-        }
+        //if (sManager == null) {
+            sManager = AppWidgetManager.getInstance(this);
+        //}
 
-        if (mComponentName == null) {
-            mComponentName = new ComponentName(this, ClockAppWidgetProvider.class);
+        if (sComponentName == null) {
+            sComponentName = new ComponentName(this, ClockAppWidgetProvider.class);
         }
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
@@ -211,85 +215,45 @@ public class ClockService extends IntentService {
 
     /**
      * Walk the list of clock widgets and update them, one by one.
-     * 
+     *
      * @param calendar the time used for the update.
      */
     private void updateAllViews(Calendar calendar) {
 
-        int[] appIds = mManager.getAppWidgetIds(mComponentName);
+        int[] appIds = sManager.getAppWidgetIds(sComponentName);
+        if (sRemoteViews == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                // See the dimensions and
+                Bundle options = sManager.getAppWidgetOptions(appIds[0]);
 
-        if (mRemoteViews == null) {
-            // See the dimensions and
-            Bundle options = mManager.getAppWidgetOptions(appIds[0]);
+                // Get min width and height.
+                int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+                int minHeight = options
+                        .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+                //Log.d(TAG, "Changed dimensions " + minWidth + "  " + minHeight);
 
-            // Get min width and height.
-            int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-            int minHeight = options
-                    .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-            Log.d(TAG, "Changed dimensions " + minWidth + "  " + minHeight);
-
-            mRemoteViews = getRemoteViews(minWidth, minHeight);
+                sRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight);
+            } else {
+                sRemoteViews = new RemoteViews(this.getPackageName(),
+                        R.layout.color_clock_2x1);
+            }
         }
 
-        updateView(mRemoteViews, calendar);
+        updateView(sRemoteViews, calendar);
 
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        mRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+        sRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
         if (sSettingsChanged) {
-            updateCharSetFromSharedPrefs(mRemoteViews);
+            updateCharSetFromSharedPrefs(sRemoteViews);
             updateColorsFromSharedPrefs();
             updateBlendModeFromSharedPrefs();
+            sSettingsChanged = false;
         }
 
-        sSettingsChanged = false;
-
-        mManager.updateAppWidget(mComponentName, mRemoteViews);
-    }
-
-    /**
-     * Determine appropriate view based on width provided.
-     * 
-     * @param minWidth minimum width of the widget.
-     * @param minHeight minimum height of the widget.
-     * @return The RemoteViews, updated to display the new resided layout.
-     */
-    private RemoteViews getRemoteViews(int minWidth, int minHeight) {
-        // First find out rows and columns based on width provided.
-        int rows = getCellsForSize(minHeight);
-        int columns = getCellsForSize(minWidth);
-        Log.d(TAG, "rows: " + rows + " cols: " + columns);
-
-        if (columns == rows) {
-            if(columns==1){
-            return new RemoteViews(getPackageName(),
-                    R.layout.color_clock_1x1);
-            }else {//if(columns==2){
-                return new RemoteViews(getPackageName(),
-                        R.layout.color_clock_2x2);
-            }
-        } else if (columns < rows) {
-            return new RemoteViews(getPackageName(),
-                    R.layout.color_clock_1x2);
-        } else {
-            return new RemoteViews(getPackageName(),
-                    R.layout.color_clock_2x1);
-        }
-    }
-
-    private int getCellsForSize(int size) {
-        // According to google specifications.
-        if (size >= 250) {
-            return 4;
-        } else if (size >= 180) {
-            return 3;
-        } else if (size >= 110) {
-            return 2;
-        } else {
-            return 1;
-        }
+        sManager.updateAppWidget(sComponentName, sRemoteViews);
     }
 
     /**
@@ -313,31 +277,33 @@ public class ClockService extends IntentService {
     private void updateColorsFromSharedPrefs() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mPrimaryHourColor = sharedPreferences.getInt(getResources().getString(R.string.pref_hour_color_key), 0);
-        mPrimaryMinuteColor = sharedPreferences.getInt(getResources().getString(R.string.pref_minute_color_key), 0);
-        mPrimarySecondColor = sharedPreferences.getInt(getResources().getString(R.string.pref_second_color_key), 0);
+        sPrimaryHourColor = sharedPreferences.getInt(getResources().getString(R.string.pref_hour_color_key), getResources().getColor(R.color.default_hour_color));
+        sPrimaryMinuteColor = sharedPreferences.getInt(getResources().getString(R.string.pref_minute_color_key), getResources().getColor(R.color.default_minute_color));
+        sPrimarySecondColor = sharedPreferences.getInt(getResources().getString(R.string.pref_second_color_key), getResources().getColor(R.color.default_second_color));
 
-        mSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryHourColor,
-                mSecondaryColorStrength);
-        mSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimaryMinuteColor,
-                mSecondaryColorStrength);
-        mSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(mPrimarySecondColor,
-                mSecondaryColorStrength);
+        sSecondaryHourColor = ColorUtil.getSecondaryColorFromPrimaryColor(sPrimaryHourColor,
+                sSecondaryColorStrength);
+        sSecondaryMinuteColor = ColorUtil.getSecondaryColorFromPrimaryColor(sPrimaryMinuteColor,
+                sSecondaryColorStrength);
+        sSecondarySecondColor = ColorUtil.getSecondaryColorFromPrimaryColor(sPrimarySecondColor,
+                sSecondaryColorStrength);
 
-        mDefaultBackgrundColor = sharedPreferences.getInt(getResources().getString(R.string.pref_background_color_key),
-                0);
-        mDefaultDigitColor = sharedPreferences.getInt(getResources().getString(R.string.pref_digit_color_key), 0);
+        sDefaultBackgrundColor = sharedPreferences.getInt(getResources().getString(R.string.pref_background_color_key),
+                getResources().getColor(R.color.default_background_color));
+        sDefaultDigitColor = sharedPreferences.getInt(getResources().getString(R.string.pref_digit_color_key),
+                getResources().getColor(R.color.default_digit_color));
     }
 
     /**
      * Sets the charset found in the shared prefs to all remote views.
-     * 
+     *
      * @param remoteViews
      */
     private void updateCharSetFromSharedPrefs(RemoteViews remoteViews) {
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String newCharSet = sharedPreferences.getString(getResources().getString(R.string.pref_charsets_key),
-                getResources().getString(R.string.latin_charset));
+                null);
 
         int newCharSetId = R.array.latin_digits;
         // Fail safe for cases when the R.string.latin_charset strings have
@@ -349,10 +315,11 @@ public class ClockService extends IntentService {
             }
         }
         String[] chars = getResources().getStringArray(newCharSetId);
-
+        Log.d(TAG, "updateCharSetFromSharedPrefs "+newCharSet+"  "+newCharSetId+"  "+chars);
         for (int i = 0; i < chars.length; i++) {
             remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
-            remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], mDefaultDigitColor);
+            remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], sDefaultDigitColor);
+            Log.d(TAG, "char "+chars[i]);
         }
 
     }
@@ -361,7 +328,7 @@ public class ClockService extends IntentService {
      * Updates the colors of the clock to a state representing "now".
      *
      * @param remoteViews The views used by the widget to display time.
-     * @param calendar Calendar used to display time.
+     * @param calendar    Calendar used to display time.
      */
     public void updateView(RemoteViews remoteViews, Calendar calendar) {
 
@@ -375,34 +342,34 @@ public class ClockService extends IntentService {
 
         // Reset all boxes to zero/black.
         for (int i = 0; i <= 9; i++) {
-            mDigitsColor[i] = 0;
+            S_DIGITS_COLOR[i] = 0;
         }
 
         // Update the color of the boxes with 'active' digits in them..
-        mDigitsColor[hoursX0] = setOrBlendDigitColorWithColor(mDigitsColor[hoursX0], mPrimaryHourColor);
-        mDigitsColor[hours0X] = setOrBlendDigitColorWithColor(mDigitsColor[hours0X], mSecondaryHourColor);
-        mDigitsColor[minutesX0] = setOrBlendDigitColorWithColor(mDigitsColor[minutesX0], mPrimaryMinuteColor);
-        mDigitsColor[minutes0X] = setOrBlendDigitColorWithColor(mDigitsColor[minutes0X], mSecondaryMinuteColor);
-        mDigitsColor[secondsX0] = setOrBlendDigitColorWithColor(mDigitsColor[secondsX0], mPrimarySecondColor);
-        mDigitsColor[seconds0X] = setOrBlendDigitColorWithColor(mDigitsColor[seconds0X], mSecondarySecondColor);
+        S_DIGITS_COLOR[hoursX0] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[hoursX0], sPrimaryHourColor);
+        S_DIGITS_COLOR[hours0X] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[hours0X], sSecondaryHourColor);
+        S_DIGITS_COLOR[minutesX0] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[minutesX0], sPrimaryMinuteColor);
+        S_DIGITS_COLOR[minutes0X] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[minutes0X], sSecondaryMinuteColor);
+        S_DIGITS_COLOR[secondsX0] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[secondsX0], sPrimarySecondColor);
+        S_DIGITS_COLOR[seconds0X] = setOrBlendDigitColorWithColor(S_DIGITS_COLOR[seconds0X], sSecondarySecondColor);
 
         // For boxes without a color, set the default background color.
         for (int i = 0; i <= 9; i++) {
-            if (mDigitsColor[i] == 0) {
-                mDigitsColor[i] = mDefaultBackgrundColor;
+            if (S_DIGITS_COLOR[i] == 0) {
+                S_DIGITS_COLOR[i] = sDefaultBackgrundColor;
             }
         }
 
         // Set the colors to the views.
         for (int i = 0; i <= 9; i++) {
-            remoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor", mDigitsColor[i]);
+            remoteViews.setInt(DIGIT_VIEWS_INDEX[i], "setBackgroundColor", S_DIGITS_COLOR[i]);
         }
     }
 
     /**
      * Blends the two colors unless the first color is pitch black with 0 alpha,
      * for that corner-case it will return the second color
-     * 
+     *
      * @param c1 first color.
      * @param c2 second color.
      * @return a blend of the two color, unless above stated condition applies.
