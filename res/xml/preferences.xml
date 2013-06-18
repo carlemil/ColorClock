@@ -2,12 +2,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <Preference
-        android:id="@+id/pref_info"
-        android:title="@string/pref_info_title" >
+            android:id="@+id/pref_info"
+            android:title="@string/pref_info_title" >
         <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="se.kjellstrand.colorclock.activity.InfoActivity"
-            android:targetPackage="se.kjellstrand.colorclock" />
+                android:action="android.intent.action.VIEW"
+                android:targetClass="se.kjellstrand.colorclock.activity.InfoActivity"
+                android:targetPackage="se.kjellstrand.colorclock" />
+    </Preference>
+
+    <Preference
+            android:id="@+id/pref_share"
+            android:title="@string/pref_share_title" >
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="se.kjellstrand.colorclock.activity.ShareActivity"
+                android:targetPackage="se.kjellstrand.colorclock" />
     </Preference>
     
     <Preference

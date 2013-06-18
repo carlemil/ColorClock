@@ -22,10 +22,7 @@ public class RemoteViewUtils {
         int rows = getCellsForSize(minHeight);
         int columns = getCellsForSize(minWidth);
 
-        if (columns == 1 && rows == 1) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_1x1);
-        } else if (columns == 2 && rows == 2) {
+        if (columns == 2 && rows == 2) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_2x2);
         } else if (columns == 1 && rows == 2) {

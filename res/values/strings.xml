@@ -29,6 +29,9 @@
 
     <!-- Info prefs -->
     <string name="pref_info_title">Info</string>
+
+    <!-- Share prefs -->
+    <string name="pref_share_title">Share</string>
     
     <!-- Blends -->
     <string name="pref_blends_title">Blend</string>
