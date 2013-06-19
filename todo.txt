@@ -1,6 +1,4 @@
 
-* SHARE !!!!
-
 * info screen, link to github
 
 * tablet settings ui
