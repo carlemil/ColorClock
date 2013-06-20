@@ -1,81 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
             android:id="@+id/pref_info"
-            android:title="@string/pref_info_title" >
+            android:title="@string/pref_info_title">
         <intent
                 android:action="android.intent.action.VIEW"
                 android:targetClass="se.kjellstrand.colorclock.activity.InfoActivity"
-                android:targetPackage="se.kjellstrand.colorclock" />
+                android:targetPackage="se.kjellstrand.colorclock"/>
+    </Preference>
+
+    <ListPreference
+            android:id="@+id/pref_charset"
+            android:defaultValue="@string/latin_charset"
+            android:dialogTitle="@string/pref_charsets_dialog_title"
+            android:entries="@array/list_of_charsets"
+            android:entryValues="@array/list_of_charsets"
+            android:key="@string/pref_charsets_key"
+            android:summary="@string/pref_charsets_summary"
+            android:title="@string/pref_charsets_title"/>
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            alphaSlider="false"
+            android:defaultValue="@color/default_hour_color"
+            android:key="@string/pref_hour_color_key"
+            android:summary="@string/pref_hour_color_summary"
+            android:title="@string/pref_hour_color_title"/>
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            alphaSlider="false"
+            android:defaultValue="@color/default_minute_color"
+            android:key="@string/pref_minute_color_key"
+            android:summary="@string/pref_minute_color_summary"
+            android:title="@string/pref_minute_color_title"/>
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            alphaSlider="false"
+            android:defaultValue="@color/default_second_color"
+            android:key="@string/pref_second_color_key"
+            android:summary="@string/pref_second_color_summary"
+            android:title="@string/pref_second_color_title"/>
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            alphaSlider="false"
+            android:defaultValue="@color/default_digit_color"
+            android:key="@string/pref_digit_color_key"
+            android:summary="@string/pref_digit_color_summary"
+            android:title="@string/pref_digit_color_title"/>
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            alphaSlider="false"
+            android:defaultValue="@color/default_background_color"
+            android:key="@string/pref_background_color_key"
+            android:summary="@string/pref_background_color_summary"
+            android:title="@string/pref_background_color_title"/>
+
+    <ListPreference
+            android:defaultValue="@string/screen_blend"
+            android:dialogTitle="@string/pref_blends_dialog_title"
+            android:entries="@array/list_of_blends"
+            android:entryValues="@array/list_of_blends"
+            android:key="@string/pref_blends_key"
+            android:summary="@string/pref_blends_summary"
+            android:title="@string/pref_blends_title"/>
+
+    <Preference
+            android:id="@+id/pref_alarm"
+            android:title="@string/pref_alarm_title">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="se.kjellstrand.colorclock.activity.ShowAlarmActivity"
+                android:targetPackage="se.kjellstrand.colorclock"/>
     </Preference>
 
     <Preference
             android:id="@+id/pref_share"
-            android:title="@string/pref_share_title" >
+            android:title="@string/pref_share_title">
         <intent
                 android:action="android.intent.action.VIEW"
                 android:targetClass="se.kjellstrand.colorclock.activity.ShareActivity"
-                android:targetPackage="se.kjellstrand.colorclock" />
+                android:targetPackage="se.kjellstrand.colorclock"/>
     </Preference>
-    
-    <Preference
-        android:id="@+id/pref_alarm"
-        android:title="@string/pref_alarm_title" >
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="se.kjellstrand.colorclock.activity.ShowAlarmActivity"
-            android:targetPackage="se.kjellstrand.colorclock" />
-    </Preference>
-
-    <ListPreference
-        android:defaultValue="@string/screen_blend"
-        android:dialogTitle="@string/pref_blends_dialog_title"
-        android:entries="@array/list_of_blends"
-        android:entryValues="@array/list_of_blends"
-        android:key="@string/pref_blends_key"
-        android:summary="@string/pref_blends_summary"
-        android:title="@string/pref_blends_title" />
-    
-    <ListPreference
-        android:id="@+id/pref_charset"
-        android:defaultValue="@string/latin_charset"
-        android:dialogTitle="@string/pref_charsets_dialog_title"
-        android:entries="@array/list_of_charsets"
-        android:entryValues="@array/list_of_charsets"
-        android:key="@string/pref_charsets_key"
-        android:summary="@string/pref_charsets_summary"
-        android:title="@string/pref_charsets_title" />
-
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-        alphaSlider="false"
-        android:defaultValue="@color/default_digit_color"
-        android:key="@string/pref_digit_color_key"
-        android:summary="@string/pref_digit_color_summary"
-        android:title="@string/pref_digit_color_title" />
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-        alphaSlider="false"
-        android:defaultValue="@color/default_background_color"
-        android:key="@string/pref_background_color_key"
-        android:summary="@string/pref_background_color_summary"
-        android:title="@string/pref_background_color_title" />
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-        alphaSlider="false"
-        android:defaultValue="@color/default_hour_color"
-        android:key="@string/pref_hour_color_key"
-        android:summary="@string/pref_hour_color_summary"
-        android:title="@string/pref_hour_color_title" />
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-        alphaSlider="false"
-        android:defaultValue="@color/default_minute_color"
-        android:key="@string/pref_minute_color_key"
-        android:summary="@string/pref_minute_color_summary"
-        android:title="@string/pref_minute_color_title" />
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-        alphaSlider="false"
-        android:defaultValue="@color/default_second_color"
-        android:key="@string/pref_second_color_key"
-        android:summary="@string/pref_second_color_summary"
-        android:title="@string/pref_second_color_title" />
 
 </PreferenceScreen>
