@@ -31,8 +31,8 @@
     <string name="pref_info_title">Info</string>
 
     <!-- Share prefs -->
-    <string name="pref_share_title">Share</string>
-    <string name="sharing_text">Hey check out the EPIC Color Coded Clock at:
+    <string name="pref_share_title">Like it? Share it!</string>
+    <string name="sharing_text">Hey check out the \"Color Coded Clock\" at:
         https://play.google.com/store/apps/details?id=se.kjellstrand.colorclock
     </string>
 

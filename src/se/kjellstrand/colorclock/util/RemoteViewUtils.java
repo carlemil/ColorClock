@@ -34,18 +34,24 @@ public class RemoteViewUtils {
         } else if (columns == 2 && rows == 2) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_2x2);
-        } else if (columns == 3 && rows == 1) {
+        } else if (columns >= 3 && rows == 1) {
             return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_2x1);
-        } else if (columns == 1 && rows == 3) {
+                    R.layout.color_clock_4x1);
+        } else if (columns == 1 && rows >= 3) {
             return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_1x2);
+                    R.layout.color_clock_1x4);
         } else if (columns == 3 && rows == 2) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_3x2);
         } else if (columns == 2 && rows == 3) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_2x3);
+        } else if (columns == 4 && rows == 2) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_4x2);
+        } else if (columns == 2 && rows == 4) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_2x4);
         } else {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_3x3);

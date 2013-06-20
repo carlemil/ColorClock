@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:gravity="center"
+    android:padding="@dimen/widget_margin" >
+
+    <LinearLayout
+        android:id="@+id/digit_0ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_0"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="0"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_1ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_0ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_1"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="1"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_2ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_1ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_2"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="2"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_3ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_2ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_3"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="3"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_4ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_3ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_4"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="4"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_5ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_4ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_5"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="5"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_6ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_5ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_6"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="6"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_7ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_6ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_7"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="7"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_8ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_7ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_8"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="8"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/digit_9ll"
+        android:layout_width="@dimen/digit_box_border_size_1x4"
+        android:layout_height="@dimen/digit_box_border_size_1x4"
+        android:layout_margin="@dimen/digit_margin_1x4"
+        android:layout_below="@+id/digit_8ll"
+        android:background="@color/default_digit_border_color"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/digit_9"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/digit_layout_margin"
+            android:gravity="center"
+            android:shadowColor="@color/default_digit_shadow_color"
+            android:shadowDx="@integer/default_digit_shadow_dx"
+            android:shadowDy="@integer/default_digit_shadow_dy"
+            android:shadowRadius="@integer/default_digit_shadow_radius"
+            android:text="9"
+            android:textColor="@color/default_digit_color"
+            android:textSize="@dimen/digit_font_size_1x4" />
+    </LinearLayout>
+
+</RelativeLayout>
