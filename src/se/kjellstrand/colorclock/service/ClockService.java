@@ -231,7 +231,7 @@ public class ClockService extends IntentService {
             int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
             int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
             String size = minWidth + "x" + minHeight;
-            if (!sPreviousSize.equals(size)) {
+            if (sRemoteViews == null || !sPreviousSize.equals(size)) {
                 sRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight);
                 sPreviousSize = size;
                 settingsChanged();
@@ -253,7 +253,7 @@ public class ClockService extends IntentService {
 
         if (sSettingsChanged) {
             updateCharSetFromSharedPrefs(sRemoteViews);
-            updateColorsFromSharedPrefs();
+            updateColorsFromSharedPrefs(sRemoteViews);
             updateBlendModeFromSharedPrefs();
             sSettingsChanged = false;
         }
@@ -279,7 +279,7 @@ public class ClockService extends IntentService {
     /**
      * Sets the colors found in the shared prefs.
      */
-    private void updateColorsFromSharedPrefs() {
+    private void updateColorsFromSharedPrefs(RemoteViews remoteViews) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         sPrimaryHourColor = sharedPreferences.getInt(getResources().getString(R.string.pref_hour_color_key), getResources().getColor(R.color.default_hour_color));
@@ -297,6 +297,9 @@ public class ClockService extends IntentService {
                 getResources().getColor(R.color.default_background_color));
         sDefaultDigitColor = sharedPreferences.getInt(getResources().getString(R.string.pref_digit_color_key),
                 getResources().getColor(R.color.default_digit_color));
+        for (int i = 0; i < DIGIT_VIEWS_INDEX.length; i++) {
+            remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], sDefaultDigitColor);
+        }
     }
 
     /**
@@ -311,7 +314,7 @@ public class ClockService extends IntentService {
         Integer newCharSetId = sCharsetReversLookupMap.get(newCharSet);
         if (newCharSetId != null) {
             String[] chars = getResources().getStringArray(newCharSetId);
-            for (int i = 0; i < chars.length; i++) {
+            for (int i = 0; i < DIGIT_VIEWS_INDEX.length; i++) {
                 remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
                 remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], sDefaultDigitColor);
             }
