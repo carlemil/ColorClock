@@ -2,6 +2,7 @@ package se.kjellstrand.colorclock.activity;
 
 import se.kjellstrand.colorclock.R;
 import se.kjellstrand.colorclock.service.ClockService;
+
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;

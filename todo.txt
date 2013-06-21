@@ -1,8 +1,2 @@
 
-bring up settings after install?
-
-* info screen, link to github
-
-* tablet settings ui
-
-
+fix settings after install?

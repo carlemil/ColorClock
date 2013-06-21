@@ -85,6 +85,8 @@ public class ClockAppWidgetProvider extends AppWidgetProvider {
                     PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.setRepeating(AlarmManager.RTC, date.getTimeInMillis(), ONE_SECOND, pendingIntent);
             Log.d(TAG, "Alarm created.");
+        } else {
+            Log.d(TAG, "No alarm created, one already exists.");
         }
     }
 

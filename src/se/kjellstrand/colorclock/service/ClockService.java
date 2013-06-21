@@ -19,6 +19,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 /**
@@ -145,14 +146,19 @@ public class ClockService extends IntentService {
     private static int sBlendMode = R.string.screen_blend;
 
     /**
+     * Object holding references to our widgets views.
+     */
+    private static RemoteViews sRemoteViews = null;
+
+    /**
+     * Keeps track of teh dimensions/size of the widget, used to detect changes to the size.
+     */
+    private static String sPreviousSize = "0x0";
+
+    /**
      * Manager of this widget.
      */
     private AppWidgetManager mManager = null;
-
-    /**
-     * Object holding references to our widgets views.
-     */
-    private RemoteViews mRemoteViews = null;
 
     /**
      * Constructor
@@ -181,7 +187,7 @@ public class ClockService extends IntentService {
         }
 
         if (sSettingsChanged == null) {
-            sSettingsChanged = true;
+            settingsChanged();
         }
     }
 
@@ -190,6 +196,7 @@ public class ClockService extends IntentService {
      * prefs / settings.
      */
     public static void settingsChanged() {
+        Log.d(TAG, "Settings changed!");
         sSettingsChanged = true;
     }
 
@@ -216,37 +223,42 @@ public class ClockService extends IntentService {
     private void updateAllViews(Calendar calendar) {
 
         int[] appIds = mManager.getAppWidgetIds(sComponentName);
-        if (mRemoteViews == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                // See the dimensions and
-                Bundle options = mManager.getAppWidgetOptions(appIds[0]);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            // See the dimensions and
+            Bundle options = mManager.getAppWidgetOptions(appIds[0]);
 
-                // Get min width and height.
-                int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-                int minHeight = options
-                        .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-                mRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight);
-            } else {
-                mRemoteViews = new RemoteViews(this.getPackageName(),
+            // Get min width and height.
+            int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+            int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+            String size = minWidth + "x" + minHeight;
+            if (!sPreviousSize.equals(size)) {
+                sRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight);
+                sPreviousSize = size;
+                settingsChanged();
+            }
+        } else {
+            if (sRemoteViews == null) {
+                sRemoteViews = new RemoteViews(this.getPackageName(),
                         R.layout.color_clock_2x1);
+                settingsChanged();
             }
         }
 
-        updateView(mRemoteViews, calendar);
+        updateView(sRemoteViews, calendar);
 
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        mRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+        sRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
         if (sSettingsChanged) {
-            updateCharSetFromSharedPrefs(mRemoteViews);
+            updateCharSetFromSharedPrefs(sRemoteViews);
             updateColorsFromSharedPrefs();
             updateBlendModeFromSharedPrefs();
             sSettingsChanged = false;
         }
 
-        mManager.updateAppWidget(sComponentName, mRemoteViews);
+        mManager.updateAppWidget(sComponentName, sRemoteViews);
     }
 
     /**
@@ -293,26 +305,17 @@ public class ClockService extends IntentService {
      * @param remoteViews The views used by the widget to display time.
      */
     private void updateCharSetFromSharedPrefs(RemoteViews remoteViews) {
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String newCharSet = sharedPreferences.getString(getResources().getString(R.string.pref_charsets_key),
                 null);
-
-        int newCharSetId = R.array.latin_digits;
-        // Fail safe for cases when the R.string.latin_charset strings have
-        // changed and wont be found in the hashmap.
-        if (newCharSet != null) {
-            Integer integer = sCharsetReversLookupMap.get(newCharSet);
-            if (integer != null) {
-                newCharSetId = integer;
+        Integer newCharSetId = sCharsetReversLookupMap.get(newCharSet);
+        if (newCharSetId != null) {
+            String[] chars = getResources().getStringArray(newCharSetId);
+            for (int i = 0; i < chars.length; i++) {
+                remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
+                remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], sDefaultDigitColor);
             }
         }
-        String[] chars = getResources().getStringArray(newCharSetId);
-        for (int i = 0; i < chars.length; i++) {
-            remoteViews.setTextViewText(DIGIT_VIEWS_INDEX[i], chars[i]);
-            remoteViews.setTextColor(DIGIT_VIEWS_INDEX[i], sDefaultDigitColor);
-        }
-
     }
 
     /**
