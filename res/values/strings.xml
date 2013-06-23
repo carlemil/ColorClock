@@ -42,10 +42,12 @@
     <string name="pref_layouts_dialog_title">Select layout</string>
     <string name="pref_layouts_key">pref_layouts</string>
     <string name="color_clock_2x5_layout">2x5</string>
+    <string name="color_clock_5x2_layout">5x2</string>
     <string name="color_clock_3x3_layout">3x3</string>
 
     <string-array name="list_of_layouts">
         <item>@string/color_clock_2x5_layout</item>
+        <item>@string/color_clock_5x2_layout</item>
         <item>@string/color_clock_3x3_layout</item>
     </string-array>
 

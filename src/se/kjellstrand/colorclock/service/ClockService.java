@@ -1,15 +1,5 @@
 package se.kjellstrand.colorclock.service;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import se.kjellstrand.colorclock.R;
-import se.kjellstrand.colorclock.activity.SettingsActivity;
-import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
-import se.kjellstrand.colorclock.util.ColorUtil;
-import se.kjellstrand.colorclock.util.RemoteViewUtils;
-
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -21,6 +11,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import se.kjellstrand.colorclock.R;
+import se.kjellstrand.colorclock.activity.SettingsActivity;
+import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
+import se.kjellstrand.colorclock.util.ColorUtil;
+import se.kjellstrand.colorclock.util.RemoteViewUtils;
 
 /**
  * A service that updates the clock widget whenever the updateAllViews method is
@@ -58,13 +58,18 @@ public class ClockService extends IntentService {
     private static final int[] DIGITS_COLOR = new int[10];
 
     /**
+     * A map from name of layout to the R.array id containing the actual layout.
+     */
+    private static Map<String, Integer> sLayoutReversLookupMap;
+
+    /**
      * A map from name of charsets to the R.array id containing the actual
      * digits of the charset.
      */
     private static Map<String, Integer> sCharsetReversLookupMap;
 
     /**
-     * A map from name of blendMode to the R.array id containing the actual .
+     * A map from name of blendMode to the R.array id containing the actual blend mode.
      */
     private static Map<String, Integer> sBlendModeReversLookupMap;
 
@@ -146,6 +151,11 @@ public class ClockService extends IntentService {
     private static int sBlendMode = R.string.screen_blend;
 
     /**
+     * The layout id used to create a layout for the RemoteView
+     */
+    private static int sLayoutID = R.layout.color_clock_2x5;
+
+    /**
      * Object holding references to our widgets views.
      */
     private RemoteViews mRemoteViews = null;
@@ -165,6 +175,13 @@ public class ClockService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (sLayoutReversLookupMap == null) {
+            sLayoutReversLookupMap = new HashMap<String, Integer>();
+            sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_2x5_layout), R.layout.color_clock_2x5);
+            sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_5x2_layout), R.layout.color_clock_5x2);
+            sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_3x3_layout), R.layout.color_clock_3x3);
+        }
 
         if (sCharsetReversLookupMap == null) {
             sCharsetReversLookupMap = new HashMap<String, Integer>();
@@ -217,6 +234,10 @@ public class ClockService extends IntentService {
      */
     private void updateAllViews(Calendar calendar) {
 
+        if (sSettingsChanged) {
+            updateLayoutIDFromSharedPrefs();
+        }
+
         int[] appIds = mManager.getAppWidgetIds(sComponentName);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             // See the dimensions and
@@ -230,7 +251,7 @@ public class ClockService extends IntentService {
 
             if (mRemoteViews == null) {
                 mRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight,
-                        R.layout.color_clock_2x5, 24, DIGIT_VIEWS_INDEX);
+                        sLayoutID, 24, DIGIT_VIEWS_INDEX);
                 settingsChanged();
             }
         } else {
@@ -261,6 +282,19 @@ public class ClockService extends IntentService {
     /**
      * Sets the blend mode according to shared preferences.
      */
+    private void updateLayoutIDFromSharedPrefs() {
+        String prefLayoutKey = getResources().getString(R.string.pref_layouts_key);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String layoutLookupKey = sharedPreferences.getString(prefLayoutKey, null);
+        Integer integerLayoutID = sLayoutReversLookupMap.get(layoutLookupKey);
+        if (integerLayoutID != null) {
+            sLayoutID = integerLayoutID;
+        }
+    }
+
+    /**
+     * Sets the blend mode according to shared preferences.
+     */
     private void updateBlendModeFromSharedPrefs() {
         String prefBlendKey = getResources().getString(R.string.pref_blends_key);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -268,8 +302,6 @@ public class ClockService extends IntentService {
         Integer integerBlend = sBlendModeReversLookupMap.get(blendLookupKey);
         if (integerBlend != null) {
             sBlendMode = integerBlend;
-        } else {
-            sBlendMode = R.string.screen_blend;
         }
     }
 

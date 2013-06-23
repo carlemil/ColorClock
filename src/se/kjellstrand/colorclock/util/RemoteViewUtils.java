@@ -3,7 +3,6 @@ package se.kjellstrand.colorclock.util;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
@@ -49,6 +48,11 @@ public class RemoteViewUtils {
                 textWidth = (width / 2) * textSize / defaultSizeAdjuster;
                 break;
 
+            case R.layout.color_clock_5x2:
+                textHeight = (height / 2) * textSize / defaultSizeAdjuster;
+                textWidth = (width / 5) * textSize / defaultSizeAdjuster;
+                break;
+
             default:
                 textHeight = 1;
                 textWidth = 1;
@@ -57,24 +61,12 @@ public class RemoteViewUtils {
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), layout);
 
-        for (int i = 0; i < DIGIT_VIEWS_INDEX.length; i++) {
-            remoteViews.setTextViewTextSize(DIGIT_VIEWS_INDEX[i], TypedValue.COMPLEX_UNIT_SP,
+        for (int aDIGIT_VIEWS_INDEX : DIGIT_VIEWS_INDEX) {
+            remoteViews.setTextViewTextSize(aDIGIT_VIEWS_INDEX, TypedValue.COMPLEX_UNIT_SP,
                     Math.min(textWidth, textHeight));
         }
 
         return remoteViews;
     }
 
-    public static int getCellsForSize(int size) {
-        // According to google specifications.
-        if (size >= 250) {
-            return 4;
-        } else if (size >= 180) {
-            return 3;
-        } else if (size >= 110) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
 }
