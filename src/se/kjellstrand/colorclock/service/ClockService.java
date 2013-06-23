@@ -148,7 +148,7 @@ public class ClockService extends IntentService {
     /**
      * Object holding references to our widgets views.
      */
-    private static RemoteViews sRemoteViews = null;
+    private RemoteViews sRemoteViews = null;
 
     /**
      * Keeps track of teh dimensions/size of the widget, used to detect changes to the size.
@@ -231,6 +231,9 @@ public class ClockService extends IntentService {
             int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
             int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
             String size = minWidth + "x" + minHeight;
+
+            //make remoteviews a weak ref ?
+
             if (sRemoteViews == null || !sPreviousSize.equals(size)) {
                 sRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight);
                 sPreviousSize = size;

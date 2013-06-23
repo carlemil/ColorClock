@@ -28,33 +28,51 @@ public class RemoteViewUtils {
         } else if (columns == 1 && rows == 2) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_1x2);
+        } else if (columns == 1 && rows == 3) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_1x3);
+        } else if (columns == 1 && rows == 4) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_1x4);
+
         } else if (columns == 2 && rows == 1) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_2x1);
         } else if (columns == 2 && rows == 2) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_2x2);
-        } else if (columns >= 3 && rows == 1) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_4x1);
-        } else if (columns == 1 && rows >= 3) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_1x4);
-        } else if (columns == 3 && rows == 2) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_3x2);
         } else if (columns == 2 && rows == 3) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_2x3);
-        } else if (columns == 4 && rows == 2) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_4x2);
         } else if (columns == 2 && rows == 4) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_2x4);
-        } else {
+
+        } else if (columns == 3 && rows == 1) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_3x1);
+        } else if (columns == 3 && rows == 2) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_3x2);
+        } else if (columns == 3 && rows == 3) {
             return new RemoteViews(context.getPackageName(),
                     R.layout.color_clock_3x3);
+        } else if (columns == 3 && rows == 4) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_3x4);
+
+        } else if (columns == 4 && rows == 1) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_4x1);
+        } else if (columns == 4 && rows == 2) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_4x2);
+        } else if (columns == 4 && rows == 3) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_4x3);
+        } else { // DEFAULT  if (columns == 4 && rows == 4) {
+            return new RemoteViews(context.getPackageName(),
+                    R.layout.color_clock_4x4);
         }
     }
 
