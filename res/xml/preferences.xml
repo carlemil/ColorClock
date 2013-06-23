@@ -20,6 +20,16 @@
             android:summary="@string/pref_charsets_summary"
             android:title="@string/pref_charsets_title"/>
 
+    <ListPreference
+            android:id="@+id/pref_layout"
+            android:defaultValue="@string/color_clock_2x5_layout"
+            android:dialogTitle="@string/pref_layouts_dialog_title"
+            android:entries="@array/list_of_layouts"
+            android:entryValues="@array/list_of_layouts"
+            android:key="@string/pref_layouts_key"
+            android:summary="@string/pref_layouts_summary"
+            android:title="@string/pref_layouts_title"/>
+
     <net.margaritov.preference.colorpicker.ColorPickerPreference
             alphaSlider="false"
             android:defaultValue="@color/default_hour_color"

@@ -1,6 +1,6 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialKeyguardLayout="@layout/color_clock_2x1"
-    android:initialLayout="@layout/color_clock_2x1"
+    android:initialKeyguardLayout="@layout/color_clock_2x5"
+    android:initialLayout="@layout/color_clock_2x5"
     android:minHeight="40dp"
     android:minWidth="110dp"
     android:minResizeWidth="40dp"

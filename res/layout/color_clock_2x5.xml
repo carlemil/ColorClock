@@ -5,18 +5,19 @@
               android:layout_height="match_parent"
               android:clickable="true"
               android:gravity="center"
-              android:weightSum="3"
+              android:weightSum="5"
               android:orientation="vertical"
               android:padding="@dimen/widget_margin">
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dip"
             android:layout_weight="1"
+            android:layout_height="0dip"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:id="@+id/digit_0ll"
@@ -25,8 +26,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/digit_spacing"
                 android:background="@color/default_digit_border_color"
-                android:gravity="center"
-                android:visibility="gone">
+                android:gravity="center">
 
             <TextView
                     android:id="@+id/digit_0"
@@ -70,7 +70,16 @@
                     android:textColor="@color/default_digit_color"
                     android:textSize="@dimen/digit_font_size"/>
         </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dip"
+            android:clickable="true"
+            android:gravity="center"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:id="@+id/digit_2ll"
@@ -127,12 +136,12 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dip"
             android:layout_weight="1"
+            android:layout_height="0dip"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:id="@+id/digit_4ll"
@@ -186,7 +195,16 @@
                     android:textColor="@color/default_digit_color"
                     android:textSize="@dimen/digit_font_size"/>
         </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dip"
+            android:clickable="true"
+            android:gravity="center"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:id="@+id/digit_6ll"
@@ -214,16 +232,6 @@
                     android:textColor="@color/default_digit_color"
                     android:textSize="@dimen/digit_font_size"/>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
 
         <LinearLayout
                 android:id="@+id/digit_7ll"
@@ -250,7 +258,16 @@
                     android:textColor="@color/default_digit_color"
                     android:textSize="@dimen/digit_font_size"/>
         </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dip"
+            android:clickable="true"
+            android:gravity="center"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
         <LinearLayout
                 android:id="@+id/digit_8ll"

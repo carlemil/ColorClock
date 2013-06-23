@@ -58,6 +58,14 @@ public class SettingsActivity extends PreferenceActivity {
                 // Set summary to be the user-description for the selected
                 // value
                 charsetPref.setSummary(String.format(format, blend));
+            } else if (key.equals(getResources().getString(R.string.pref_layouts_key))) {
+                @SuppressWarnings("deprecation")
+                Preference layoutPref = findPreference(key);
+                String layout = sharedPreferences.getString(key, getResources().getString(R.string.color_clock_2x5_layout));
+                String format = getResources().getString(R.string.pref_layouts_summary);
+                // Set summary to be the user-description for the selected
+                // value
+                layoutPref.setSummary(String.format(format, layout));
             }
 
             // Notify the service that at next update, it should re-read all its

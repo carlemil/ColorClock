@@ -1,79 +1,68 @@
 package se.kjellstrand.colorclock.util;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.util.Log;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import se.kjellstrand.colorclock.R;
 
 public class RemoteViewUtils {
+
+    /**
+     * Tag for logging
+     */
+    private static final String TAG = RemoteViewUtils.class.getCanonicalName();
+
     private RemoteViewUtils() {
     }
 
     /**
      * Determine appropriate view based on width provided.
      *
-     * @param context   Context used for creating the new RemoteView.
-     * @param minWidth  Minimum width of the widget.
-     * @param minHeight Minimum height of the widget.
+     * @param context Context used for creating the new RemoteView.
+     * @param height  Height of the widget.
+     * @param width   Width of the widget.
+     * @param layout  The layout id to use for the RemoteViews.
      * @return The RemoteViews, updated to display the new resided layout.
      */
-    public static RemoteViews getRemoteViews(Context context, int minWidth, int minHeight) {
-        // First find out rows and columns based on width provided.
-        int rows = getCellsForSize(minHeight);
-        int columns = getCellsForSize(minWidth);
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static RemoteViews getRemoteViews(final Context context, final int width,
+                                             final int height, final int layout,
+                                             final int textSize, final int[] DIGIT_VIEWS_INDEX) {
 
-        if (columns == 1 && rows == 1) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_1x1);
-        } else if (columns == 1 && rows == 2) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_1x2);
-        } else if (columns == 1 && rows == 3) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_1x3);
-        } else if (columns == 1 && rows == 4) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_1x4);
+        float defaultSizeAdjuster = 50f;
 
-        } else if (columns == 2 && rows == 1) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_2x1);
-        } else if (columns == 2 && rows == 2) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_2x2);
-        } else if (columns == 2 && rows == 3) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_2x3);
-        } else if (columns == 2 && rows == 4) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_2x4);
+        float textHeight;
+        float textWidth;
 
-        } else if (columns == 3 && rows == 1) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_3x1);
-        } else if (columns == 3 && rows == 2) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_3x2);
-        } else if (columns == 3 && rows == 3) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_3x3);
-        } else if (columns == 3 && rows == 4) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_3x4);
+        switch (layout) {
+            case R.layout.color_clock_3x3:
+                textHeight = (height / 3) * textSize / defaultSizeAdjuster;
+                textWidth = (width / 3) * textSize / defaultSizeAdjuster;
+                break;
 
-        } else if (columns == 4 && rows == 1) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_4x1);
-        } else if (columns == 4 && rows == 2) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_4x2);
-        } else if (columns == 4 && rows == 3) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_4x3);
-        } else { // DEFAULT  if (columns == 4 && rows == 4) {
-            return new RemoteViews(context.getPackageName(),
-                    R.layout.color_clock_4x4);
+            case R.layout.color_clock_2x5:
+                textHeight = (height / 5) * textSize / defaultSizeAdjuster;
+                textWidth = (width / 2) * textSize / defaultSizeAdjuster;
+                break;
+
+            default:
+                textHeight = 1;
+                textWidth = 1;
+                break;
         }
+
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), layout);
+
+        for (int i = 0; i < DIGIT_VIEWS_INDEX.length; i++) {
+            remoteViews.setTextViewTextSize(DIGIT_VIEWS_INDEX[i], TypedValue.COMPLEX_UNIT_SP,
+                    Math.min(textWidth, textHeight));
+        }
+
+        return remoteViews;
     }
 
     public static int getCellsForSize(int size) {

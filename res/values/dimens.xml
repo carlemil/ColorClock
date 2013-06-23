@@ -2,84 +2,9 @@
 <resources>
     <dimen name="widget_margin">0dip</dimen>
 
-    <dimen name="digit_box_border_size_1x1">20dip</dimen>
-    <dimen name="digit_layout_margin_1x1">0.5dip</dimen>
-    <dimen name="digit_font_size_1x1">12sp</dimen>
-    <dimen name="digit_margin_1x1">0.8dip</dimen>
+    <dimen name="digit_font_size">14sp</dimen>
+    <dimen name="digit_spacing">1dip</dimen>
+    <dimen name="digit_border_width">1dip</dimen>
 
-    <dimen name="digit_box_border_size_1x2">24dip</dimen>
-    <dimen name="digit_layout_margin_1x2">0.5dip</dimen>
-    <dimen name="digit_font_size_1x2">14sp</dimen>
-    <dimen name="digit_margin_1x2">1dip</dimen>
-
-    <dimen name="digit_box_border_size_1x3">24dip</dimen>
-    <dimen name="digit_layout_margin_1x3">0.5dip</dimen>
-    <dimen name="digit_font_size_1x3">14sp</dimen>
-    <dimen name="digit_margin_1x3">1dip</dimen>
-
-    <dimen name="digit_box_border_size_1x4">32dip</dimen>
-    <dimen name="digit_layout_margin_1x4">0.7dip</dimen>
-    <dimen name="digit_font_size_1x4">19sp</dimen>
-    <dimen name="digit_margin_1x4">1.3dip</dimen>
-
-    <dimen name="digit_box_border_size_2x1">24dip</dimen>
-    <dimen name="digit_layout_margin_2x1">0.5dip</dimen>
-    <dimen name="digit_font_size_2x1">14sp</dimen>
-    <dimen name="digit_margin_2x1">1dip</dimen>
-
-    <dimen name="digit_box_border_size_2x2">42dip</dimen>
-    <dimen name="digit_layout_margin_2x2">0.9dip</dimen>
-    <dimen name="digit_font_size_2x2">24sp</dimen>
-    <dimen name="digit_margin_2x2">1.7dip</dimen>
-
-    <dimen name="digit_box_border_size_2x3">42dip</dimen>
-    <dimen name="digit_layout_margin_2x3">0.9dip</dimen>
-    <dimen name="digit_font_size_2x3">24sp</dimen>
-    <dimen name="digit_margin_2x3">1.7dip</dimen>
-
-    <dimen name="digit_box_border_size_2x4">64dip</dimen>
-    <dimen name="digit_layout_margin_2x4">1.3dip</dimen>
-    <dimen name="digit_font_size_2x4">37sp</dimen>
-    <dimen name="digit_margin_2x4">2.7dip</dimen>
-
-    <dimen name="digit_box_border_size_3x1">18dip</dimen>
-    <dimen name="digit_layout_margin_3x1">0.4dip</dimen>
-    <dimen name="digit_font_size_3x1">10sp</dimen>
-    <dimen name="digit_margin_3x1">0.71dip</dimen>
-
-    <dimen name="digit_box_border_size_3x2">50dip</dimen>
-    <dimen name="digit_layout_margin_3x2">1.0dip</dimen>
-    <dimen name="digit_font_size_3x2">29sp</dimen>
-    <dimen name="digit_margin_3x2">2dip</dimen>
-
-    <dimen name="digit_box_border_size_3x3">64dip</dimen>
-    <dimen name="digit_layout_margin_3x3">1.3dip</dimen>
-    <dimen name="digit_font_size_3x3">37sp</dimen>
-    <dimen name="digit_margin_3x3">2.7dip</dimen>
-
-    <dimen name="digit_box_border_size_3x4">64dip</dimen>
-    <dimen name="digit_layout_margin_3x4">1.3dip</dimen>
-    <dimen name="digit_font_size_3x4">37sp</dimen>
-    <dimen name="digit_margin_3x4">2.7dip</dimen>
-
-    <dimen name="digit_box_border_size_4x1">24dip</dimen>
-    <dimen name="digit_layout_margin_4x1">0.5dip</dimen>
-    <dimen name="digit_font_size_4x1">14sp</dimen>
-    <dimen name="digit_margin_4x1">1dip</dimen>
-
-    <dimen name="digit_box_border_size_4x2">50dip</dimen>
-    <dimen name="digit_layout_margin_4x2">1.0dip</dimen>
-    <dimen name="digit_font_size_4x2">29sp</dimen>
-    <dimen name="digit_margin_4x2">2.1dip</dimen>
-
-    <dimen name="digit_box_border_size_4x3">64dip</dimen>
-    <dimen name="digit_layout_margin_4x3">1.3dip</dimen>
-    <dimen name="digit_font_size_4x3">37sp</dimen>
-    <dimen name="digit_margin_4x3">2.7dip</dimen>
-
-    <dimen name="digit_box_border_size_4x4">94dip</dimen>
-    <dimen name="digit_layout_margin_4x4">2.0dip</dimen>
-    <dimen name="digit_font_size_4x4">55sp</dimen>
-    <dimen name="digit_margin_4x4">3.9dip</dimen>
 
 </resources>
