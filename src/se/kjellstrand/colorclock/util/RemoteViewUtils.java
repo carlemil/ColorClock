@@ -53,6 +53,16 @@ public class RemoteViewUtils {
                 textWidth = (width / 5) * textSize / defaultSizeAdjuster;
                 break;
 
+            case R.layout.color_clock_1x10:
+                textHeight = (height / 10) * textSize / defaultSizeAdjuster;
+                textWidth = width * textSize / defaultSizeAdjuster;
+                break;
+
+            case R.layout.color_clock_10x1:
+                textHeight = height * textSize / defaultSizeAdjuster;
+                textWidth = (width / 10) * textSize / defaultSizeAdjuster;
+                break;
+
             default:
                 textHeight = 1;
                 textWidth = 1;
