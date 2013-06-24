@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
             android:id="@+id/pref_info"
@@ -29,6 +30,13 @@
             android:key="@string/pref_layouts_key"
             android:summary="@string/pref_layouts_summary"
             android:title="@string/pref_layouts_title"/>
+
+    <net.jayschwa.android.preference.SliderPreference
+            android:dialogMessage="@string/pref_digit_size_slider_message"
+            android:key="@string/pref_digit_size_key"
+            android:title="@string/pref_digit_size_title"
+            android:summary="@string/pref_digit_size_summary"
+            android:defaultValue="0.25f"/>
 
     <net.margaritov.preference.colorpicker.ColorPickerPreference
             alphaSlider="false"

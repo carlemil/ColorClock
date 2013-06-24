@@ -20,7 +20,8 @@ import se.kjellstrand.colorclock.R;
 import se.kjellstrand.colorclock.activity.SettingsActivity;
 import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
 import se.kjellstrand.colorclock.util.ColorUtil;
-import se.kjellstrand.colorclock.util.RemoteViewUtils;
+
+import static se.kjellstrand.colorclock.util.RemoteViewUtils.getRemoteViews;
 
 /**
  * A service that updates the clock widget whenever the updateAllViews method is
@@ -151,6 +152,11 @@ public class ClockService extends IntentService {
     private static int sBlendMode = R.string.screen_blend;
 
     /**
+     * The size of the digits font.
+     */
+    private static float sDigitSize;
+
+    /**
      * The layout id used to create a layout for the RemoteView
      */
     private static int sLayoutID = R.layout.color_clock_2x5;
@@ -239,31 +245,27 @@ public class ClockService extends IntentService {
     private void updateAllViews(Calendar calendar) {
 
         if (sSettingsChanged) {
+            updateDigitSizeFromSharedPrefs();
             updateLayoutIDFromSharedPrefs();
         }
 
         int[] appIds = mManager.getAppWidgetIds(sComponentName);
+        int minHeight = 100;
+        int minWidth = 100;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             // See the dimensions and
             Bundle options = mManager.getAppWidgetOptions(appIds[0]);
 
             // Get min width and height.
-            int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-            int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+            minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+            minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+        }
 
-            //get remote views from bundle or manager??
-
-            if (mRemoteViews == null) {
-                mRemoteViews = RemoteViewUtils.getRemoteViews(this, minWidth, minHeight,
-                        sLayoutID, 24, DIGIT_VIEWS_INDEX);
-                settingsChanged();
-            }
-        } else {
-            if (mRemoteViews == null) {
-                mRemoteViews = new RemoteViews(this.getPackageName(),
-                        R.layout.color_clock_2x5);
-                settingsChanged();
-            }
+        //get remote views from bundle or manager??
+        if (mRemoteViews == null) {
+            mRemoteViews = getRemoteViews(this, minWidth, minHeight,
+                    sLayoutID, sDigitSize, DIGIT_VIEWS_INDEX);
+            settingsChanged();
         }
 
         updateView(mRemoteViews, calendar);
@@ -284,7 +286,7 @@ public class ClockService extends IntentService {
     }
 
     /**
-     * Sets the blend mode according to shared preferences.
+     * Sets the layout according to shared preferences.
      */
     private void updateLayoutIDFromSharedPrefs() {
         String prefLayoutKey = getResources().getString(R.string.pref_layouts_key);
@@ -294,6 +296,15 @@ public class ClockService extends IntentService {
         if (integerLayoutID != null) {
             sLayoutID = integerLayoutID;
         }
+    }
+
+    /**
+     * Sets the digits size according to shared preferences.
+     */
+    private void updateDigitSizeFromSharedPrefs() {
+        String prefDigitSizeKey = getResources().getString(R.string.pref_digit_size_key);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sDigitSize = sharedPreferences.getFloat(prefDigitSizeKey, 0.2f);
     }
 
     /**

@@ -74,7 +74,15 @@
         <item>@string/screen_blend</item>
         <item>@string/multiply_blend</item>
     </string-array>
-    
+
+    <!-- Font size pref -->
+    <string name="pref_digit_size_key">pref_digit_size</string>
+    <string name="pref_digit_size_summary">Set the size of the digits</string>
+    <string name="pref_digit_size_title">Digit size</string>
+    <string name="pref_digit_size_slider_message">Pull slider to the left to make digits smaller and
+        to the right to make them bigger.
+    </string>
+
     <!-- Charsets used for the digits -->
     <string name="pref_charsets_title">Character set</string>
     <string name="pref_charsets_summary">Current set: %s</string>
