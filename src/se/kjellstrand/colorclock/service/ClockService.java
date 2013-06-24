@@ -180,6 +180,8 @@ public class ClockService extends IntentService {
             sLayoutReversLookupMap = new HashMap<String, Integer>();
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_2x5_layout), R.layout.color_clock_2x5);
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_5x2_layout), R.layout.color_clock_5x2);
+            sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_3x4_layout), R.layout.color_clock_3x4);
+            sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_4x3_layout), R.layout.color_clock_4x3);
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_1x10_layout), R.layout.color_clock_1x10);
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_10x1_layout), R.layout.color_clock_10x1);
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_3x3_layout), R.layout.color_clock_3x3);
