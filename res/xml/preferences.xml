@@ -13,7 +13,7 @@
 
     <ListPreference
             android:id="@+id/pref_charset"
-            android:defaultValue="@string/latin_charset"
+            android:defaultValue="@string/pref_charsets_default"
             android:dialogTitle="@string/pref_charsets_dialog_title"
             android:entries="@array/list_of_charsets"
             android:entryValues="@array/list_of_charsets"
@@ -23,7 +23,7 @@
 
     <ListPreference
             android:id="@+id/pref_layout"
-            android:defaultValue="@string/color_clock_2x5_layout"
+            android:defaultValue="@string/pref_layouts_default"
             android:dialogTitle="@string/pref_layouts_dialog_title"
             android:entries="@array/list_of_layouts"
             android:entryValues="@array/list_of_layouts"

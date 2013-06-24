@@ -1,8 +1,5 @@
 package se.kjellstrand.colorclock.activity;
 
-import se.kjellstrand.colorclock.R;
-import se.kjellstrand.colorclock.service.ClockService;
-
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -10,6 +7,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+
+import se.kjellstrand.colorclock.R;
+import se.kjellstrand.colorclock.service.ClockService;
 
 /**
  * Opens up the settings fragment.
@@ -31,6 +31,8 @@ public class SettingsActivity extends PreferenceActivity {
                 getResources().getString(R.string.pref_charsets_key));
         mOnSharedPreferenceChangeListener.onSharedPreferenceChanged(sharedPreferences,
                 getResources().getString(R.string.pref_blends_key));
+        mOnSharedPreferenceChangeListener.onSharedPreferenceChanged(sharedPreferences,
+                getResources().getString(R.string.pref_layouts_key));
     }
 
     /**
@@ -45,7 +47,7 @@ public class SettingsActivity extends PreferenceActivity {
             if (key.equals(getResources().getString(R.string.pref_charsets_key))) {
                 @SuppressWarnings("deprecation")
                 Preference charsetPref = findPreference(key);
-                String charset = sharedPreferences.getString(key, getResources().getString(R.string.latin_charset));
+                String charset = sharedPreferences.getString(key, getResources().getString(R.string.pref_charsets_default));
                 String format = getResources().getString(R.string.pref_charsets_summary);
                 // Set summary to be the user-description for the selected
                 // value
@@ -53,7 +55,7 @@ public class SettingsActivity extends PreferenceActivity {
             } else if (key.equals(getResources().getString(R.string.pref_blends_key))) {
                 @SuppressWarnings("deprecation")
                 Preference charsetPref = findPreference(key);
-                String blend = sharedPreferences.getString(key, getResources().getString(R.string.screen_blend));
+                String blend = sharedPreferences.getString(key, getResources().getString(R.string.pref_blends_default));
                 String format = getResources().getString(R.string.pref_blends_summary);
                 // Set summary to be the user-description for the selected
                 // value
@@ -61,7 +63,7 @@ public class SettingsActivity extends PreferenceActivity {
             } else if (key.equals(getResources().getString(R.string.pref_layouts_key))) {
                 @SuppressWarnings("deprecation")
                 Preference layoutPref = findPreference(key);
-                String layout = sharedPreferences.getString(key, getResources().getString(R.string.color_clock_2x5_layout));
+                String layout = sharedPreferences.getString(key, getResources().getString(R.string.pref_layouts_default));
                 String format = getResources().getString(R.string.pref_layouts_summary);
                 // Set summary to be the user-description for the selected
                 // value

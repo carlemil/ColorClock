@@ -159,7 +159,7 @@ public class ClockService extends IntentService {
     /**
      * The layout id used to create a layout for the RemoteView
      */
-    private static int sLayoutID = R.layout.color_clock_2x5;
+    private static int sLayoutID = -1;
 
     /**
      * Object holding references to our widgets views.
@@ -182,6 +182,9 @@ public class ClockService extends IntentService {
     public void onCreate() {
         super.onCreate();
 
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //sLayoutID = sharedPreferences.getInt(R.integer.pref_layouts_default, R.layout.color_clock_10x1);
+
         if (sLayoutReversLookupMap == null) {
             sLayoutReversLookupMap = new HashMap<String, Integer>();
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_2x5_layout), R.layout.color_clock_2x5);
@@ -191,6 +194,10 @@ public class ClockService extends IntentService {
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_1x10_layout), R.layout.color_clock_1x10);
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_10x1_layout), R.layout.color_clock_10x1);
             sLayoutReversLookupMap.put(getResources().getString(R.string.color_clock_3x3_layout), R.layout.color_clock_3x3);
+        }
+
+        if (sLayoutID == -1) {
+            sLayoutID = sLayoutReversLookupMap.get(getResources().getString(R.string.pref_layouts_default));
         }
 
         if (sCharsetReversLookupMap == null) {
@@ -250,8 +257,8 @@ public class ClockService extends IntentService {
         }
 
         int[] appIds = mManager.getAppWidgetIds(sComponentName);
-        int minHeight = 100;
-        int minWidth = 100;
+        int minHeight = 200;
+        int minWidth = 200;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             // See the dimensions and
             Bundle options = mManager.getAppWidgetOptions(appIds[0]);
