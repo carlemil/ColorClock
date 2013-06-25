@@ -225,7 +225,6 @@ public class ClockService extends IntentService {
      * prefs / settings.
      */
     public static void settingsChanged() {
-        Log.d(TAG, "Settings changed!");
         sSettingsChanged = true;
     }
 
