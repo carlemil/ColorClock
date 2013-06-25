@@ -1,2 +1,6 @@
 
+check version api and resize.
+
+check remoteview reuse with get old or possibly with weekref.
+
 fix settings after install?
