@@ -36,7 +36,7 @@
             android:key="@string/pref_digit_size_key"
             android:title="@string/pref_digit_size_title"
             android:summary="@string/pref_digit_size_summary"
-            android:defaultValue="0.25f"/>
+            android:defaultValue="0.5f"/>
 
     <net.margaritov.preference.colorpicker.ColorPickerPreference
             alphaSlider="false"

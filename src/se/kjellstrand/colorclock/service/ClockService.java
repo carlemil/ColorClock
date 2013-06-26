@@ -1,5 +1,7 @@
 package se.kjellstrand.colorclock.service;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -9,7 +11,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import se.kjellstrand.colorclock.activity.SettingsActivity;
 import se.kjellstrand.colorclock.provider.ClockAppWidgetProvider;
 import se.kjellstrand.colorclock.util.ColorUtil;
 
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static se.kjellstrand.colorclock.util.RemoteViewUtils.getRemoteViews;
 
 /**
@@ -162,11 +164,6 @@ public class ClockService extends IntentService {
     private static int sLayoutID = -1;
 
     /**
-     * Object holding references to our widgets views.
-     */
-    private RemoteViews mRemoteViews = null;
-
-    /**
      * Manager of this widget.
      */
     private AppWidgetManager mManager = null;
@@ -248,17 +245,19 @@ public class ClockService extends IntentService {
      *
      * @param calendar the time used for the update.
      */
+    @TargetApi(16)
+    @SuppressLint("NewApi")
     private void updateAllViews(Calendar calendar) {
-
         if (sSettingsChanged) {
             updateDigitSizeFromSharedPrefs();
             updateLayoutIDFromSharedPrefs();
         }
 
         int[] appIds = mManager.getAppWidgetIds(sComponentName);
-        int minHeight = 200;
-        int minWidth = 200;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        int minHeight = 120;
+        int minWidth = 120;
+        float digitResizeFactor = 1.2f;
+        if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
             // See the dimensions and
             Bundle options = mManager.getAppWidgetOptions(appIds[0]);
 
@@ -267,28 +266,25 @@ public class ClockService extends IntentService {
             minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
         }
 
-        //get remote views from bundle or manager??
-        if (mRemoteViews == null) {
-            mRemoteViews = getRemoteViews(this, minWidth, minHeight,
-                    sLayoutID, sDigitSize, DIGIT_VIEWS_INDEX);
-            settingsChanged();
-        }
+        RemoteViews remoteViews = getRemoteViews(this, minWidth, minHeight,
+                sLayoutID, sDigitSize * digitResizeFactor, DIGIT_VIEWS_INDEX);
+        settingsChanged();
 
-        updateView(mRemoteViews, calendar);
+        updateView(remoteViews, calendar);
 
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        mRemoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
 
         if (sSettingsChanged) {
-            updateCharSetFromSharedPrefs(mRemoteViews);
-            updateColorsFromSharedPrefs(mRemoteViews);
+            updateCharSetFromSharedPrefs(remoteViews);
+            updateColorsFromSharedPrefs(remoteViews);
             updateBlendModeFromSharedPrefs();
             sSettingsChanged = false;
         }
 
-        mManager.updateAppWidget(sComponentName, mRemoteViews);
+        mManager.updateAppWidget(sComponentName, remoteViews);
     }
 
     /**
