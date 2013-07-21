@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="se.kjellstrand.colorclock"
           android:versionCode="10"
-          android:versionName="1.1">
+          android:versionName="CCC 2.0">
 
-<uses-sdk
+    <uses-sdk
             android:minSdkVersion="7"
             android:targetSdkVersion="17"/>
 

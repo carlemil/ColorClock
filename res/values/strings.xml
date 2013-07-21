@@ -41,7 +41,7 @@
     <string name="pref_layouts_summary">Current layout: %s</string>
     <string name="pref_layouts_dialog_title">Select layout</string>
     <string name="pref_layouts_key">pref_layouts</string>
-    <string name="pref_layouts_default">@string/color_clock_4x3_layout</string>
+    <string name="pref_layouts_default">@string/color_clock_5x2_layout</string>
     <string name="color_clock_2x5_layout">2x5</string>
     <string name="color_clock_5x2_layout">5x2</string>
     <string name="color_clock_3x4_layout">3x4</string>
@@ -84,6 +84,7 @@
     <string name="pref_digit_size_slider_message">Pull slider to the left to make digits smaller and
         to the right to make them bigger.
     </string>
+    <item name="pref_digit_size_default" format="float" type="dimen">0.5</item>
 
     <!-- Charsets used for the digits -->
     <string name="pref_charsets_title">Character set</string>

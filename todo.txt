@@ -1,6 +1,8 @@
+fix default settings after install?
+
+initial text size on old api is very small, normal after viewing settings.
 
 check version api and resize.
 
 check remoteview reuse with get old or possibly with weekref.
 
-fix settings after install?

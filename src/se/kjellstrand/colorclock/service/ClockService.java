@@ -87,7 +87,7 @@ public class ClockService extends IntentService {
      * update of the clock. If sSettingsChanged is false, do nothing special.
      * Init to true to force a read on first run.
      */
-    private static Boolean sSettingsChanged = null;
+    private static boolean sSettingsChanged = true;
 
     /**
      * Determines how strong the secondary color is, the color showing (shown in
@@ -211,10 +211,6 @@ public class ClockService extends IntentService {
             sBlendModeReversLookupMap.put(getResources().getString(R.string.multiply_blend), R.string.multiply_blend);
             sBlendModeReversLookupMap.put(getResources().getString(R.string.average_blend), R.string.average_blend);
         }
-
-        if (sSettingsChanged == null) {
-            settingsChanged();
-        }
     }
 
     /**
@@ -254,9 +250,9 @@ public class ClockService extends IntentService {
         }
 
         int[] appIds = mManager.getAppWidgetIds(sComponentName);
-        int minHeight = 120;
-        int minWidth = 120;
-        float digitResizeFactor = 1.2f;
+        int minHeight = 200;
+        int minWidth = 200;
+        float digitResizeFactor = 0.8f;
         if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
             // See the dimensions and
             Bundle options = mManager.getAppWidgetOptions(appIds[0]);
@@ -306,7 +302,8 @@ public class ClockService extends IntentService {
     private void updateDigitSizeFromSharedPrefs() {
         String prefDigitSizeKey = getResources().getString(R.string.pref_digit_size_key);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sDigitSize = sharedPreferences.getFloat(prefDigitSizeKey, 0.2f);
+        float defaultSize = Float.parseFloat(getResources().getString(R.dimen.pref_digit_size_default));
+        sDigitSize = sharedPreferences.getFloat(prefDigitSizeKey, defaultSize);
     }
 
     /**
